@@ -1,0 +1,201 @@
+@import "search.css";
+
+/* ============================================
+   MAIN HEADER - Cabeçalho principal
+   ============================================ */
+
+#mainHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+
+/* ============================================
+   HEADER LEFT - Logo e menu
+   ============================================ */
+
+#mainHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+/* Botão sidebar (escondido em desktop) */
+#sidebarBtn {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+}
+
+#sidebarBtn img {
+    width: 24px;
+}
+
+/* Logos */
+#logoMain {
+    height: 32px;
+    flex-shrink: 0;
+}
+
+#logoShort {
+    display: none;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+/* Logos parceiros */
+#logosParceiros {
+    display: flex;
+    gap: 8px;
+    height: 24px;
+    filter: grayscale();
+    opacity: 0.3;
+}
+
+/* ============================================
+   ACCESSIBILITY - Botões de acessibilidade
+   ============================================ */
+
+#accessibility {
+    display: flex;
+    gap: 4px;
+}
+
+#accessibility button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+}
+
+#accessibility img {
+    width: 24px;
+}
+
+/* ============================================
+   ACCESSIBILITY DROPDOWN - Menu mobile
+   ============================================ */
+
+#accessibilityDropdown {
+    display: none;
+    position: relative;
+}
+
+#accessibilityBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+}
+
+#accessibilityBtn img {
+    width: 24px;
+}
+
+#accessibilityMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    padding: 4px 0;
+    min-width: 160px;
+    list-style: none;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+#accessibilityMenu li {
+    display: block;
+}
+
+#accessibilityMenu button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: auto;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    text-align: left;
+}
+
+#accessibilityMenu button:hover {
+    background-color: #F7F9FA;
+}
+
+#accessibilityMenu button span {
+    width: 20px;
+    text-align: center;
+}
+
+/* Menu aberto */
+#accessibilityDropdown.open #accessibilityMenu {
+    display: block;
+}
+
+/* ============================================
+   MEDIA QUERIES - Responsividade
+   ============================================ */
+
+/* Tablet (max-width: 900px) */
+@media (max-width: 900px) {
+    #mainHeader {
+        gap: 16px;
+    }
+    
+    #logosParceiros {
+        display: none;
+    }
+}
+
+/* Mobile (max-width: 600px) */
+@media (max-width: 600px) {
+    #mainHeader {
+        gap: 8px;
+    }
+    
+    #mainHeaderLeft {
+        gap: 8px;
+    }
+    
+    /* Mostra botão sidebar */
+    #sidebarBtn {
+        display: flex;
+    }
+    
+    /* Troca logo grande por pequena */
+    #logoMain {
+        display: none;
+    }
+    
+    #logoShort {
+        display: block;
+    }
+    
+    /* Troca botões de acessibilidade por dropdown */
+    #accessibility {
+        display: none;
+    }
+    
+    #accessibilityDropdown {
+        display: block;
+    }
+}
