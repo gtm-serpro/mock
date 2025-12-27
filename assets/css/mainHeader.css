@@ -9,7 +9,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 24px;
-    padding: 8px;
+    padding: 8px 12px;
     border-bottom: 1px solid #ddd;
     background-color: white;
 }
@@ -51,35 +51,17 @@
     flex-shrink: 0;
 }
 
-/* Logos parceiros */
+/* ============================================
+   LOGOS PARCEIROS - Agora à direita do header
+   ============================================ */
+
 #logosParceiros {
     display: flex;
     gap: 8px;
     height: 24px;
     filter: grayscale();
     opacity: 0.3;
-}
-
-/* ============================================
-   ACCESSIBILITY - Botões de acessibilidade (DESKTOP)
-   ============================================ */
-
-#accessibility {
-    display: flex;
-    gap: 4px;
-}
-
-#accessibility button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-}
-
-#accessibility img {
-    width: 24px;
+    flex-shrink: 0;
 }
 
 /* ============================================
@@ -121,10 +103,5 @@
     
     #logoShort {
         display: block;
-    }
-    
-    /* Esconde accessibility (vai pro footer) */
-    #accessibility {
-        display: none;
     }
 }

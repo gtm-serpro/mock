@@ -89,33 +89,12 @@ function setupDropdown(dropdownId, buttonId) {
 // Download dropdown
 setupDropdown('downloadDropdown', 'downloadDropdownBtn');
 
-// Accessibility dropdown no footer
-setupDropdown('accessibilityDropdownFooter', 'accessibilityBtnFooter');
+// Accessibility dropdown no footer (sempre visível)
+setupDropdown('accessibilityDropdown', 'accessibilityBtn');
 
 // Fechar todos os dropdowns ao clicar fora
 document.addEventListener('click', () => {
-    document.querySelectorAll('[id$="Dropdown"].open, [id$="DropdownFooter"].open').forEach(el => {
+    document.querySelectorAll('[id$="Dropdown"].open').forEach(el => {
         el.classList.remove('open');
     });
 });
-// ============================================
-// SYNC ACCESSIBILITY HEADER/FOOTER
-// ============================================
-
-const accessibilityHeader = document.getElementById('accessibility');
-const accessibilityFooter = document.getElementById('accessibilityDropdownFooter');
-
-function syncAccessibility() {
-    if (!accessibilityHeader || !accessibilityFooter) return;
-    
-    const headerStyle = window.getComputedStyle(accessibilityHeader);
-    
-    if (headerStyle.display === 'none') {
-        accessibilityFooter.style.display = 'block';
-    } else {
-        accessibilityFooter.style.display = 'none';
-    }
-}
-
-syncAccessibility();
-window.addEventListener('resize', syncAccessibility);

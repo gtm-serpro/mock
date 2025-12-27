@@ -20,47 +20,35 @@
     <header id="mainHeader">
         <div id="mainHeaderLeft">
             <button id="sidebarBtn">
-                <img class="iconColor" src="/assets/img/icons/bars-solid-full.svg" alt="Ícone Menu">
+                <img class="iconColor" src="assets/img/icons/bars-solid-full.svg" alt="Ícone Menu">
             </button>
             <!-- logo -->
-            <img id="logoMain" src="/assets/img/logos/logo-eprocesso-buscador.svg" alt="eProcesso Buscador">
-            <img id="logoShort" src="/assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
-            <!-- logos parceiros -->
-            <div id="logosParceiros">
-                <img src="/assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
-                <img src="/assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
-                <img src="/assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
-            </div>
+            <img id="logoMain" src="assets/img/logos/logo-eprocesso-buscador.svg" alt="eProcesso Buscador">
+            <img id="logoShort" src="assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
         </div>
         <!-- search -->
         <search>
             <form class="searchForm" action="">
                 <div class="searchInputWraper">
-                    <img class="searchIcon iconColor" src="/assets/img/icons/magnifying-glass-solid-full.svg" alt="Icone Buscar">
+                    <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="Icone Buscar">
                     <input class="searchInput" type="text" placeholder="Digite para buscar...">
                     <button class="searchCloseBtn" type="button">
-                        <img class="iconColor" src="/assets/img/icons/xmark-solid-full.svg" alt="Icone Fechar">
+                        <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Icone Fechar">
                     </button>
                     <kbd class="searchKBD">Ctrl</kbd>
                 </div>
                 <button type="submit">Buscar</button>
                 <button type="button" class="filterBtn">
-                    <span class="filterBtnIcon"><img class="iconColor" src="/assets/img/icons/filter-solid-full.svg" alt=""></span>
+                    <span class="filterBtnIcon"><img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt=""></span>
                     <span class="filterBtnText">Filtrar</span> 
                 </button>
             </form>
         </search>
-        <!-- acessibilidade (DESKTOP) -->
-        <div id="accessibility">
-            <button>
-                <img class="iconColor" src="/assets/img/icons/moon-solid-full.svg" alt="Light/Dark">
-            </button>
-            <button>
-                <img class="iconColor" src="/assets/img/icons/circle-half-stroke-solid-full.svg" alt="Contrast">
-            </button>
-            <button>
-                <img class="iconColor" src="/assets/img/icons/text-height-solid-full.svg" alt="FontSize">
-            </button>
+        <!-- logos parceiros (direita) -->
+        <div id="logosParceiros">
+            <img src="assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
+            <img src="assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
+            <img src="assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
         </div>
     </header>
 
@@ -76,7 +64,7 @@
             <div class="facetGroup open">
                 <button class="facetTitle" title="titulo muito longo que vai ser truncado">
                     <span>titulo muito longo que vai ser truncado</span>
-                    <img class="iconColor facetChevron" src="/assets/img/icons/chevron-down-solid-full.svg" alt="">
+                    <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
                 </button>
                 <ul class="facetList">
                     <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
@@ -100,43 +88,11 @@
 
             <!-- FOOTER -->
             <footer id="pageResultsFooter">
-                <div id="pageResultsFooterRight">
-                    <!-- Accessibility dropdown (MOBILE) -->
-                    <div id="accessibilityDropdownFooter">
-                        <button id="accessibilityBtnFooter">
-                            <img class="iconColor" src="/assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
-                        </button>
-                        <ul id="accessibilityMenuFooter">
-                            <li><button value="theme">🌙 Tema escuro</button></li>
-                            <li><button value="contrast">◐ Alto contraste</button></li>
-                            <li><button value="fontUp">A+ Aumentar fonte</button></li>
-                            <li><button value="fontDown">A- Diminuir fonte</button></li>
-                        </ul>
-                    </div>
-
-                    <!-- Download dropdown (MOBILE) -->
-                    <div id="downloadDropdown">
-                        <button id="downloadDropdownBtn">
-                            <img class="iconColor" src="/assets/img/icons/download-solid-full.svg" alt="Download">
-                        </button>
-                        <ul id="downloadMenu">
-                            <li><button value="xml">XML</button></li>
-                            <li><button value="json">JSON</button></li>
-                            <li><button value="csv">CSV</button></li>
-                        </ul>
-                    </div>
-
-                    <!-- Download buttons (DESKTOP) -->
-                    <div id="downloadGroup">
-                        <button class="downloadBtn">XML</button>
-                        <button class="downloadBtn">JSON</button>
-                        <button class="downloadBtn">CSV</button>
-                    </div>
-                </div>
+                
                 <div id="pageResultsFooterLeft">
                     <!-- Seta anterior (MOBILE/TABLET) -->
                     <button class="pageNavMobile">
-                        <img class="iconColor" src="/assets/img/icons/chevron-left-solid-full.svg" alt="Anterior">
+                        <img class="iconColor" src="assets/img/icons/chevron-left-solid-full.svg" alt="Anterior">
                     </button>
                     
                     <!-- Contador de resultados -->
@@ -147,7 +103,7 @@
 
                     <!-- Seta próximo (MOBILE/TABLET) -->
                     <button class="pageNavMobile">
-                        <img class="iconColor" src="/assets/img/icons/chevron-right-solid-full.svg" alt="Próximo">
+                        <img class="iconColor" src="assets/img/icons/chevron-right-solid-full.svg" alt="Próximo">
                     </button>
 
                     <!-- Navegação (DESKTOP) -->
@@ -163,8 +119,40 @@
                         <button class="pageNav">Próximo</button>
                     </div>
                 </div>
+                <div id="pageResultsFooterRight">
 
-                
+                    <!-- Download dropdown (MOBILE) -->
+                    <div id="downloadDropdown">
+                        <button id="downloadDropdownBtn">
+                            <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="Download">
+                        </button>
+                        <ul id="downloadMenu">
+                            <li><button value="xml">XML</button></li>
+                            <li><button value="json">JSON</button></li>
+                            <li><button value="csv">CSV</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Download buttons (DESKTOP) -->
+                    <div id="downloadGroup">
+                        <button class="downloadBtn">XML</button>
+                        <button class="downloadBtn">JSON</button>
+                        <button class="downloadBtn">CSV</button>
+                    </div>
+
+                    <!-- Accessibility dropdown (SEMPRE VISÍVEL) -->
+                    <div id="accessibilityDropdown">
+                        <button id="accessibilityBtn">
+                            <img class="iconColor" src="assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
+                        </button>
+                        <ul id="accessibilityMenu">
+                            <li><button value="theme">🌙 Tema escuro</button></li>
+                            <li><button value="contrast">◐ Alto contraste</button></li>
+                            <li><button value="fontUp">A+ Aumentar fonte</button></li>
+                            <li><button value="fontDown">A- Diminuir fonte</button></li>
+                        </ul>
+                    </div>
+                </div>
             </footer>
         </section>
     </main>

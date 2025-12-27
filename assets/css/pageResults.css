@@ -290,15 +290,14 @@
 }
 
 /* ============================================
-   ACCESSIBILITY FOOTER - Dropdown no footer
+   ACCESSIBILITY DROPDOWN - Sempre visível no footer
    ============================================ */
 
-#accessibilityDropdownFooter {
-    display: none;
+#accessibilityDropdown {
     position: relative;
 }
 
-#accessibilityBtnFooter {
+#accessibilityBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -307,11 +306,11 @@
     padding: 4px;
 }
 
-#accessibilityBtnFooter img {
+#accessibilityBtn img {
     width: 24px;
 }
 
-#accessibilityMenuFooter {
+#accessibilityMenu {
     display: none;
     position: absolute;
     bottom: 100%;
@@ -327,11 +326,11 @@
     z-index: 100;
 }
 
-#accessibilityMenuFooter li {
+#accessibilityMenu li {
     display: block;
 }
 
-#accessibilityMenuFooter button {
+#accessibilityMenu button {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -344,11 +343,11 @@
     text-align: left;
 }
 
-#accessibilityMenuFooter button:hover {
+#accessibilityMenu button:hover {
     background-color: #F7F9FA;
 }
 
-#accessibilityDropdownFooter.open #accessibilityMenuFooter {
+#accessibilityDropdown.open #accessibilityMenu {
     display: block;
 }
 
@@ -393,11 +392,6 @@
     }
     
     #downloadDropdown {
-        display: block;
-    }
-    
-    /* Mostra accessibility no footer */
-    #accessibilityDropdownFooter {
         display: block;
     }
 }
