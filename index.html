@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon/logo-simbolo_e-Processo.svg">
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/typography.css">
     <link rel="stylesheet" href="assets/css/global.css">
@@ -35,7 +36,7 @@
                     <button class="searchCloseBtn" type="button">
                         <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Icone Fechar">
                     </button>
-                    <kbd class="searchKBD">Ctrl</kbd>
+                    <kbd class="searchKBD">Ctrl+K</kbd>
                 </div>
                 <button type="submit">Buscar</button>
                 <button type="button" class="filterBtn">
@@ -85,6 +86,9 @@
                 </ul>
             </div>
         </aside>
+
+        <!-- SIDEBAR RESIZER -->
+        <div id="sidebarResizer"></div>
 
         <!-- MAIN CONTENT -->
         <section id="mainContent">
@@ -161,29 +165,32 @@
     <!-- ============================================
          DIALOGS
          ============================================ -->
-    <div id="filtersDialog">
+    <dialog id="filtersDialog">
         <header>
-            <search>
-                <form action="">
-                    <input type="text">
-                    <button>Buscar</button>
-                    <button>Filtrar</button>
-                </form>
-            </search>
+            <h2>Filtros</h2>
+            <button id="filtersDialogCloseBtn">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            </button>
         </header>
-        <main></main>
-        <footer></footer>
-    </div>
+        <main>
+            <!-- Conteúdo dos filtros vai aqui -->
+            <p>Conteúdo dos filtros...</p>
+        </main>
+        <footer>
+            <button id="filtersDialogCancelBtn">Cancelar</button>
+            <button id="filtersDialogApplyBtn">Aplicar</button>
+        </footer>
+    </dialog>
 
-    <div id="infoDialog">
+    <dialog id="infoDialog">
         <header></header>
         <main></main>
-    </div>
+    </dialog>
 
-    <div id="saibaMaisDialog">
+    <dialog id="saibaMaisDialog">
         <header></header>
         <main></main>
-    </div>
+    </dialog>
 
     <script src="assets/js/script.js"></script>
 </body>

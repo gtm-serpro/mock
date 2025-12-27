@@ -58,8 +58,9 @@ search {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 4px;
+    padding: 3px 4px 0 4px;
     border-radius: 2px;
+    font-size:11px;
 }
 /* Ícone do filtro - escondido por padrão */
 .filterBtn img {

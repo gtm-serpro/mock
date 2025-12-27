@@ -14,10 +14,36 @@
 
 #sidebar {
     width: 250px;
+    min-width: 180px;
+    max-width: 400px;
     border-right: 1px solid #ddd;
     background-color: white;
     padding: 8px 12px 12px 12px;
     overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   SIDEBAR RESIZER - Barra de redimensionamento
+   ============================================ */
+
+#sidebarResizer {
+    width: 4px;
+    cursor: col-resize;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+#sidebarResizer:hover,
+#sidebarResizer.dragging {
+    background-color: #1351B4;
+}
+
+/* Previne seleção de texto durante o drag */
+body.resizing {
+    cursor: col-resize;
+    user-select: none;
 }
 
 /* Grupo de facetas */
@@ -414,5 +440,10 @@
     
     #sidebar.open {
         transform: translateX(0);
+    }
+    
+    /* Esconde resizer no mobile */
+    #sidebarResizer {
+        display: none;
     }
 }
