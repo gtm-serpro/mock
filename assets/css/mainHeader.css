@@ -65,7 +65,7 @@
    ============================================ */
 
 #accessibility {
-    display: flex;
+    display: none;
     gap: 4px;
 }
 
@@ -151,6 +151,9 @@
     display: block;
 }
 
+#accessibilityDropdown {
+    display: block;
+}
 /* ============================================
    MEDIA QUERIES - Responsividade
    ============================================ */
@@ -164,13 +167,13 @@
     #logosParceiros {
         display: none;
     }
-    /* Esconde botões individuais, mostra dropdown */
+     /* Troca botões de acessibilidade por dropdown */
     #accessibility {
         display: none;
     }
     
     #accessibilityDropdown {
-        display: block;
+        display: none;
     }
 }
 
@@ -200,16 +203,5 @@
         display: block;
     }
     
-    /* Troca botões de acessibilidade por dropdown */
-    #accessibility {
-        display: none;
-    }
-    /* Esconde accessibility no header (vai pro footer) */
-    #accessibility {
-        display: none;
-    }
-    
-    #accessibilityDropdown {
-        display: none;
-    }
+   
 }

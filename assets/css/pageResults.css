@@ -345,7 +345,7 @@
    ============================================ */
 
 /* Tablet - texto curto no contador */
-@container mainContent (max-width: 850px) {
+@container mainContent (max-width: 900px) {
     #resultsCount .fullText {
         display: none;
     }
