@@ -1,20 +1,11 @@
-// select dropdown
-const dropdown = document.getElementById('accessibilityDropdown');
-const btn = document.getElementById('accessibilityBtn');
+// ============================================
+// SEARCH INPUT
+// ============================================
 
-btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle('open');
-});
-
-document.addEventListener('click', () => {
-    dropdown.classList.remove('open');
-});
-
-// limpar do search input
 const searchInput = document.querySelector('.searchInput');
 const searchWrapper = document.querySelector('.searchInputWraper');
 
+// Mostrar/esconder botão X baseado no conteúdo
 searchInput.addEventListener('input', () => {
     if (searchInput.value.length > 0) {
         searchWrapper.classList.add('hasValue');
@@ -31,7 +22,22 @@ document.querySelector('.searchCloseBtn').addEventListener('click', (e) => {
     searchInput.focus();
 });
 
-// toggle sidebar
+// Placeholder responsivo
+function updatePlaceholder() {
+    if (window.innerWidth <= 600) {
+        searchInput.placeholder = 'Buscar...';
+    } else {
+        searchInput.placeholder = 'Digite para buscar...';
+    }
+}
+
+updatePlaceholder();
+window.addEventListener('resize', updatePlaceholder);
+
+// ============================================
+// SIDEBAR
+// ============================================
+
 const sidebarBtn = document.getElementById('sidebarBtn');
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('sidebarOverlay');
@@ -46,20 +52,10 @@ overlay.addEventListener('click', () => {
     overlay.classList.remove('open');
 });
 
-// Download buttons
-const downloadDropdown = document.getElementById('downloadDropdown');
-const downloadBtn = document.getElementById('downloadDropdownBtn');
+// ============================================
+// FACET ACCORDION
+// ============================================
 
-downloadBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    downloadDropdown.classList.toggle('open');
-});
-
-document.addEventListener('click', () => {
-    downloadDropdown.classList.remove('open');
-});
-
-// Accordion das facetas
 document.querySelectorAll('.facetTitle').forEach(button => {
     button.addEventListener('click', () => {
         const group = button.closest('.facetGroup');
@@ -67,30 +63,59 @@ document.querySelectorAll('.facetTitle').forEach(button => {
     });
 });
 
-//Placebolder search mobile
-function updatePlaceholder() {
-    if (window.innerWidth <= 600) {
-        searchInput.placeholder = 'Buscar...';
+// ============================================
+// DROPDOWNS
+// ============================================
+
+// Função genérica para criar dropdown
+function setupDropdown(dropdownId, buttonId) {
+    const dropdown = document.getElementById(dropdownId);
+    const btn = document.getElementById(buttonId);
+    
+    if (!dropdown || !btn) return;
+    
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Fecha outros dropdowns abertos
+        document.querySelectorAll('.open').forEach(el => {
+            if (el !== dropdown && el.id && el.id.includes('Dropdown')) {
+                el.classList.remove('open');
+            }
+        });
+        dropdown.classList.toggle('open');
+    });
+}
+
+// Download dropdown
+setupDropdown('downloadDropdown', 'downloadDropdownBtn');
+
+// Accessibility dropdown no footer
+setupDropdown('accessibilityDropdownFooter', 'accessibilityBtnFooter');
+
+// Fechar todos os dropdowns ao clicar fora
+document.addEventListener('click', () => {
+    document.querySelectorAll('[id$="Dropdown"].open, [id$="DropdownFooter"].open').forEach(el => {
+        el.classList.remove('open');
+    });
+});
+// ============================================
+// SYNC ACCESSIBILITY HEADER/FOOTER
+// ============================================
+
+const accessibilityHeader = document.getElementById('accessibility');
+const accessibilityFooter = document.getElementById('accessibilityDropdownFooter');
+
+function syncAccessibility() {
+    if (!accessibilityHeader || !accessibilityFooter) return;
+    
+    const headerStyle = window.getComputedStyle(accessibilityHeader);
+    
+    if (headerStyle.display === 'none') {
+        accessibilityFooter.style.display = 'block';
     } else {
-        searchInput.placeholder = 'Digite para buscar...';
+        accessibilityFooter.style.display = 'none';
     }
 }
 
-// Executa no load e no resize
-updatePlaceholder();
-window.addEventListener('resize', updatePlaceholder);
-
-// Accessibility dropdown (MOBILE - no footer)
-const accessibilityDropdownMobile = document.getElementById('accessibilityDropdownMobile');
-const accessibilityBtnMobile = document.getElementById('accessibilityBtnMobile');
-
-if (accessibilityBtnMobile) {
-    accessibilityBtnMobile.addEventListener('click', (e) => {
-        e.stopPropagation();
-        accessibilityDropdownMobile.classList.toggle('open');
-    });
-
-    document.addEventListener('click', () => {
-        accessibilityDropdownMobile.classList.remove('open');
-    });
-}
+syncAccessibility();
+window.addEventListener('resize', syncAccessibility);

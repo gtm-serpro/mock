@@ -61,11 +61,11 @@
 }
 
 /* ============================================
-   ACCESSIBILITY - Botões de acessibilidade
+   ACCESSIBILITY - Botões de acessibilidade (DESKTOP)
    ============================================ */
 
 #accessibility {
-    display: none;
+    display: flex;
     gap: 4px;
 }
 
@@ -83,78 +83,6 @@
 }
 
 /* ============================================
-   ACCESSIBILITY DROPDOWN - Menu mobile
-   ============================================ */
-
-#accessibilityDropdown {
-    display: none;
-    position: relative;
-}
-
-#accessibilityBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-}
-
-#accessibilityBtn img {
-    width: 24px;
-}
-
-#accessibilityMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 4px;
-    padding: 4px 0;
-    min-width: 160px;
-    list-style: none;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-}
-
-#accessibilityMenu li {
-    display: block;
-}
-
-#accessibilityMenu button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    height: auto;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    text-align: left;
-}
-
-#accessibilityMenu button:hover {
-    background-color: #F7F9FA;
-}
-
-#accessibilityMenu button span {
-    width: 20px;
-    text-align: center;
-}
-
-/* Menu aberto */
-#accessibilityDropdown.open #accessibilityMenu {
-    display: block;
-}
-
-#accessibilityDropdown {
-    display: block;
-}
-/* ============================================
    MEDIA QUERIES - Responsividade
    ============================================ */
 
@@ -167,14 +95,6 @@
     #logosParceiros {
         display: none;
     }
-     /* Troca botões de acessibilidade por dropdown */
-    #accessibility {
-        display: none;
-    }
-    
-    #accessibilityDropdown {
-        display: none;
-    }
 }
 
 /* Mobile (max-width: 600px) */
@@ -185,7 +105,7 @@
     
     #mainHeaderLeft {
         gap: 8px;
-        flex-shrink: 1;  /* permite encolher no mobile */
+        flex-shrink: 1;
         min-width: 0;
     }
     
@@ -203,5 +123,8 @@
         display: block;
     }
     
-   
+    /* Esconde accessibility (vai pro footer) */
+    #accessibility {
+        display: none;
+    }
 }

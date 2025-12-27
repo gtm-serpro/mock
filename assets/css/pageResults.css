@@ -74,6 +74,7 @@
     flex: 1;
     text-align: left;
 }
+
 /* Accordion */
 .facetList {
     display: none;
@@ -175,10 +176,18 @@
     background-color: white;
 }
 
+/* Footer Left */
 #pageResultsFooterLeft {
     display: flex;
     align-items: center;
     gap: 24px;
+}
+
+/* Footer Right */
+#pageResultsFooterRight {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* Contador de resultados */
@@ -199,13 +208,16 @@
 /* Setas mobile - escondidas por padrão */
 .pageNavMobile {
     display: none;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
 }
 
-/* Footer Right (escondido em desktop) */
-#pageResultsFooterRight {
-    display: none;
-    align-items: center;
-    gap: 4px;
+.pageNavMobile img {
+    width: 20px;
+    height: 20px;
 }
 
 /* ============================================
@@ -278,15 +290,15 @@
 }
 
 /* ============================================
-   ACCESSIBILITY MOBILE - No footer
+   ACCESSIBILITY FOOTER - Dropdown no footer
    ============================================ */
 
-#accessibilityDropdownMobile {
+#accessibilityDropdownFooter {
     display: none;
     position: relative;
 }
 
-#accessibilityBtnMobile {
+#accessibilityBtnFooter {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -295,11 +307,11 @@
     padding: 4px;
 }
 
-#accessibilityBtnMobile img {
+#accessibilityBtnFooter img {
     width: 24px;
 }
 
-#accessibilityMenuMobile {
+#accessibilityMenuFooter {
     display: none;
     position: absolute;
     bottom: 100%;
@@ -315,11 +327,11 @@
     z-index: 100;
 }
 
-#accessibilityMenuMobile li {
+#accessibilityMenuFooter li {
     display: block;
 }
 
-#accessibilityMenuMobile button {
+#accessibilityMenuFooter button {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -332,11 +344,11 @@
     text-align: left;
 }
 
-#accessibilityMenuMobile button:hover {
+#accessibilityMenuFooter button:hover {
     background-color: #F7F9FA;
 }
 
-#accessibilityDropdownMobile.open #accessibilityMenuMobile {
+#accessibilityDropdownFooter.open #accessibilityMenuFooter {
     display: block;
 }
 
@@ -344,15 +356,8 @@
    CONTAINER QUERIES - Responsividade do mainContent
    ============================================ */
 
-/* Tablet - texto curto no contador */
-@container mainContent (max-width: 900px) {
-    #resultsCount .fullText {
-        display: none;
-    }
-    
-    #resultsCount .shortText {
-        display: inline;
-    }
+/* Tablet - texto curto no contador e setas */
+@container mainContent (max-width: 850px) {
     #pageResultsFooter {
         gap: 8px;
     }
@@ -361,40 +366,38 @@
         gap: 8px;
     }
     
-    /* Esconde paginação desktop */
+    /* Texto curto */
+    #resultsCount .fullText {
+        display: none;
+    }
+    
+    #resultsCount .shortText {
+        display: inline;
+    }
+    
+    /* Esconde paginação desktop, mostra setas */
     #pagination {
         display: none;
     }
-    /* Mostra setas mobile */
+    
     .pageNavMobile {
         display: flex;
-        justify-content:center;
-        align-items:center;
-        aspect-ratio:1;
-    }
-    .pageNavMobile img{
-        width:20px;
-        height:20px;
     }
 }
 
-/* Mobile - layout compacto */
+/* Mobile - layout compacto com dropdowns */
 @container mainContent (max-width: 600px) {
-    
-    
+    /* Esconde botões de download, mostra dropdown */
     #downloadGroup {
         display: none;
-    }
-    
-    #pageResultsFooterRight {
-        display: flex;
     }
     
     #downloadDropdown {
         display: block;
     }
     
-    #accessibilityDropdownMobile {
+    /* Mostra accessibility no footer */
+    #accessibilityDropdownFooter {
         display: block;
     }
 }

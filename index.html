@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="assets/css/filtersDialog.css">
     <link rel="stylesheet" href="assets/css/infoDialog.css">
     <link rel="stylesheet" href="assets/css/saibaMaisDialog.css">
-
-    <title>Document</title>
+    <title>eProcesso Buscador</title>
 </head>
 <body>
+    <!-- ============================================
+         HEADER
+         ============================================ -->
     <header id="mainHeader">
         <div id="mainHeaderLeft">
             <button id="sidebarBtn">
@@ -25,7 +27,7 @@
             <img id="logoShort" src="/assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
             <!-- logos parceiros -->
             <div id="logosParceiros">
-                <img src="/assets/img/logos/logo-parceiro-receita.svg" alt="Receita Fedral">
+                <img src="/assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
                 <img src="/assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
                 <img src="/assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
             </div>
@@ -36,19 +38,19 @@
                 <div class="searchInputWraper">
                     <img class="searchIcon iconColor" src="/assets/img/icons/magnifying-glass-solid-full.svg" alt="Icone Buscar">
                     <input class="searchInput" type="text" placeholder="Digite para buscar...">
-                    <button class="searchCloseBtn">
+                    <button class="searchCloseBtn" type="button">
                         <img class="iconColor" src="/assets/img/icons/xmark-solid-full.svg" alt="Icone Fechar">
                     </button>
                     <kbd class="searchKBD">Ctrl</kbd>
                 </div>
-                <button>Buscar</button>
-                <button class="filterBtn">
+                <button type="submit">Buscar</button>
+                <button type="button" class="filterBtn">
                     <span class="filterBtnIcon"><img class="iconColor" src="/assets/img/icons/filter-solid-full.svg" alt=""></span>
                     <span class="filterBtnText">Filtrar</span> 
                 </button>
             </form>
         </search>
-        <!-- acessibilidade -->
+        <!-- acessibilidade (DESKTOP) -->
         <div id="accessibility">
             <button>
                 <img class="iconColor" src="/assets/img/icons/moon-solid-full.svg" alt="Light/Dark">
@@ -60,57 +62,81 @@
                 <img class="iconColor" src="/assets/img/icons/text-height-solid-full.svg" alt="FontSize">
             </button>
         </div>
-        <div id="accessibilityDropdown">
-            <button id="accessibilityBtn">
-                <img class="iconColor" src="/assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
-            </button>
-            <ul id="accessibilityMenu">
-                <li><button value="theme">🌙 Tema escuro</button></li>
-                <li><button value="contrast">◐ Alto contraste</button></li>
-                <li><button value="fontUp">A+ Aumentar fonte</button></li>
-                <li><button value="fontDown">A- Diminuir fonte</button></li>
-            </ul>
-        </div>
     </header>
+
+    <!-- Overlay do sidebar -->
     <div id="sidebarOverlay"></div>
+
+    <!-- ============================================
+         PAGE RESULTS
+         ============================================ -->
     <main id="pageResults">
+        <!-- SIDEBAR -->
         <aside id="sidebar">
-            <!-- loop groups -->
             <div class="facetGroup open">
                 <button class="facetTitle" title="titulo muito longo que vai ser truncado">
                     <span>titulo muito longo que vai ser truncado</span>
                     <img class="iconColor facetChevron" src="/assets/img/icons/chevron-down-solid-full.svg" alt="">
                 </button>
                 <ul class="facetList">
-                    <!-- loop facets -->
                     <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
                     <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
                     <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
                 </ul>
             </div>
-
         </aside>
-        <main id="mainContent">
+
+        <!-- MAIN CONTENT -->
+        <section id="mainContent">
             <header id="pageResultsHeader"></header>
+            
             <section id="results">
-                <!-- loop results -->
                 <div class="result"></div>
                 <div class="result"></div>
                 <div class="result"></div>
                 <div class="result"></div>
                 <div class="result"></div>
             </section>
+
+            <!-- FOOTER -->
             <footer id="pageResultsFooter">
-                <!-- Download buttons (DESKTOP) -->
-                <div id="downloadGroup">
-                    <button class="downloadBtn">XML</button>
-                    <button class="downloadBtn">JSON</button>
-                    <button class="downloadBtn">CSV</button>
+                <div id="pageResultsFooterRight">
+                    <!-- Accessibility dropdown (MOBILE) -->
+                    <div id="accessibilityDropdownFooter">
+                        <button id="accessibilityBtnFooter">
+                            <img class="iconColor" src="/assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
+                        </button>
+                        <ul id="accessibilityMenuFooter">
+                            <li><button value="theme">🌙 Tema escuro</button></li>
+                            <li><button value="contrast">◐ Alto contraste</button></li>
+                            <li><button value="fontUp">A+ Aumentar fonte</button></li>
+                            <li><button value="fontDown">A- Diminuir fonte</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Download dropdown (MOBILE) -->
+                    <div id="downloadDropdown">
+                        <button id="downloadDropdownBtn">
+                            <img class="iconColor" src="/assets/img/icons/download-solid-full.svg" alt="Download">
+                        </button>
+                        <ul id="downloadMenu">
+                            <li><button value="xml">XML</button></li>
+                            <li><button value="json">JSON</button></li>
+                            <li><button value="csv">CSV</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Download buttons (DESKTOP) -->
+                    <div id="downloadGroup">
+                        <button class="downloadBtn">XML</button>
+                        <button class="downloadBtn">JSON</button>
+                        <button class="downloadBtn">CSV</button>
+                    </div>
                 </div>
                 <div id="pageResultsFooterLeft">
-                    <!-- Seta anterior (MOBILE) -->
-                    <button class="pageNav pageNavMobile">
-                        <span><img class="iconColor" src="/assets/img/icons/chevron-left-solid-full.svg" alt="Anterior"></span>
+                    <!-- Seta anterior (MOBILE/TABLET) -->
+                    <button class="pageNavMobile">
+                        <img class="iconColor" src="/assets/img/icons/chevron-left-solid-full.svg" alt="Anterior">
                     </button>
                     
                     <!-- Contador de resultados -->
@@ -119,9 +145,9 @@
                         <span class="shortText"><strong>1-10</strong> / <strong>123</strong></span>
                     </div>
 
-                    <!-- Seta próximo (MOBILE) -->
-                    <button class="pageNav pageNavMobile">
-                        <span><img class="iconColor" src="/assets/img/icons/chevron-right-solid-full.svg" alt="Próximo"></span>
+                    <!-- Seta próximo (MOBILE/TABLET) -->
+                    <button class="pageNavMobile">
+                        <img class="iconColor" src="/assets/img/icons/chevron-right-solid-full.svg" alt="Próximo">
                     </button>
 
                     <!-- Navegação (DESKTOP) -->
@@ -136,41 +162,18 @@
                         <button class="pageNumber">...</button>
                         <button class="pageNav">Próximo</button>
                     </div>
-                </div>            
-                
-                
-                <!-- Footer Right (MOBILE) -->
-                <div id="pageResultsFooterRight">
-                    <!-- Download dropdown -->
-                    <div id="downloadDropdown">
-                        <button id="downloadDropdownBtn">
-                            <img class="iconColor" src="/assets/img/icons/download-solid-full.svg" alt="Download">
-                        </button>
-                        <ul id="downloadMenu">
-                            <li><button value="xml">XML</button></li>
-                            <li><button value="json">JSON</button></li>
-                            <li><button value="csv">CSV</button></li>
-                        </ul>
-                    </div>
-                    <!-- Accessibility dropdown (MOBILE) -->
-                    <div id="accessibilityDropdownMobile">
-                        <button id="accessibilityBtnMobile">
-                            <img class="iconColor" src="/assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
-                        </button>
-                        <ul id="accessibilityMenuMobile">
-                            <li><button value="theme">🌙 Tema escuro</button></li>
-                            <li><button value="contrast">◐ Alto contraste</button></li>
-                            <li><button value="fontUp">A+ Aumentar fonte</button></li>
-                            <li><button value="fontDown">A- Diminuir fonte</button></li>
-                        </ul>
-                    </div>
                 </div>
+
+                
             </footer>
-        </main>
+        </section>
     </main>
+
+    <!-- ============================================
+         DIALOGS
+         ============================================ -->
     <div id="filtersDialog">
         <header>
-            <!-- search -->
             <search>
                 <form action="">
                     <input type="text">
@@ -178,36 +181,21 @@
                     <button>Filtrar</button>
                 </form>
             </search>
-            <!-- closeBtn -->
         </header>
-        <main>
-            <!-- filtersTags -->
-        </main>
-        <footer>
-            <!-- help -->
-            <!-- clearBtn -->
-            <!-- cancelBtn -->
-            <!-- submitBtn -->
-        </footer>
+        <main></main>
+        <footer></footer>
     </div>
+
     <div id="infoDialog">
-        <header>
-            <!-- tituloInfo -->
-            <!-- closeBtn -->
-        </header>
-        <main>
-            <!-- infoText -->
-        </main>
+        <header></header>
+        <main></main>
     </div>
+
     <div id="saibaMaisDialog">
-        <header>
-            <!-- tituloSaibaMais -->
-            <!-- closeBtn -->
-        </header>
-        <main>
-            <!-- saibaMaisText -->
-        </main>
+        <header></header>
+        <main></main>
     </div>
+
     <script src="assets/js/script.js"></script>
 </body>
 </html>
