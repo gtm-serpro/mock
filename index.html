@@ -102,7 +102,34 @@
             </section>
             <footer id="pageResultsFooter">
                 <div id="pageResultsFooterLeft">
-                    <!-- ... conteúdo existente ... -->
+                    <!-- Seta anterior (MOBILE) -->
+                    <button class="pageNav pageNavMobile">
+                        <span><img class="iconColor" src="/assets/img/icons/chevron-left-solid-full.svg" alt="Anterior"></span>
+                    </button>
+                    
+                    <!-- Contador de resultados -->
+                    <div id="resultsCount">
+                        <span class="fullText">Mostrando <strong>1-10</strong> de <strong>123</strong> resultados</span>
+                        <span class="shortText"><strong>1-10</strong> / <strong>123</strong></span>
+                    </div>
+
+                    <!-- Seta próximo (MOBILE) -->
+                    <button class="pageNav pageNavMobile">
+                        <span><img class="iconColor" src="/assets/img/icons/chevron-right-solid-full.svg" alt="Próximo"></span>
+                    </button>
+
+                    <!-- Navegação (DESKTOP) -->
+                    <div id="pagination">
+                        <button class="pageNav">Anterior</button>
+                        <button class="pageNumber">...</button>
+                        <button class="pageNumber">6</button>
+                        <button class="pageNumber">7</button>
+                        <button class="pageNumber active">8</button>
+                        <button class="pageNumber">9</button>
+                        <button class="pageNumber">10</button>
+                        <button class="pageNumber">...</button>
+                        <button class="pageNav">Próximo</button>
+                    </div>
                 </div>            
                 <!-- Download buttons (DESKTOP) -->
                 <div id="downloadGroup">
@@ -124,12 +151,12 @@
                             <li><button value="csv">CSV</button></li>
                         </ul>
                     </div>
-                    <!-- Accessibility dropdown -->
-                    <div id="accessibilityDropdown">
-                        <button id="accessibilityBtn">
+                    <!-- Accessibility dropdown (MOBILE) -->
+                    <div id="accessibilityDropdownMobile">
+                        <button id="accessibilityBtnMobile">
                             <img class="iconColor" src="/assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
                         </button>
-                        <ul id="accessibilityMenu">
+                        <ul id="accessibilityMenuMobile">
                             <li><button value="theme">🌙 Tema escuro</button></li>
                             <li><button value="contrast">◐ Alto contraste</button></li>
                             <li><button value="fontUp">A+ Aumentar fonte</button></li>

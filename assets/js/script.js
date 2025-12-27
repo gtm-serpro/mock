@@ -79,3 +79,18 @@ function updatePlaceholder() {
 // Executa no load e no resize
 updatePlaceholder();
 window.addEventListener('resize', updatePlaceholder);
+
+// Accessibility dropdown (MOBILE - no footer)
+const accessibilityDropdownMobile = document.getElementById('accessibilityDropdownMobile');
+const accessibilityBtnMobile = document.getElementById('accessibilityBtnMobile');
+
+if (accessibilityBtnMobile) {
+    accessibilityBtnMobile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        accessibilityDropdownMobile.classList.toggle('open');
+    });
+
+    document.addEventListener('click', () => {
+        accessibilityDropdownMobile.classList.remove('open');
+    });
+}

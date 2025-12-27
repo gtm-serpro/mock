@@ -278,6 +278,69 @@
 }
 
 /* ============================================
+   ACCESSIBILITY MOBILE - No footer
+   ============================================ */
+
+#accessibilityDropdownMobile {
+    display: none;
+    position: relative;
+}
+
+#accessibilityBtnMobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+}
+
+#accessibilityBtnMobile img {
+    width: 24px;
+}
+
+#accessibilityMenuMobile {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 4px;
+    padding: 4px 0;
+    min-width: 160px;
+    list-style: none;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+#accessibilityMenuMobile li {
+    display: block;
+}
+
+#accessibilityMenuMobile button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: auto;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    text-align: left;
+}
+
+#accessibilityMenuMobile button:hover {
+    background-color: #F7F9FA;
+}
+
+#accessibilityDropdownMobile.open #accessibilityMenuMobile {
+    display: block;
+}
+
+/* ============================================
    CONTAINER QUERIES - Responsividade do mainContent
    ============================================ */
 
@@ -319,14 +382,6 @@
 @container mainContent (max-width: 600px) {
     
     
-    /* Download: troca botões por dropdown */
-    #downloadGroup {
-        display: none;
-    }
-    
-    #downloadDropdown {
-        display: block;
-    }
     #downloadGroup {
         display: none;
     }
@@ -335,8 +390,11 @@
         display: flex;
     }
     
-    #downloadDropdown,
-    #pageResultsFooterRight #accessibilityDropdown {
+    #downloadDropdown {
+        display: block;
+    }
+    
+    #accessibilityDropdownMobile {
         display: block;
     }
 }
