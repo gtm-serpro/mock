@@ -313,9 +313,9 @@
 #accessibilityMenu {
     display: none;
     position: absolute;
-    bottom: 100%;
+    top: 100%;
     right: 0;
-    margin-bottom: 4px;
+    margin-top: 4px;
     padding: 4px 0;
     min-width: 160px;
     list-style: none;
