@@ -66,3 +66,16 @@ document.querySelectorAll('.facetTitle').forEach(button => {
         group.classList.toggle('open');
     });
 });
+
+//Placebolder search mobile
+function updatePlaceholder() {
+    if (window.innerWidth <= 600) {
+        searchInput.placeholder = 'Buscar...';
+    } else {
+        searchInput.placeholder = 'Digite para buscar...';
+    }
+}
+
+// Executa no load e no resize
+updatePlaceholder();
+window.addEventListener('resize', updatePlaceholder);

@@ -201,6 +201,13 @@
     display: none;
 }
 
+/* Footer Right (escondido em desktop) */
+#pageResultsFooterRight {
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+
 /* ============================================
    DOWNLOAD - Botões e dropdown
    ============================================ */
@@ -318,6 +325,18 @@
     }
     
     #downloadDropdown {
+        display: block;
+    }
+    #downloadGroup {
+        display: none;
+    }
+    
+    #pageResultsFooterRight {
+        display: flex;
+    }
+    
+    #downloadDropdown,
+    #pageResultsFooterRight #accessibilityDropdown {
         display: block;
     }
 }
