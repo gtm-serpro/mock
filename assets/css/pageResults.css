@@ -80,6 +80,7 @@ body.resizing {
     margin: var(--spacing-sm) 0 var(--spacing-xs) 0;
     overflow: hidden;
     text-align: left;
+    padding: 0 8px;
 }
 
 .facetTitle span {
