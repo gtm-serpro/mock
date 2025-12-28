@@ -75,11 +75,17 @@
 }
 
 /* ============================================
-   EMPTY STATE - Logos à direita
+   EMPTY STATE
    ============================================ */
 
+/* Logos à direita quando não tem search */
 body.empty-state #logosParceiros {
     margin-left: auto;
+}
+
+/* Esconde botão sidebar no empty state */
+body.empty-state #sidebarBtn {
+    display: none !important;
 }
 
 /* ============================================

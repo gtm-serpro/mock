@@ -88,9 +88,9 @@
             
             <!-- Texto -->
             <div class="empty-text">
-                <h1 class="empty-title">Nenhuma busca realizada</h1>
+                <h1 class="empty-title">Busque processos administrativos</h1>
                 <p class="empty-description">
-                    Use os filtros avançados para realizar uma busca e visualizar os resultados aqui.
+                    Digite um termo para pesquisar processos da Receita Federal, PGFN e CARF.
                 </p>
             </div>
             
@@ -253,20 +253,254 @@
     <!-- Filters Dialog -->
     <dialog id="filtersDialog">
         <header>
-            <h2>Filtros</h2>
+            <div class="dialog-header-content">
+                <img class="dialog-header-logo" src="assets/img/favicon/logo-simbolo_e-Processo.svg" alt="">
+                <div class="dialog-header-search searchInputWraper">
+                    <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                    <input class="searchInput" type="text" placeholder="Digite sua busca...">
+                </div>
+            </div>
             <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar">
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
+        
         <main>
-            <p>Conteúdo dos filtros...</p>
+            <!-- Filtros de Data -->
+            <section class="filter-section">
+                <div class="filter-section-header">
+                    <img class="iconColor" src="assets/img/icons/calendar-solid-full.svg" alt="">
+                    <span>Filtros de Data</span>
+                </div>
+                <div class="filter-grid filter-grid-2">
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Data do Protocolo do Processo</span>
+                        </label>
+                        <div class="filter-date-range">
+                            <span>De</span>
+                            <input type="date" class="filter-input">
+                            <span>Até</span>
+                            <input type="date" class="filter-input">
+                        </div>
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Data da Juntada</span>
+                        </label>
+                        <div class="filter-date-range">
+                            <span>De</span>
+                            <input type="date" class="filter-input">
+                            <span>Até</span>
+                            <input type="date" class="filter-input">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processo e Documento -->
+            <section class="filter-section">
+                <div class="filter-section-header">
+                    <img class="iconColor" src="assets/img/icons/file-solid-full.svg" alt="">
+                    <span>Processo e Documento</span>
+                </div>
+                <div class="filter-grid filter-grid-6">
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Grupo Processo</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Tipo Processo</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Subtipo Processo</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Nr Processo</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Situação do Documento</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Assuntos/Objetos</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Tipo do Documento</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Título Documento</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Nr Doc Principal</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Tributo ACT</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field filter-col-span-2">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Valor do Processo</span>
+                        </label>
+                        <div class="filter-value-range">
+                            <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric">
+                            <span>até</span>
+                            <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Unidade e Equipe -->
+            <section class="filter-section">
+                <div class="filter-section-header">
+                    <img class="iconColor" src="assets/img/icons/building-user-solid-full.svg" alt="">
+                    <span>Unidade e Equipe</span>
+                </div>
+                <div class="filter-grid filter-grid-4">
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Unidade de Origem do Documento</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Equipe de Origem do Documento</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Unidade Atual</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Equipe Atual</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Partes Envolvidas -->
+            <section class="filter-section">
+                <div class="filter-section-header">
+                    <img class="iconColor" src="assets/img/icons/user-group-solid-full.svg" alt="">
+                    <span>Partes Envolvidas</span>
+                </div>
+                <div class="filter-grid filter-grid-5">
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">NI Contribuinte</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Nome do Contribuinte</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">CPF Responsável</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Nome Usuário Juntada</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Nome Relator DRJ</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Julgamento -->
+            <section class="filter-section">
+                <div class="filter-section-header">
+                    <img class="iconColor" src="assets/img/icons/scale-balanced-solid-full.svg" alt="">
+                    <span>Julgamento</span>
+                </div>
+                <div class="filter-grid filter-grid-3">
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Alegações no Recurso</span>
+                            <span class="filter-badge">AUTO</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Result Julgamento DRJ nível 1</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                    <div class="filter-field">
+                        <label class="filter-label">
+                            <span class="filter-label-text">Result Julgamento DRJ nível 2</span>
+                        </label>
+                        <input type="text" class="filter-input" placeholder="Digite...">
+                    </div>
+                </div>
+            </section>
         </main>
+        
         <footer>
             <button id="infoBtn" class="btn-icon" aria-label="Informações">
                 <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="">
             </button>
-            <button id="filtersDialogCancelBtn">Cancelar</button>
-            <button id="filtersDialogApplyBtn">Aplicar</button>
+            <div class="dialog-footer-right">
+                <button id="filtersDialogClearBtn">Limpar Filtros</button>
+                <button id="filtersDialogCancelBtn">Cancelar</button>
+                <button id="filtersDialogApplyBtn">Buscar</button>
+            </div>
         </footer>
     </dialog>
 
