@@ -59,9 +59,15 @@
     display: flex;
     gap: 8px;
     height: 24px;
+    flex-shrink: 0;
+}
+#logosParceiros img{
     filter: grayscale();
     opacity: 0.3;
-    flex-shrink: 0;
+}
+#logosParceiros img:hover{
+    filter: none;
+    opacity:1;
 }
 
 /* ============================================

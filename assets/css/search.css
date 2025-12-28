@@ -74,6 +74,10 @@ search {
 .filterBtn{
     position:relative;
     border:1px solid #1351B4;
+    background-color:#EDF5FF;
+}
+.filterBtn:hover{
+    background-color:#D4E5FF;
 }
 .filterBtn img {
     display: none;

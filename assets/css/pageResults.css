@@ -314,7 +314,7 @@ body.resizing {
 
 #downloadGroup {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     border:1px solid #ddd;
     border-radius:20px;
     padding:4px;
@@ -459,7 +459,16 @@ body.resizing {
 /* ============================================
    CONTAINER QUERIES - Responsividade do mainContent
    ============================================ */
-
+@container mainContent (max-width: 950px) {
+    /* Texto curto */
+    #resultsCount .fullText {
+        display: none;
+    }
+    
+    #resultsCount .shortText {
+        display: inline;
+    }
+}
 /* Tablet - texto curto no contador e setas */
 @container mainContent (max-width: 850px) {
     #pageResultsFooter {
@@ -470,14 +479,7 @@ body.resizing {
         gap: 8px;
     }
     
-    /* Texto curto */
-    #resultsCount .fullText {
-        display: none;
-    }
     
-    #resultsCount .shortText {
-        display: inline;
-    }
     
     /* Esconde paginação desktop, mostra setas */
     #pagination {
