@@ -1,0 +1,181 @@
+/* ============================================
+   VARIABLES - Design Tokens
+   ============================================ */
+
+:root {
+    /* ==========================================
+       CORES - Paleta Gov.br
+       ========================================== */
+    
+    /* Primária (Azul institucional) */
+    --color-primary: #1351B4;
+    --color-primary-dark: #0C326F;
+    --color-primary-light: #EDF5FF;
+    --color-primary-hover: #D4E5FF;
+    
+    /* Secundária (Laranja/Amarelo) */
+    --color-secondary: #FFCD07;
+    --color-secondary-dark: #E5B800;
+    
+    /* Feedback */
+    --color-success: #168821;
+    --color-warning: #FFCD07;
+    --color-error: #E52207;
+    --color-info: #1351B4;
+    
+    /* Neutras */
+    --color-text: #3D4551;
+    --color-text-light: #636E7F;
+    --color-text-muted: #888;
+    
+    /* Bordas */
+    --color-border: #ddd;
+    --color-border-dark: #ccc;
+    
+    /* Fundos */
+    --color-bg: #F7F9FA;
+    --color-bg-white: #fff;
+    --color-bg-hover: #EDEFF0;
+    --color-bg-dark: #071D41;
+    
+    /* Overlay */
+    --color-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* ==========================================
+       TIPOGRAFIA
+       ========================================== */
+    
+    --font-family: 'rawline', sans-serif;
+    
+    /* Tamanhos */
+    --font-size-xs: 10px;
+    --font-size-sm: 11px;
+    --font-size-base: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 32px;
+    
+    /* Pesos */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Line heights */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    
+    /* ==========================================
+       ESPAÇAMENTOS
+       ========================================== */
+    
+    --spacing-0: 0;
+    --spacing-1: 2px;
+    --spacing-2: 4px;
+    --spacing-3: 8px;
+    --spacing-4: 12px;
+    --spacing-5: 16px;
+    --spacing-6: 24px;
+    --spacing-7: 32px;
+    --spacing-8: 48px;
+    
+    /* Aliases semânticos */
+    --spacing-xs: var(--spacing-2);
+    --spacing-sm: var(--spacing-3);
+    --spacing-md: var(--spacing-4);
+    --spacing-lg: var(--spacing-5);
+    --spacing-xl: var(--spacing-6);
+    
+    /* ==========================================
+       BORDER RADIUS
+       ========================================== */
+    
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+    
+    /* ==========================================
+       SOMBRAS
+       ========================================== */
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.15);
+    --shadow-badge: 0 1px 3px rgba(0, 0, 0, 0.2);
+    
+    /* ==========================================
+       TAMANHOS DE COMPONENTES
+       ========================================== */
+    
+    /* Botões */
+    --btn-height: 32px;
+    --btn-height-sm: 24px;
+    --btn-height-lg: 40px;
+    --btn-padding-x: 12px;
+    --btn-padding-x-sm: 8px;
+    
+    /* Ícones */
+    --icon-size-sm: 16px;
+    --icon-size-md: 20px;
+    --icon-size-lg: 24px;
+    
+    /* Inputs */
+    --input-height: 32px;
+    
+    /* Layout */
+    --header-height: 48px;
+    --sidebar-width: 250px;
+    --sidebar-min-width: 180px;
+    --sidebar-max-width: 400px;
+    
+    /* Dialog */
+    --dialog-max-width-sm: 400px;
+    --dialog-max-width-md: 500px;
+    --dialog-max-width-lg: 600px;
+    
+    /* ==========================================
+       TRANSIÇÕES
+       ========================================== */
+    
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.2s ease;
+    --transition-slow: 0.3s ease;
+    
+    /* ==========================================
+       Z-INDEX
+       ========================================== */
+    
+    --z-dropdown: 100;
+    --z-sticky: 150;
+    --z-overlay: 199;
+    --z-sidebar: 200;
+    --z-modal: 300;
+    --z-tooltip: 400;
+}
+
+/* ============================================
+   DARK MODE (preparado para futuro)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root.auto-theme {
+        --color-text: #E1E1E1;
+        --color-bg: #1a1a1a;
+        --color-bg-white: #2d2d2d;
+        --color-bg-hover: #3d3d3d;
+        --color-border: #404040;
+    }
+}
+
+/* Classe para forçar dark mode */
+:root.dark-theme {
+    --color-text: #E1E1E1;
+    --color-bg: #1a1a1a;
+    --color-bg-white: #2d2d2d;
+    --color-bg-hover: #3d3d3d;
+    --color-border: #404040;
+}

@@ -10,22 +10,22 @@
 }
 
 /* ============================================
-   SIDEBAR - Filtros laterais
+   SIDEBAR
    ============================================ */
 
 #sidebar {
-    width: 250px;
+    width: var(--sidebar-width);
     min-width: 10px;
     max-width: 1000px;
-    border-right: 1px solid #ddd;
-    background-color: white;
-    padding: 8px 12px 12px 12px;
+    border-right: 1px solid var(--color-border);
+    background-color: var(--color-bg-white);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md) var(--spacing-md);
     overflow-y: auto;
     flex-shrink: 0;
 }
 
 /* ============================================
-   SIDEBAR RESIZER - Barra de redimensionamento
+   SIDEBAR RESIZER
    ============================================ */
 
 #sidebarResizer {
@@ -38,49 +38,48 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
-    /* Posição será controlada via JS */
-    left: 246px; /* 250px (largura inicial) - 4px (metade do resizer) */
+    z-index: var(--z-sticky);
+    left: 246px;
 }
 
-/* Retângulo arredondado no centro */
 #sidebarResizer::before {
     content: '';
-    position:absolute;
-    right:2.5px;
+    position: absolute;
+    right: 2.5px;
     width: 4.5px;
     height: 40px;
-    border-radius: 4px;
-    background-color: #ddd;
-    transition: background-color 0.2s;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-border);
+    transition: background-color var(--transition-normal);
 }
 
 #sidebarResizer:hover::before,
 #sidebarResizer.dragging::before {
-    background-color: #1351B4;
+    background-color: var(--color-primary);
 }
 
-/* Previne seleção de texto durante o drag */
 body.resizing {
     cursor: col-resize;
     user-select: none;
 }
 
-/* Grupo de facetas */
+/* ============================================
+   FACETAS
+   ============================================ */
+
 .facetGroup {
     display: flex;
     flex-direction: column;
 }
 
-/* Título do grupo */
 .facetTitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 28px;
-    margin: 8px 0 4px 0;
+    margin: var(--spacing-sm) 0 var(--spacing-xs) 0;
     overflow: hidden;
-    text-align:left;
+    text-align: left;
 }
 
 .facetTitle span {
@@ -91,27 +90,25 @@ body.resizing {
 }
 
 .facetTitle img {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     flex-shrink: 0;
 }
 
-/* Itens da faceta */
 .facetText button {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 22px;
-    padding: 2px 4px 2px 8px;
+    padding: 2px var(--spacing-xs) 2px var(--spacing-sm);
     border: none;
     background-color: transparent;
     overflow: hidden;
 }
 
 .facetText button:hover {
-    background-color: #F7F9FA;
-    /* border-radius: 4px 20px 20px 4px; */
+    background-color: var(--color-bg);
 }
 
 .facetText button span:first-child {
@@ -122,7 +119,6 @@ body.resizing {
     text-align: left;
 }
 
-/* Accordion */
 .facetList {
     display: none;
     flex-direction: column;
@@ -135,27 +131,25 @@ body.resizing {
     display: flex;
 }
 
-/* Rotação do chevron */
 .facetChevron {
-    transition: transform 0.2s ease;
+    transition: transform var(--transition-normal);
 }
 
 .facetGroup.open .facetChevron {
     transform: rotate(180deg);
 }
 
-/* Contador da faceta */
 .facetNumber {
-    background-color: #F7F9FA;
+    background-color: var(--color-bg);
     padding: 0 6px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-size: 11px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
     flex-shrink: 0;
 }
 
 .facetText button:hover .facetNumber {
-    background-color: #fff;
+    background-color: var(--color-bg-white);
 }
 
 /* Overlay do sidebar (mobile) */
@@ -166,8 +160,8 @@ body.resizing {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 199;
+    background-color: var(--color-overlay);
+    z-index: var(--z-overlay);
 }
 
 #sidebarOverlay.open {
@@ -175,7 +169,7 @@ body.resizing {
 }
 
 /* ============================================
-   MAIN CONTENT - Conteúdo principal
+   MAIN CONTENT
    ============================================ */
 
 #mainContent {
@@ -188,79 +182,80 @@ body.resizing {
 }
 
 /* ============================================
-   USED FILTERS - Lista de filtros usados
+   USED FILTERS
    ============================================ */
 
 #pageResultsHeader {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
-    gap: 8px;
-    border-bottom: 1px solid #ddd;
-    background-color: white;
-    overflow-x:auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-white);
+    overflow-x: auto;
 }
-.usedFilterCloseBtn{
-    width:16px;
-    margin-right:-4px;
-    display:none;
+
+.usedFilterCloseBtn {
+    width: var(--icon-size-sm);
+    margin-right: -4px;
+    display: none;
 }
-.usedFilters{
+
+.usedFilters {
     display: flex;
-    align-items:center;
+    align-items: center;
 }
-.usedFilters:hover .usedFilterCloseBtn{
-    display:flex;
+
+.usedFilters:hover .usedFilterCloseBtn {
+    display: flex;
 }
 
 /* ============================================
-   RESULTS - Lista de resultados
+   RESULTS
    ============================================ */
 
 #results {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 12px;
+    padding: var(--spacing-md);
     overflow-y: auto;
-    gap: 8px;
+    gap: var(--spacing-sm);
 }
 
 .result {
-    background-color: white;
+    background-color: var(--color-bg-white);
     height: 200px;
     min-height: 200px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
     flex-shrink: 0;
 }
 
 /* ============================================
-   FOOTER - Paginação e downloads
+   FOOTER
    ============================================ */
 
 #pageResultsFooter {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    gap: 24px;
-    border-top: 1px solid #ddd;
-    background-color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-xl);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-white);
 }
 
-/* Footer Left */
 #pageResultsFooterLeft {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: var(--spacing-xl);
 }
 
-/* Footer Right */
 #pageResultsFooterRight {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--spacing-xs);
 }
 
 /* Contador de resultados */
@@ -272,85 +267,93 @@ body.resizing {
     display: none;
 }
 
-/* Paginação (desktop) */
+/* ============================================
+   PAGINAÇÃO
+   ============================================ */
+
 #pagination {
     display: flex;
-    gap: 0px;
-}
-.pageNumber{
-    aspect-ratio:1;
-    padding:0;
-    background-color:transparent;
-    border:none;
-}
-.pageNumber.active{
-    background-color:#EDF5FF;
-    border:1px solid #1351B4;
-    color:#1351B4;
-    font-weight:500;
-}
-.pageNumber.active:hover{
-    background-color:#D4E5FF;
+    gap: 0;
 }
 
-/* Setas mobile - escondidas por padrão */
+.pageNumber {
+    aspect-ratio: 1;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.pageNumber.active {
+    background-color: var(--color-primary-light);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.pageNumber.active:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Setas mobile */
 .pageNavMobile {
     display: none;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 4px;
+    width: var(--btn-height);
+    height: var(--btn-height);
+    padding: var(--spacing-xs);
 }
 
 .pageNavMobile img {
-    width: 20px;
-    height: 20px;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
 }
 
 /* ============================================
-   DOWNLOAD - Botões e dropdown
+   DOWNLOAD
    ============================================ */
 
 #downloadGroup {
     display: flex;
     gap: 2px;
-    border:1px solid #ddd;
-    border-radius:20px;
-    padding:4px;
-    font-size:11px;
-    background-color:#F7F9FA;
-}
-#downloadGroup img{
-    width:20px;
-    padding:1px 0 0 5px;
-}
-.downloadBtn{
-    height:24px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding-top:2px;
-    background-color:#fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    background-color: var(--color-bg);
 }
 
-/* Dropdown (escondido em desktop) */
+#downloadGroup img {
+    width: var(--icon-size-md);
+    padding: 1px 0 0 5px;
+}
+
+.downloadBtn {
+    height: var(--btn-height-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+    background-color: var(--color-bg-white);
+}
+
+/* Dropdown (mobile) */
 #downloadDropdown {
     display: none;
     position: relative;
 }
 
 #downloadDropdownBtn {
-    width: 32px;
-    height: 32px;
+    width: var(--btn-height);
+    height: var(--btn-height);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 4px;
+    padding: var(--spacing-xs);
 }
 
 #downloadDropdownBtn img {
-    width: 20px;
+    width: var(--icon-size-md);
 }
 
 #downloadMenu {
@@ -358,15 +361,15 @@ body.resizing {
     position: absolute;
     bottom: 100%;
     right: 0;
-    margin-bottom: 4px;
-    padding: 4px 0;
+    margin-bottom: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
     list-style: none;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
     min-width: 100px;
-    z-index: 100;
+    z-index: var(--z-dropdown);
 }
 
 #downloadMenu li {
@@ -377,8 +380,8 @@ body.resizing {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     border: none;
     background: transparent;
     text-align: left;
@@ -387,7 +390,7 @@ body.resizing {
 }
 
 #downloadMenu button:hover {
-    background-color: #F7F9FA;
+    background-color: var(--color-bg);
 }
 
 #downloadDropdown.open #downloadMenu {
@@ -395,7 +398,7 @@ body.resizing {
 }
 
 /* ============================================
-   ACCESSIBILITY DROPDOWN - Sempre visível no footer
+   ACCESSIBILITY DROPDOWN
    ============================================ */
 
 #accessibilityDropdown {
@@ -406,13 +409,13 @@ body.resizing {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 4px;
+    width: var(--btn-height);
+    height: var(--btn-height);
+    padding: var(--spacing-xs);
 }
 
 #accessibilityBtn img {
-    width: 24px;
+    width: var(--icon-size-lg);
 }
 
 #accessibilityMenu {
@@ -420,15 +423,15 @@ body.resizing {
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: 4px;
-    padding: 4px 0;
+    margin-top: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
     min-width: 160px;
     list-style: none;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    z-index: var(--z-dropdown);
 }
 
 #accessibilityMenu li {
@@ -438,10 +441,10 @@ body.resizing {
 #accessibilityMenu button {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-sm);
     width: 100%;
     height: auto;
-    padding: 8px 12px;
+    padding: var(--spacing-sm) var(--spacing-md);
     border: none;
     border-radius: 0;
     background: transparent;
@@ -449,7 +452,7 @@ body.resizing {
 }
 
 #accessibilityMenu button:hover {
-    background-color: #F7F9FA;
+    background-color: var(--color-bg);
 }
 
 #accessibilityDropdown.open #accessibilityMenu {
@@ -457,10 +460,10 @@ body.resizing {
 }
 
 /* ============================================
-   CONTAINER QUERIES - Responsividade do mainContent
+   CONTAINER QUERIES
    ============================================ */
+
 @container mainContent (max-width: 950px) {
-    /* Texto curto */
     #resultsCount .fullText {
         display: none;
     }
@@ -469,19 +472,16 @@ body.resizing {
         display: inline;
     }
 }
-/* Tablet - texto curto no contador e setas */
+
 @container mainContent (max-width: 850px) {
     #pageResultsFooter {
-        gap: 8px;
+        gap: var(--spacing-sm);
     }
     
     #pageResultsFooterLeft {
-        gap: 8px;
+        gap: var(--spacing-sm);
     }
     
-    
-    
-    /* Esconde paginação desktop, mostra setas */
     #pagination {
         display: none;
     }
@@ -489,14 +489,13 @@ body.resizing {
     .pageNavMobile {
         display: flex;
     }
-    .usedFilterCloseBtn{
-        display:flex;
+    
+    .usedFilterCloseBtn {
+        display: flex;
     }
 }
 
-/* Mobile - layout compacto com dropdowns */
 @container mainContent (max-width: 600px) {
-    /* Esconde botões de download, mostra dropdown */
     #downloadGroup {
         display: none;
     }
@@ -507,26 +506,24 @@ body.resizing {
 }
 
 /* ============================================
-   MEDIA QUERIES - Responsividade da viewport
+   MEDIA QUERIES
    ============================================ */
 
-/* Mobile - sidebar off-canvas */
 @media (max-width: 600px) {
     #sidebar {
         position: fixed;
         top: 0;
         left: 0;
         height: 100dvh;
-        z-index: 200;
+        z-index: var(--z-sidebar);
         transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        transition: transform var(--transition-slow);
     }
     
     #sidebar.open {
         transform: translateX(0);
     }
     
-    /* Esconde resizer no mobile */
     #sidebarResizer {
         display: none;
     }

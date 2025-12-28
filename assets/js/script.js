@@ -1,295 +1,427 @@
-// ============================================
-// SEARCH INPUT
-// ============================================
-
-const searchInput = document.querySelector('.searchInput');
-const searchWrapper = document.querySelector('.searchInputWraper');
-
-// Mostrar/esconder botão X baseado no conteúdo
-if (searchInput && searchWrapper) {
-    searchInput.addEventListener('input', () => {
-        if (searchInput.value.length > 0) {
-            searchWrapper.classList.add('hasValue');
-        } else {
-            searchWrapper.classList.remove('hasValue');
-        }
-    });
-}
-
-// Limpar input ao clicar no X
-const searchCloseBtn = document.querySelector('.searchCloseBtn');
-if (searchCloseBtn) {
-    searchCloseBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchInput.value = '';
-        searchWrapper.classList.remove('hasValue');
-        searchInput.focus();
-    });
-}
-
-// Placeholder responsivo
-function updatePlaceholder() {
-    if (!searchInput) return;
-    if (window.innerWidth <= 600) {
-        searchInput.placeholder = 'Buscar...';
-    } else {
-        searchInput.placeholder = 'Digite para buscar...';
-    }
-}
-
-updatePlaceholder();
-window.addEventListener('resize', updatePlaceholder);
+/* ============================================
+   EPROCESSO BUSCADOR - JavaScript
+   ============================================ */
 
 // ============================================
-// SIDEBAR
+// CONFIGURAÇÃO
 // ============================================
 
-const sidebarBtn = document.getElementById('sidebarBtn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebarOverlay');
-
-if (sidebarBtn && sidebar && overlay) {
-    sidebarBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('open');
-    });
-
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('open');
-    });
-}
-
-// ============================================
-// SIDEBAR RESIZER
-// ============================================
-
-const sidebarResizer = document.getElementById('sidebarResizer');
-
-if (sidebarResizer && sidebar) {
-    let isResizing = false;
-
-    // Atualiza posição do resizer baseado na largura do sidebar
-    function updateResizerPosition() {
-        const sidebarWidth = sidebar.offsetWidth;
-        sidebarResizer.style.left = `${sidebarWidth - 4}px`;
-    }
-
-    // Posição inicial
-    updateResizerPosition();
-
-    sidebarResizer.addEventListener('mousedown', (e) => {
-        isResizing = true;
-        sidebarResizer.classList.add('dragging');
-        document.body.classList.add('resizing');
-        e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!isResizing) return;
-
-        // Calcula nova largura baseada na posição do mouse
-        const newWidth = e.clientX;
+const CONFIG = {
+    breakpoints: {
+        mobile: 600,
+        tablet: 800
+    },
+    sidebar: {
+        defaultWidth: 250,
+        minWidth: 10,
+        maxWidth: 1000
+    },
+    selectors: {
+        // Search
+        searchInput: '.searchInput',
+        searchWrapper: '.searchInputWraper',
+        searchCloseBtn: '.searchCloseBtn',
         
-        // Aplica limites (min: 10px, max: 1000px)
-        if (newWidth >= 10 && newWidth <= 1000) {
-            sidebar.style.width = `${newWidth}px`;
-            updateResizerPosition();
+        // Sidebar
+        sidebar: '#sidebar',
+        sidebarBtn: '#sidebarBtn',
+        sidebarResizer: '#sidebarResizer',
+        sidebarOverlay: '#sidebarOverlay',
+        
+        // Facets
+        facetTitle: '.facetTitle',
+        facetGroup: '.facetGroup',
+        
+        // Dialogs
+        filtersDialog: '#filtersDialog',
+        filterBtn: '.filterBtn',
+        infoDialog: '#infoDialog',
+        ajudaDialog: '#ajudaDialog'
+    }
+};
+
+// ============================================
+// UTILITIES
+// ============================================
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
+// ============================================
+// SEARCH COMPONENT
+// ============================================
+
+class SearchComponent {
+    constructor() {
+        this.input = $(CONFIG.selectors.searchInput);
+        this.wrapper = $(CONFIG.selectors.searchWrapper);
+        this.closeBtn = $(CONFIG.selectors.searchCloseBtn);
+        
+        if (this.input && this.wrapper) {
+            this.init();
         }
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (isResizing) {
-            isResizing = false;
-            sidebarResizer.classList.remove('dragging');
-            document.body.classList.remove('resizing');
+    }
+    
+    init() {
+        this.bindEvents();
+        this.updatePlaceholder();
+    }
+    
+    bindEvents() {
+        // Toggle classe hasValue
+        this.input.addEventListener('input', () => {
+            this.wrapper.classList.toggle('hasValue', this.input.value.length > 0);
+        });
+        
+        // Botão limpar
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.clear();
+            });
         }
-    });
-
-    // Suporte para touch (mobile/tablet)
-    sidebarResizer.addEventListener('touchstart', (e) => {
-        isResizing = true;
-        sidebarResizer.classList.add('dragging');
-        document.body.classList.add('resizing');
-        e.preventDefault();
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        if (!isResizing) return;
-
-        const touch = e.touches[0];
-        const newWidth = touch.clientX;
-
-        if (newWidth >= 10 && newWidth <= 1000) {
-            sidebar.style.width = `${newWidth}px`;
-            updateResizerPosition();
+        
+        // Placeholder responsivo
+        window.addEventListener('resize', () => this.updatePlaceholder());
+    }
+    
+    clear() {
+        this.input.value = '';
+        this.wrapper.classList.remove('hasValue');
+        this.input.focus();
+    }
+    
+    updatePlaceholder() {
+        if (window.innerWidth <= CONFIG.breakpoints.mobile) {
+            this.input.placeholder = 'Buscar...';
+        } else {
+            this.input.placeholder = 'Digite para buscar...';
         }
-    });
-
-    document.addEventListener('touchend', () => {
-        if (isResizing) {
-            isResizing = false;
-            sidebarResizer.classList.remove('dragging');
-            document.body.classList.remove('resizing');
-        }
-    });
-
-    // Double-click para resetar largura padrão
-    sidebarResizer.addEventListener('dblclick', () => {
-        sidebar.style.width = '250px';
-        updateResizerPosition();
-    });
-
-    // Atualiza posição quando a janela redimensiona
-    window.addEventListener('resize', updateResizerPosition);
+    }
 }
 
 // ============================================
-// FACET ACCORDION
+// SIDEBAR COMPONENT
 // ============================================
 
-document.querySelectorAll('.facetTitle').forEach(button => {
-    button.addEventListener('click', () => {
-        const group = button.closest('.facetGroup');
-        group.classList.toggle('open');
-    });
-});
-
-// ============================================
-// DROPDOWNS
-// ============================================
-
-// Função genérica para criar dropdown
-function setupDropdown(dropdownId, buttonId) {
-    const dropdown = document.getElementById(dropdownId);
-    const btn = document.getElementById(buttonId);
+class SidebarComponent {
+    constructor() {
+        this.sidebar = $(CONFIG.selectors.sidebar);
+        this.toggleBtn = $(CONFIG.selectors.sidebarBtn);
+        this.overlay = $(CONFIG.selectors.sidebarOverlay);
+        this.resizer = $(CONFIG.selectors.sidebarResizer);
+        
+        this.isResizing = false;
+        
+        if (this.sidebar) {
+            this.init();
+        }
+    }
     
-    if (!dropdown || !btn) return;
+    init() {
+        this.bindToggleEvents();
+        this.bindResizerEvents();
+        this.updateResizerPosition();
+    }
     
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // Fecha outros dropdowns abertos
-        document.querySelectorAll('.open').forEach(el => {
-            if (el !== dropdown && el.id && el.id.includes('Dropdown')) {
+    bindToggleEvents() {
+        if (this.toggleBtn) {
+            this.toggleBtn.addEventListener('click', () => this.toggle());
+        }
+        
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => this.close());
+        }
+    }
+    
+    bindResizerEvents() {
+        if (!this.resizer) return;
+        
+        // Mouse events
+        this.resizer.addEventListener('mousedown', (e) => this.startResize(e));
+        document.addEventListener('mousemove', (e) => this.resize(e));
+        document.addEventListener('mouseup', () => this.stopResize());
+        
+        // Touch events
+        this.resizer.addEventListener('touchstart', (e) => this.startResize(e));
+        document.addEventListener('touchmove', (e) => this.resizeTouch(e));
+        document.addEventListener('touchend', () => this.stopResize());
+        
+        // Double-click reset
+        this.resizer.addEventListener('dblclick', () => this.resetWidth());
+        
+        // Window resize
+        window.addEventListener('resize', () => this.updateResizerPosition());
+    }
+    
+    toggle() {
+        this.sidebar.classList.toggle('open');
+        this.overlay?.classList.toggle('open');
+    }
+    
+    close() {
+        this.sidebar.classList.remove('open');
+        this.overlay?.classList.remove('open');
+    }
+    
+    startResize(e) {
+        this.isResizing = true;
+        this.resizer.classList.add('dragging');
+        document.body.classList.add('resizing');
+        e.preventDefault();
+    }
+    
+    resize(e) {
+        if (!this.isResizing) return;
+        this.setWidth(e.clientX);
+    }
+    
+    resizeTouch(e) {
+        if (!this.isResizing) return;
+        this.setWidth(e.touches[0].clientX);
+    }
+    
+    setWidth(width) {
+        const { minWidth, maxWidth } = CONFIG.sidebar;
+        if (width >= minWidth && width <= maxWidth) {
+            this.sidebar.style.width = `${width}px`;
+            this.updateResizerPosition();
+        }
+    }
+    
+    stopResize() {
+        if (this.isResizing) {
+            this.isResizing = false;
+            this.resizer?.classList.remove('dragging');
+            document.body.classList.remove('resizing');
+        }
+    }
+    
+    resetWidth() {
+        this.sidebar.style.width = `${CONFIG.sidebar.defaultWidth}px`;
+        this.updateResizerPosition();
+    }
+    
+    updateResizerPosition() {
+        if (this.resizer) {
+            const sidebarWidth = this.sidebar.offsetWidth;
+            this.resizer.style.left = `${sidebarWidth - 4}px`;
+        }
+    }
+}
+
+// ============================================
+// ACCORDION COMPONENT
+// ============================================
+
+class AccordionComponent {
+    constructor(selector) {
+        this.triggers = $$(selector);
+        this.init();
+    }
+    
+    init() {
+        this.triggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const group = trigger.closest(CONFIG.selectors.facetGroup);
+                group?.classList.toggle('open');
+            });
+        });
+    }
+}
+
+// ============================================
+// DROPDOWN COMPONENT
+// ============================================
+
+class DropdownComponent {
+    constructor(dropdownId, buttonId) {
+        this.dropdown = $(`#${dropdownId}`);
+        this.button = $(`#${buttonId}`);
+        
+        if (this.dropdown && this.button) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.closeOthers();
+            this.toggle();
+        });
+    }
+    
+    toggle() {
+        this.dropdown.classList.toggle('open');
+    }
+    
+    close() {
+        this.dropdown.classList.remove('open');
+    }
+    
+    closeOthers() {
+        $$('[id$="Dropdown"].open').forEach(el => {
+            if (el !== this.dropdown) {
                 el.classList.remove('open');
             }
         });
-        dropdown.classList.toggle('open');
-    });
-}
-
-// Download dropdown
-setupDropdown('downloadDropdown', 'downloadDropdownBtn');
-
-// Accessibility dropdown no footer (sempre visível)
-setupDropdown('accessibilityDropdown', 'accessibilityBtn');
-
-// Fechar todos os dropdowns ao clicar fora
-document.addEventListener('click', () => {
-    document.querySelectorAll('[id$="Dropdown"].open').forEach(el => {
-        el.classList.remove('open');
-    });
-});
-
-// ============================================
-// DIALOGS - Função genérica
-// ============================================
-
-function setupDialog(dialogId, openBtnId, closeBtnId, cancelBtnId = null) {
-    const dialog = document.getElementById(dialogId);
-    const openBtn = document.getElementById(openBtnId);
-    const closeBtn = document.getElementById(closeBtnId);
-    const cancelBtn = cancelBtnId ? document.getElementById(cancelBtnId) : null;
-
-    if (!dialog) return;
-
-    // Abrir
-    if (openBtn) {
-        openBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            dialog.showModal();
+    }
+    
+    static closeAll() {
+        $$('[id$="Dropdown"].open').forEach(el => {
+            el.classList.remove('open');
         });
     }
-
-    // Fechar - botão X
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            dialog.close();
-        });
-    }
-
-    // Fechar - botão Cancelar
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', () => {
-            dialog.close();
-        });
-    }
-
-    // Fechar ao clicar no backdrop
-    dialog.addEventListener('click', (e) => {
-        if (e.target === dialog) {
-            dialog.close();
-        }
-    });
-
-    return dialog;
 }
 
 // ============================================
-// FILTERS DIALOG
+// DIALOG COMPONENT
 // ============================================
 
-const filtersDialog = setupDialog(
-    'filtersDialog',
-    null, // Será aberto pelo filterBtn
-    'filtersDialogCloseBtn',
-    'filtersDialogCancelBtn'
-);
-
-// Abrir pelo botão de filtro (tem classe, não ID)
-const filterBtn = document.querySelector('.filterBtn');
-if (filterBtn && filtersDialog) {
-    filterBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        filtersDialog.showModal();
-    });
-}
-
-// ============================================
-// INFO DIALOG
-// ============================================
-
-setupDialog(
-    'infoDialog',
-    'infoBtn',
-    'infoDialogCloseBtn'
-);
-
-// ============================================
-// AJUDA DIALOG
-// ============================================
-
-setupDialog(
-    'ajudaDialog',
-    'ajudaBtn',
-    'ajudaDialogCloseBtn'
-);
-
-// ============================================
-// ATALHO DE TECLADO - Ctrl+K abre filtros
-// ============================================
-
-document.addEventListener('keydown', (e) => {
-    // Ctrl+K (ou Cmd+K no Mac)
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
+class DialogComponent {
+    constructor(dialogId, options = {}) {
+        this.dialog = $(`#${dialogId}`);
+        this.openBtnId = options.openBtnId;
+        this.openBtnSelector = options.openBtnSelector;
+        this.closeBtnId = options.closeBtnId;
+        this.cancelBtnId = options.cancelBtnId;
         
-        if (filtersDialog && filtersDialog.open) {
-            filtersDialog.close();
-        } else if (filtersDialog) {
-            filtersDialog.showModal();
+        if (this.dialog) {
+            this.init();
         }
     }
+    
+    init() {
+        // Botão de abrir (por ID)
+        if (this.openBtnId) {
+            const openBtn = $(`#${this.openBtnId}`);
+            openBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.open();
+            });
+        }
+        
+        // Botão de abrir (por seletor)
+        if (this.openBtnSelector) {
+            const openBtn = $(this.openBtnSelector);
+            openBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.open();
+            });
+        }
+        
+        // Botão de fechar
+        if (this.closeBtnId) {
+            const closeBtn = $(`#${this.closeBtnId}`);
+            closeBtn?.addEventListener('click', () => this.close());
+        }
+        
+        // Botão cancelar
+        if (this.cancelBtnId) {
+            const cancelBtn = $(`#${this.cancelBtnId}`);
+            cancelBtn?.addEventListener('click', () => this.close());
+        }
+        
+        // Fechar no backdrop
+        this.dialog.addEventListener('click', (e) => {
+            if (e.target === this.dialog) {
+                this.close();
+            }
+        });
+    }
+    
+    open() {
+        this.dialog.showModal();
+    }
+    
+    close() {
+        this.dialog.close();
+    }
+    
+    toggle() {
+        if (this.dialog.open) {
+            this.close();
+        } else {
+            this.open();
+        }
+    }
+}
+
+// ============================================
+// KEYBOARD SHORTCUTS
+// ============================================
+
+class KeyboardShortcuts {
+    constructor(shortcuts) {
+        this.shortcuts = shortcuts;
+        this.init();
+    }
+    
+    init() {
+        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+    }
+    
+    handleKeydown(e) {
+        this.shortcuts.forEach(shortcut => {
+            const ctrlMatch = shortcut.ctrl ? (e.ctrlKey || e.metaKey) : true;
+            const shiftMatch = shortcut.shift ? e.shiftKey : !e.shiftKey;
+            const keyMatch = e.key.toLowerCase() === shortcut.key.toLowerCase();
+            
+            if (ctrlMatch && shiftMatch && keyMatch) {
+                e.preventDefault();
+                shortcut.action();
+            }
+        });
+    }
+}
+
+// ============================================
+// INICIALIZAÇÃO
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Search
+    const search = new SearchComponent();
+    
+    // Sidebar
+    const sidebar = new SidebarComponent();
+    
+    // Accordions (Facetas)
+    const facetAccordion = new AccordionComponent(CONFIG.selectors.facetTitle);
+    
+    // Dropdowns
+    const downloadDropdown = new DropdownComponent('downloadDropdown', 'downloadDropdownBtn');
+    const accessibilityDropdown = new DropdownComponent('accessibilityDropdown', 'accessibilityBtn');
+    
+    // Fechar dropdowns ao clicar fora
+    document.addEventListener('click', () => DropdownComponent.closeAll());
+    
+    // Dialogs
+    const filtersDialog = new DialogComponent('filtersDialog', {
+        openBtnSelector: CONFIG.selectors.filterBtn,
+        closeBtnId: 'filtersDialogCloseBtn',
+        cancelBtnId: 'filtersDialogCancelBtn'
+    });
+    
+    const infoDialog = new DialogComponent('infoDialog', {
+        openBtnId: 'infoBtn',
+        closeBtnId: 'infoDialogCloseBtn'
+    });
+    
+    const ajudaDialog = new DialogComponent('ajudaDialog', {
+        openBtnId: 'ajudaBtn',
+        closeBtnId: 'ajudaDialogCloseBtn'
+    });
+    
+    // Atalhos de teclado
+    const shortcuts = new KeyboardShortcuts([
+        {
+            key: 'k',
+            ctrl: true,
+            action: () => filtersDialog.toggle()
+        }
+    ]);
 });

@@ -1,55 +1,70 @@
-.iconColor{
-    /* filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(118%) contrast(119%); */
-    opacity:.4;
+/* ============================================
+   GLOBAL - Estilos globais
+   ============================================ */
+
+/* Ícones com opacidade reduzida */
+.iconColor {
+    opacity: 0.4;
 }
-*,::placeholder {
-    color:#3D4551;
-    font-family:rawline, Fallback;
-    font-size:14px;
+
+/* Reset de cores e fontes */
+*,
+::placeholder {
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
 }
-body{
+
+/* Body */
+body {
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    background-color: #F7F9FA;
-    overflow:hidden;
+    background-color: var(--color-bg);
+    overflow: hidden;
 }
-button{
+
+/* Botões padrão */
+button {
     cursor: pointer;
-    border:1px solid #ddd;
-    border-radius: 40px;
-    padding: 0 12px;
-    height: 32px;
-    background-color:#fff;
-    flex-shrink:0;
-    font-weight:500;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0 var(--btn-padding-x);
+    height: var(--btn-height);
+    background-color: var(--color-bg-white);
+    flex-shrink: 0;
+    font-weight: var(--font-weight-medium);
+    transition: background-color var(--transition-fast);
 }
-button:hover{
-    background-color: #EDEFF0;
+
+button:hover {
+    background-color: var(--color-bg-hover);
 }
+
 /* ============================================
-   BOTÕES DE ÍCONE - Ajuda, Info, etc.
+   BOTÕES ESPECIAIS
    ============================================ */
 
+/* Botão de ícone genérico */
 #ajudaBtn,
 #infoBtn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
-    padding: 4px;
+    width: var(--btn-height);
+    height: var(--btn-height);
+    padding: var(--spacing-xs);
     background-color: transparent;
-    border:1px solid #ddd;
+    border: none;
 }
 
 #ajudaBtn:hover,
 #infoBtn:hover {
-    background-color: #EDEFF0;
+    background-color: var(--color-bg-hover);
 }
 
 #ajudaBtn img,
 #infoBtn img {
-    width: 20px;
-    height: 20px;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
 }

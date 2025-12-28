@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon/logo-simbolo_e-Processo.svg">
+    
+    <!-- CSS Base -->
     <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/typography.css">
+    <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/global.css">
+    
+    <!-- CSS Componentes -->
     <link rel="stylesheet" href="assets/css/mainHeader.css">
     <link rel="stylesheet" href="assets/css/pageResults.css">
-    <link rel="stylesheet" href="assets/css/filtersDialog.css">
-    <link rel="stylesheet" href="assets/css/infoDialog.css">
-    <link rel="stylesheet" href="assets/css/ajudaDialog.css">
+    <link rel="stylesheet" href="assets/css/dialogs.css">
+    
     <title>eProcesso Buscador</title>
 </head>
 <body>
@@ -20,79 +25,119 @@
          ============================================ -->
     <header id="mainHeader">
         <div id="mainHeaderLeft">
-            <button id="sidebarBtn">
-                <img class="iconColor" src="assets/img/icons/bars-solid-full.svg" alt="Ícone Menu">
+            <button id="sidebarBtn" class="btn-icon" aria-label="Abrir menu">
+                <img class="iconColor" src="assets/img/icons/bars-solid-full.svg" alt="">
             </button>
-            <!-- logo -->
             <img id="logoMain" src="assets/img/logos/logo-eprocesso-buscador.svg" alt="eProcesso Buscador">
             <img id="logoShort" src="assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
         </div>
-        <!-- search -->
+        
+        <!-- Search -->
         <search>
             <form class="searchForm" action="">
                 <div class="searchInputWraper">
-                    <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="Icone Buscar">
+                    <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
                     <input class="searchInput" type="text" placeholder="Digite para buscar...">
-                    <button class="searchCloseBtn" type="button">
-                        <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Icone Fechar">
+                    <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                        <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
                     </button>
                     <kbd class="searchKBD">Ctrl+K</kbd>
                 </div>
                 <button class="searchBtn" type="submit">Buscar</button>
                 <button type="button" class="filterBtn">
-                    <span class="filterBtnIcon"><img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt=""></span>
+                    <span class="filterBtnIcon">
+                        <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
+                    </span>
                     <span class="filterBtnText">Filtrar</span>
                     <span class="filtersUsedNumbers">1</span>
                 </button>
             </form>
         </search>
-        <!-- logos parceiros (direita) -->
+        
+        <!-- Logos Parceiros -->
         <div id="logosParceiros">
             <img src="assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
             <img src="assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
             <img src="assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
         </div>
-        <!-- Accessibility dropdown (SEMPRE VISÍVEL) -->
-        <div id="accessibilityDropdown">
-            <button id="accessibilityBtn">
-                <img class="iconColor" src="assets/img/icons/universal-access-solid-full.svg" alt="Acessibilidade">
+        
+        <!-- Accessibility Dropdown -->
+        <div id="accessibilityDropdown" class="dropdown">
+            <button id="accessibilityBtn" class="btn-icon" aria-label="Acessibilidade">
+                <img class="iconColor" src="assets/img/icons/universal-access-solid-full.svg" alt="">
             </button>
-            <ul id="accessibilityMenu">
-                <li><button value="theme">🌙 Tema escuro</button></li>
-                <li><button value="contrast">◐ Alto contraste</button></li>
-                <li><button value="fontUp">A+ Aumentar fonte</button></li>
-                <li><button value="fontDown">A- Diminuir fonte</button></li>
+            <ul id="accessibilityMenu" class="dropdown-menu dropdown-menu-bottom dropdown-menu-right">
+                <li><button class="dropdown-item" value="theme">🌙 Tema escuro</button></li>
+                <li><button class="dropdown-item" value="contrast">◐ Alto contraste</button></li>
+                <li><button class="dropdown-item" value="fontUp">A+ Aumentar fonte</button></li>
+                <li><button class="dropdown-item" value="fontDown">A- Diminuir fonte</button></li>
             </ul>
         </div>
     </header>
 
-    <!-- Overlay do sidebar -->
+    <!-- Overlay do Sidebar -->
     <div id="sidebarOverlay"></div>
 
     <!-- ============================================
          PAGE RESULTS
          ============================================ -->
     <main id="pageResults">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar">
             <div class="facetGroup open">
-                <button class="facetTitle" title="titulo muito longo que vai ser truncado">
-                    <span>titulo muito longo que vai ser truncado</span>
+                <button class="facetTitle" title="Tipo de Processo">
+                    <span>Tipo de Processo</span>
                     <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
                 </button>
                 <ul class="facetList">
-                    <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
-                    <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
-                    <li class="facetText"><button title="faceta com nome muito longo que vai ser truncado"><span>faceta com nome muito longo que vai ser truncado</span><span class="facetNumber">123</span></button></li>
+                    <li class="facetText">
+                        <button title="Processo Administrativo">
+                            <span>Processo Administrativo</span>
+                            <span class="facetNumber">45</span>
+                        </button>
+                    </li>
+                    <li class="facetText">
+                        <button title="Recurso Voluntário">
+                            <span>Recurso Voluntário</span>
+                            <span class="facetNumber">32</span>
+                        </button>
+                    </li>
+                    <li class="facetText">
+                        <button title="Recurso de Ofício">
+                            <span>Recurso de Ofício</span>
+                            <span class="facetNumber">28</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="facetGroup">
+                <button class="facetTitle" title="Órgão Julgador">
+                    <span>Órgão Julgador</span>
+                    <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
+                </button>
+                <ul class="facetList">
+                    <li class="facetText">
+                        <button title="CARF - 1ª Seção">
+                            <span>CARF - 1ª Seção</span>
+                            <span class="facetNumber">18</span>
+                        </button>
+                    </li>
+                    <li class="facetText">
+                        <button title="CARF - 2ª Seção">
+                            <span>CARF - 2ª Seção</span>
+                            <span class="facetNumber">15</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </aside>
 
-        <!-- SIDEBAR RESIZER -->
+        <!-- Sidebar Resizer -->
         <div id="sidebarResizer"></div>
 
-        <!-- MAIN CONTENT -->
-        <section id="mainContent">            
+        <!-- Main Content -->
+        <section id="mainContent">
             <section id="results">
                 <div class="result"></div>
                 <div class="result"></div>
@@ -101,30 +146,26 @@
                 <div class="result"></div>
             </section>
 
-            <!-- FOOTER -->
+            <!-- Footer -->
             <footer id="pageResultsFooter">
-                
                 <div id="pageResultsFooterLeft">
-                    <button id="ajudaBtn">
-                        <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="Ajuda">
-                    </button>
-                    <!-- Seta anterior (MOBILE/TABLET) -->
-                    <button class="pageNavMobile">
-                        <img class="iconColor" src="assets/img/icons/chevron-left-solid-full.svg" alt="Anterior">
+                    <button id="ajudaBtn" class="btn-icon" aria-label="Ajuda">
+                        <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="">
                     </button>
                     
-                    <!-- Contador de resultados -->
+                    <button class="pageNavMobile btn-icon" aria-label="Página anterior">
+                        <img class="iconColor" src="assets/img/icons/chevron-left-solid-full.svg" alt="">
+                    </button>
+                    
                     <div id="resultsCount">
                         <span class="fullText">Mostrando <strong>1-10</strong> de <strong>123</strong> resultados</span>
                         <span class="shortText"><strong>1-10</strong> / <strong>123</strong></span>
                     </div>
 
-                    <!-- Seta próximo (MOBILE/TABLET) -->
-                    <button class="pageNavMobile">
-                        <img class="iconColor" src="assets/img/icons/chevron-right-solid-full.svg" alt="Próximo">
+                    <button class="pageNavMobile btn-icon" aria-label="Próxima página">
+                        <img class="iconColor" src="assets/img/icons/chevron-right-solid-full.svg" alt="">
                     </button>
 
-                    <!-- Navegação (DESKTOP) -->
                     <div id="pagination">
                         <button class="pageNav">Anterior</button>
                         <button class="pageNumber">...</button>
@@ -137,29 +178,27 @@
                         <button class="pageNav">Próximo</button>
                     </div>
                 </div>
+                
                 <div id="pageResultsFooterRight">
-
-                    <!-- Download dropdown (MOBILE) -->
-                    <div id="downloadDropdown">
-                        <button id="downloadDropdownBtn">
-                            <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="Download">
+                    <!-- Download Dropdown (Mobile) -->
+                    <div id="downloadDropdown" class="dropdown">
+                        <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
+                            <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
                         </button>
-                        <ul id="downloadMenu">
-                            <li><button value="xml">XML</button></li>
-                            <li><button value="json">JSON</button></li>
-                            <li><button value="csv">CSV</button></li>
+                        <ul id="downloadMenu" class="dropdown-menu dropdown-menu-top dropdown-menu-right">
+                            <li><button class="dropdown-item" value="xml">XML</button></li>
+                            <li><button class="dropdown-item" value="json">JSON</button></li>
+                            <li><button class="dropdown-item" value="csv">CSV</button></li>
                         </ul>
                     </div>
 
-                    <!-- Download buttons (DESKTOP) -->
+                    <!-- Download Buttons (Desktop) -->
                     <div id="downloadGroup">
-                        <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="Download">
+                        <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
                         <button class="downloadBtn">XML</button>
                         <button class="downloadBtn">JSON</button>
                         <button class="downloadBtn">CSV</button>
                     </div>
-
-                    
                 </div>
             </footer>
         </section>
@@ -168,43 +207,46 @@
     <!-- ============================================
          DIALOGS
          ============================================ -->
+    
+    <!-- Filters Dialog -->
     <dialog id="filtersDialog">
         <header>
             <h2>Filtros</h2>
-            <button id="filtersDialogCloseBtn">
-                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
         <main>
-            <!-- Conteúdo dos filtros vai aqui -->
             <p>Conteúdo dos filtros...</p>
         </main>
         <footer>
-            <button id="infoBtn">
-                <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="Info">
+            <button id="infoBtn" class="btn-icon" aria-label="Informações">
+                <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="">
             </button>
             <button id="filtersDialogCancelBtn">Cancelar</button>
             <button id="filtersDialogApplyBtn">Aplicar</button>
         </footer>
     </dialog>
 
+    <!-- Info Dialog -->
     <dialog id="infoDialog">
         <header>
             <h2>Informações</h2>
-            <button id="infoDialogCloseBtn">
-                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            <button id="infoDialogCloseBtn" class="btn-icon" aria-label="Fechar">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
         <main>
-            <p>Conteúdo de informações...</p>
+            <p>Conteúdo de informações sobre os filtros...</p>
         </main>
     </dialog>
 
+    <!-- Ajuda Dialog -->
     <dialog id="ajudaDialog">
         <header>
             <h2>Ajuda</h2>
-            <button id="ajudaDialogCloseBtn">
-                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            <button id="ajudaDialogCloseBtn" class="btn-icon" aria-label="Fechar">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
         <main>

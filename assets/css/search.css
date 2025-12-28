@@ -1,125 +1,62 @@
+/* ============================================
+   SEARCH - Barra de busca
+   ============================================ */
+
 search {
     flex: 1;
     display: flex;
-    min-width: 0;  /* permite encolher */
+    min-width: 0;
 }
-.searchBtn{
-    background-color:#1351B4;
-    border:1px solid #1351B4;
-    color:#fff;
-}
-.searchBtn:hover{
-    background-color:#00398e;
-}
+
 .searchForm {
     display: flex;
     flex: 1;
-    gap: 4px;
+    gap: var(--spacing-xs);
     justify-content: end;
-    min-width: 0;  /* permite encolher */
+    min-width: 0;
 }
-.searchInputWraper{
+
+.searchInputWraper {
     flex: 1;
     display: flex;
     max-width: 600px;
-    min-width: 0;  /* permite encolher */
+    min-width: 0;
     position: relative;
 }
-.searchIcon{
+
+.searchIcon {
     position: absolute;
     left: 6px;
-    top:6px;
-    width: 20px;
-    height: 20px;
+    top: 6px;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
 }
-.searchInput{
+
+.searchInput {
     flex: 1;
     padding: 0 72px 0 28px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     min-width: 0;
 }
-.searchCloseBtn{
-    position: absolute;
-    top:5px;
-    right: 44px;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 2px;
-    border-radius: 20px;
-    padding: 0;
-}
-.searchCloseBtn img{
-    width: 14px;
-    height: 14px;
-    display: block;
-}
-.searchKBD{
-    position: absolute;
-    top:5px;
-    right: 5px;
-    border:1px solid #ddd;
-    height: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 3px 4px 0 4px;
-    border-radius: 2px;
-    font-size:11px;
-}
-/* Ícone do filtro - escondido por padrão */
-.filterBtn{
-    position:relative;
-    border:1px solid #1351B4;
-    background-color:#EDF5FF;
-}
-.filterBtn:hover{
-    background-color:#D4E5FF;
-}
-.filterBtn img {
-    display: none;
-    width: 16px;
-    height: 16px;
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
 }
 
-.filterBtn .filterBtnIcon {
-    display: none;
-}
-.filterBtnText{
-    display:block;
-    color:#1351B4;
-}
-/* Badge circular - sempre redondo */
-.filtersUsedNumbers {
-    position: absolute;
-    top: -5px;
-    right: -8px;
-    min-width: 14px;
-    height: 17px;
-    padding: 0 0 1px 0;
-    border-radius: 50%;
-    background-color: #1351B4;
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 18px;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Botão Buscar */
+.searchBtn {
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: #fff;
 }
 
-/* Esconde quando vazio ou zero */
-.filtersUsedNumbers:empty,
-.filtersUsedNumbers[data-count="0"] {
-    display: none;
+.searchBtn:hover {
+    background-color: var(--color-primary-dark);
 }
-/* Botão fechar - escondido por padrão */
+
+/* Botão Fechar (X) */
 .searchCloseBtn {
     position: absolute;
     top: 5px;
@@ -129,42 +66,123 @@ search {
     display: none;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
+    border-radius: var(--radius-full);
     padding: 0;
 }
 
-/* Mostra o X só quando tem texto */
+.searchCloseBtn img {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+
 .searchInputWraper.hasValue .searchCloseBtn {
     display: flex;
 }
+
+/* Atalho de teclado */
+.searchKBD {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 1px solid var(--color-border);
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px var(--spacing-xs) 0 var(--spacing-xs);
+    border-radius: 2px;
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   BOTÃO FILTRAR
+   ============================================ */
+
+.filterBtn {
+    position: relative;
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+.filterBtn:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.filterBtn img {
+    display: none;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+}
+
+.filterBtn .filterBtnIcon {
+    display: none;
+}
+
+.filterBtnText {
+    display: block;
+    color: var(--color-primary);
+}
+
+/* Badge de filtros usados */
+.filtersUsedNumbers {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    min-width: 14px;
+    height: 17px;
+    padding: 0 0 1px 0;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: 18px;
+    text-align: center;
+    box-shadow: var(--shadow-badge);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filtersUsedNumbers:empty,
+.filtersUsedNumbers[data-count="0"] {
+    display: none;
+}
+
+/* ============================================
+   MEDIA QUERIES
+   ============================================ */
+
 @media (max-width: 800px) {
     .searchInput {
         padding: 0 28px 0 28px;
     }
 }
+
 @media (max-width: 600px) {
     .searchKBD {
         display: none;
     }
+    
     .searchCloseBtn {
         right: 5px;
     }
+    
     .filterBtn img {
         display: block;
     }
+    
     .filterBtn .filterBtnIcon {
         display: flex;
     }
-    .filterBtnText{
-        display:none;
-    }
-    .searchKBD {
+    
+    .filterBtnText {
         display: none;
     }
+    
     .searchInput {
-        padding: 0 28px 0 28px;  /* ajusta o padding direito */
-    }
-    .searchCloseBtn {
-        right: 5px;  /* reposiciona o botão de fechar */
+        padding: 0 28px 0 28px;
     }
 }
