@@ -76,6 +76,7 @@ body.empty-state #headerSearch {
     font-size: var(--font-size-base);
     color: var(--color-text-light);
     line-height: var(--line-height-relaxed);
+    text-wrap: balance;
 }
 
 /* ============================================

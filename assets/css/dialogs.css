@@ -15,7 +15,9 @@
     width: calc(100% - 32px);
     max-height: calc(100dvh - 64px);
     box-shadow: var(--shadow-lg);
-    overflow-x: hidden;
+    overflow: hidden;
+    /* Fundo igual ao footer para evitar borda branca */
+    background-color: var(--color-primary-light);
 }
 
 #filtersDialog::backdrop,
@@ -28,8 +30,15 @@
 #filtersDialog {
     width: 95vw;
     max-width: 1200px;
-    height: 95dvh;
-    max-height: 800px;
+    /* Altura automática baseada no conteúdo, com limite máximo */
+    /* height: auto; */
+    max-height: calc(100dvh - 64px);
+}
+
+/* Flexbox só quando aberto */
+#filtersDialog[open] {
+    display: flex;
+    flex-direction: column;
 }
 
 #infoDialog,
@@ -47,10 +56,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-lg);
     border-bottom: 1px solid var(--color-primary);
     background-color: var(--color-primary-light);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
+    /* CORREÇÃO: Garantir que o header não encolha */
+    flex-shrink: 0;
+    position: relative;
 }
 
 #filtersDialog header h2,
@@ -98,9 +110,18 @@
     align-items: center;
     background-color: transparent;
     border: none;
-    position: absolute;
-    top: var(--spacing-lg);
-    right: var(--spacing-sm);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Garantir que seja clicável */
+    position: relative;
+    z-index: 10;
+}
+
+#filtersDialogCloseBtn img,
+#infoDialogCloseBtn img,
+#ajudaDialogCloseBtn img {
+    pointer-events: none;
 }
 
 #filtersDialogCloseBtn:hover,
@@ -126,8 +147,9 @@
     padding: var(--spacing-lg);
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: calc(100dvh - 250px);
     background-color: var(--color-bg);
+    /* Permite scroll quando conteúdo excede max-height do dialog */
+    min-height: 0;
 }
 
 /* ==========================================
@@ -143,6 +165,8 @@
     border-top: 1px solid var(--color-primary);
     background-color: var(--color-primary-light);
     border-radius: 0 0 var(--radius-md) var(--radius-md);
+    /* CORREÇÃO: Garantir que o footer não encolha */
+    flex-shrink: 0;
 }
 
 .dialog-footer-right {

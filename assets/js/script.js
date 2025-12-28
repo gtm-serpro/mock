@@ -328,21 +328,42 @@ class DialogComponent {
             });
         }
         
-        // Botão de fechar
+        // Botão de fechar (X)
         if (this.closeBtnId) {
             const closeBtn = $(`#${this.closeBtnId}`);
-            closeBtn?.addEventListener('click', () => this.close());
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.close();
+                });
+            }
         }
         
         // Botão cancelar
         if (this.cancelBtnId) {
             const cancelBtn = $(`#${this.cancelBtnId}`);
-            cancelBtn?.addEventListener('click', () => this.close());
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.close();
+                });
+            }
         }
         
-        // Fechar no backdrop
+        // Fechar ao clicar no backdrop (área fora do dialog)
         this.dialog.addEventListener('click', (e) => {
+            // Verifica se o clique foi diretamente no dialog (backdrop)
+            // e não em algum elemento filho
             if (e.target === this.dialog) {
+                this.close();
+            }
+        });
+        
+        // Fechar com ESC
+        this.dialog.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 this.close();
             }
         });
