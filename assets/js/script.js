@@ -91,7 +91,7 @@ if (sidebarResizer && sidebar) {
         // Calcula nova largura baseada na posição do mouse
         const newWidth = e.clientX;
         
-        // Aplica limites (min: 180px, max: 400px)
+        // Aplica limites (min: 10px, max: 1000px)
         if (newWidth >= 10 && newWidth <= 1000) {
             sidebar.style.width = `${newWidth}px`;
             updateResizerPosition();
@@ -192,55 +192,90 @@ document.addEventListener('click', () => {
 });
 
 // ============================================
-// FILTERS DIALOG (MODAL)
+// DIALOGS - Função genérica
 // ============================================
 
-const filtersDialog = document.getElementById('filtersDialog');
+function setupDialog(dialogId, openBtnId, closeBtnId, cancelBtnId = null) {
+    const dialog = document.getElementById(dialogId);
+    const openBtn = document.getElementById(openBtnId);
+    const closeBtn = document.getElementById(closeBtnId);
+    const cancelBtn = cancelBtnId ? document.getElementById(cancelBtnId) : null;
+
+    if (!dialog) return;
+
+    // Abrir
+    if (openBtn) {
+        openBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dialog.showModal();
+        });
+    }
+
+    // Fechar - botão X
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            dialog.close();
+        });
+    }
+
+    // Fechar - botão Cancelar
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            dialog.close();
+        });
+    }
+
+    // Fechar ao clicar no backdrop
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            dialog.close();
+        }
+    });
+
+    return dialog;
+}
+
+// ============================================
+// FILTERS DIALOG
+// ============================================
+
+const filtersDialog = setupDialog(
+    'filtersDialog',
+    null, // Será aberto pelo filterBtn
+    'filtersDialogCloseBtn',
+    'filtersDialogCancelBtn'
+);
+
+// Abrir pelo botão de filtro (tem classe, não ID)
 const filterBtn = document.querySelector('.filterBtn');
-const filtersDialogCloseBtn = document.getElementById('filtersDialogCloseBtn');
-const filtersDialogCancelBtn = document.getElementById('filtersDialogCancelBtn');
-
-// Função para abrir o modal
-function openFiltersDialog() {
-    if (filtersDialog) {
-        filtersDialog.showModal();
-    }
-}
-
-// Função para fechar o modal
-function closeFiltersDialog() {
-    if (filtersDialog) {
-        filtersDialog.close();
-    }
-}
-
-// Abrir modal ao clicar em Filtrar
-if (filterBtn) {
+if (filterBtn && filtersDialog) {
     filterBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        openFiltersDialog();
+        filtersDialog.showModal();
     });
 }
 
-// Fechar modal - botão X
-if (filtersDialogCloseBtn) {
-    filtersDialogCloseBtn.addEventListener('click', closeFiltersDialog);
-}
+// ============================================
+// INFO DIALOG
+// ============================================
 
-// Fechar modal - botão Cancelar
-if (filtersDialogCancelBtn) {
-    filtersDialogCancelBtn.addEventListener('click', closeFiltersDialog);
-}
+setupDialog(
+    'infoDialog',
+    'infoBtn',
+    'infoDialogCloseBtn'
+);
 
-// Fechar modal ao clicar no backdrop
-if (filtersDialog) {
-    filtersDialog.addEventListener('click', (e) => {
-        if (e.target === filtersDialog) {
-            closeFiltersDialog();
-        }
-    });
-}
+// ============================================
+// AJUDA DIALOG
+// ============================================
+
+setupDialog(
+    'ajudaDialog',
+    'ajudaBtn',
+    'ajudaDialogCloseBtn'
+);
 
 // ============================================
 // ATALHO DE TECLADO - Ctrl+K abre filtros
@@ -249,13 +284,12 @@ if (filtersDialog) {
 document.addEventListener('keydown', (e) => {
     // Ctrl+K (ou Cmd+K no Mac)
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault(); // Evita comportamento padrão do navegador
+        e.preventDefault();
         
-        // Toggle: se está aberto fecha, se está fechado abre
         if (filtersDialog && filtersDialog.open) {
-            closeFiltersDialog();
-        } else {
-            openFiltersDialog();
+            filtersDialog.close();
+        } else if (filtersDialog) {
+            filtersDialog.showModal();
         }
     }
 });

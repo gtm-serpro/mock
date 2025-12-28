@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/css/pageResults.css">
     <link rel="stylesheet" href="assets/css/filtersDialog.css">
     <link rel="stylesheet" href="assets/css/infoDialog.css">
-    <link rel="stylesheet" href="assets/css/saibaMaisDialog.css">
+    <link rel="stylesheet" href="assets/css/ajudaDialog.css">
     <title>eProcesso Buscador</title>
 </head>
 <body>
@@ -105,8 +105,8 @@
             <footer id="pageResultsFooter">
                 
                 <div id="pageResultsFooterLeft">
-                    <button id="accessibilityBtn">
-                        <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="Saiba Mais">
+                    <button id="ajudaBtn">
+                        <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="Ajuda">
                     </button>
                     <!-- Seta anterior (MOBILE/TABLET) -->
                     <button class="pageNavMobile">
@@ -180,8 +180,8 @@
             <p>Conteúdo dos filtros...</p>
         </main>
         <footer>
-            <button id="accessibilityBtn">
-                <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="Saiba Mais">
+            <button id="infoBtn">
+                <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="Info">
             </button>
             <button id="filtersDialogCancelBtn">Cancelar</button>
             <button id="filtersDialogApplyBtn">Aplicar</button>
@@ -189,13 +189,27 @@
     </dialog>
 
     <dialog id="infoDialog">
-        <header></header>
-        <main></main>
+        <header>
+            <h2>Informações</h2>
+            <button id="infoDialogCloseBtn">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            </button>
+        </header>
+        <main>
+            <p>Conteúdo de informações...</p>
+        </main>
     </dialog>
 
     <dialog id="ajudaDialog">
-        <header></header>
-        <main></main>
+        <header>
+            <h2>Ajuda</h2>
+            <button id="ajudaDialogCloseBtn">
+                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="Fechar">
+            </button>
+        </header>
+        <main>
+            <p>Conteúdo de ajuda...</p>
+        </main>
     </dialog>
 
     <script src="assets/js/script.js"></script>

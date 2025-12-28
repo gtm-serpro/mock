@@ -27,3 +27,29 @@ button{
 button:hover{
     background-color: #EDEFF0;
 }
+/* ============================================
+   BOTÕES DE ÍCONE - Ajuda, Info, etc.
+   ============================================ */
+
+#ajudaBtn,
+#infoBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    background-color: transparent;
+    border:1px solid #ddd;
+}
+
+#ajudaBtn:hover,
+#infoBtn:hover {
+    background-color: #EDEFF0;
+}
+
+#ajudaBtn img,
+#infoBtn img {
+    width: 20px;
+    height: 20px;
+}
