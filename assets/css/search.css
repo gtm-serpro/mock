@@ -3,6 +3,14 @@ search {
     display: flex;
     min-width: 0;  /* permite encolher */
 }
+.searchBtn{
+    background-color:#1351B4;
+    border:1px solid #1351B4;
+    color:#fff;
+}
+.searchBtn:hover{
+    background-color:#00398e;
+}
 .searchForm {
     display: flex;
     flex: 1;
@@ -63,6 +71,10 @@ search {
     font-size:11px;
 }
 /* Ícone do filtro - escondido por padrão */
+.filterBtn{
+    position:relative;
+    border:1px solid #1351B4;
+}
 .filterBtn img {
     display: none;
     width: 16px;
@@ -74,6 +86,34 @@ search {
 }
 .filterBtnText{
     display:block;
+    color:#1351B4;
+}
+/* Badge circular - sempre redondo */
+.filtersUsedNumbers {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    min-width: 14px;
+    height: 17px;
+    padding: 0 0 1px 0;
+    border-radius: 50%;
+    background-color: #1351B4;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Esconde quando vazio ou zero */
+.filtersUsedNumbers:empty,
+.filtersUsedNumbers[data-count="0"] {
+    display: none;
 }
 /* Botão fechar - escondido por padrão */
 .searchCloseBtn {

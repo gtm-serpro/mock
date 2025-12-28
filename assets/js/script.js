@@ -69,6 +69,15 @@ const sidebarResizer = document.getElementById('sidebarResizer');
 if (sidebarResizer && sidebar) {
     let isResizing = false;
 
+    // Atualiza posição do resizer baseado na largura do sidebar
+    function updateResizerPosition() {
+        const sidebarWidth = sidebar.offsetWidth;
+        sidebarResizer.style.left = `${sidebarWidth - 4}px`;
+    }
+
+    // Posição inicial
+    updateResizerPosition();
+
     sidebarResizer.addEventListener('mousedown', (e) => {
         isResizing = true;
         sidebarResizer.classList.add('dragging');
@@ -83,8 +92,9 @@ if (sidebarResizer && sidebar) {
         const newWidth = e.clientX;
         
         // Aplica limites (min: 180px, max: 400px)
-        if (newWidth >= 180 && newWidth <= 400) {
+        if (newWidth >= 10 && newWidth <= 1000) {
             sidebar.style.width = `${newWidth}px`;
+            updateResizerPosition();
         }
     });
 
@@ -110,8 +120,9 @@ if (sidebarResizer && sidebar) {
         const touch = e.touches[0];
         const newWidth = touch.clientX;
 
-        if (newWidth >= 180 && newWidth <= 400) {
+        if (newWidth >= 10 && newWidth <= 1000) {
             sidebar.style.width = `${newWidth}px`;
+            updateResizerPosition();
         }
     });
 
@@ -126,7 +137,11 @@ if (sidebarResizer && sidebar) {
     // Double-click para resetar largura padrão
     sidebarResizer.addEventListener('dblclick', () => {
         sidebar.style.width = '250px';
+        updateResizerPosition();
     });
+
+    // Atualiza posição quando a janela redimensiona
+    window.addEventListener('resize', updateResizerPosition);
 }
 
 // ============================================

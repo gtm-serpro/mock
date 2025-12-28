@@ -17,11 +17,12 @@ body{
 button{
     cursor: pointer;
     border:1px solid #ddd;
-    border-radius: 4px;
-    padding: 0 8px;
+    border-radius: 40px;
+    padding: 0 12px;
     height: 32px;
     background-color:#F7F9FA;
     flex-shrink:0;
+    font-weight:500;
 }
 button:hover{
     background-color: #EDEFF0;

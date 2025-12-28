@@ -38,10 +38,11 @@
                     </button>
                     <kbd class="searchKBD">Ctrl+K</kbd>
                 </div>
-                <button type="submit">Buscar</button>
+                <button class="searchBtn" type="submit">Buscar</button>
                 <button type="button" class="filterBtn">
                     <span class="filterBtnIcon"><img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt=""></span>
-                    <span class="filterBtnText">Filtrar</span> 
+                    <span class="filterBtnText">Filtrar</span>
+                    <span class="filtersUsedNumbers">1</span>
                 </button>
             </form>
         </search>
@@ -91,9 +92,7 @@
         <div id="sidebarResizer"></div>
 
         <!-- MAIN CONTENT -->
-        <section id="mainContent">
-            <header id="pageResultsHeader"></header>
-            
+        <section id="mainContent">            
             <section id="results">
                 <div class="result"></div>
                 <div class="result"></div>
@@ -151,6 +150,7 @@
 
                     <!-- Download buttons (DESKTOP) -->
                     <div id="downloadGroup">
+                        <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="Download">
                         <button class="downloadBtn">XML</button>
                         <button class="downloadBtn">JSON</button>
                         <button class="downloadBtn">CSV</button>

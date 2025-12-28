@@ -6,6 +6,7 @@
     display: flex;
     flex: 1;
     overflow: hidden;
+    position: relative;
 }
 
 /* ============================================
@@ -14,8 +15,8 @@
 
 #sidebar {
     width: 250px;
-    min-width: 180px;
-    max-width: 400px;
+    min-width: 10px;
+    max-width: 1000px;
     border-right: 1px solid #ddd;
     background-color: white;
     padding: 8px 12px 12px 12px;
@@ -28,15 +29,34 @@
    ============================================ */
 
 #sidebarResizer {
-    width: 4px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
     cursor: col-resize;
     background-color: transparent;
-    transition: background-color 0.2s;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    /* Posição será controlada via JS */
+    left: 246px; /* 250px (largura inicial) - 4px (metade do resizer) */
 }
 
-#sidebarResizer:hover,
-#sidebarResizer.dragging {
+/* Retângulo arredondado no centro */
+#sidebarResizer::before {
+    content: '';
+    position:absolute;
+    right:2.5px;
+    width: 4.5px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #ddd;
+    transition: background-color 0.2s;
+}
+
+#sidebarResizer:hover::before,
+#sidebarResizer.dragging::before {
     background-color: #1351B4;
 }
 
@@ -60,6 +80,7 @@ body.resizing {
     height: 28px;
     margin: 8px 0 4px 0;
     overflow: hidden;
+    text-align:left;
 }
 
 .facetTitle span {
@@ -90,7 +111,7 @@ body.resizing {
 
 .facetText button:hover {
     background-color: #F7F9FA;
-    border-radius: 4px 20px 20px 4px;
+    /* border-radius: 4px 20px 20px 4px; */
 }
 
 .facetText button span:first-child {
@@ -167,6 +188,32 @@ body.resizing {
 }
 
 /* ============================================
+   USED FILTERS - Lista de filtros usados
+   ============================================ */
+
+#pageResultsHeader {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+    overflow-x:auto;
+}
+.usedFilterCloseBtn{
+    width:16px;
+    margin-right:-4px;
+    display:none;
+}
+.usedFilters{
+    display: flex;
+    align-items:center;
+}
+.usedFilters:hover .usedFilterCloseBtn{
+    display:flex;
+}
+
+/* ============================================
    RESULTS - Lista de resultados
    ============================================ */
 
@@ -228,7 +275,22 @@ body.resizing {
 /* Paginação (desktop) */
 #pagination {
     display: flex;
-    gap: 4px;
+    gap: 0px;
+}
+.pageNumber{
+    aspect-ratio:1;
+    padding:0;
+    background-color:transparent;
+    border:none;
+}
+.pageNumber.active{
+    background-color:#EDF5FF;
+    border:1px solid #1351B4;
+    color:#1351B4;
+    font-weight:500;
+}
+.pageNumber.active:hover{
+    background-color:#D4E5FF;
 }
 
 /* Setas mobile - escondidas por padrão */
@@ -253,6 +315,23 @@ body.resizing {
 #downloadGroup {
     display: flex;
     gap: 4px;
+    border:1px solid #ddd;
+    border-radius:20px;
+    padding:4px;
+    font-size:11px;
+    background-color:#F7F9FA;
+}
+#downloadGroup img{
+    width:20px;
+    padding:1px 0 0 5px;
+}
+.downloadBtn{
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-top:2px;
+    background-color:#fff;
 }
 
 /* Dropdown (escondido em desktop) */
@@ -407,6 +486,9 @@ body.resizing {
     
     .pageNavMobile {
         display: flex;
+    }
+    .usedFilterCloseBtn{
+        display:flex;
     }
 }
 
