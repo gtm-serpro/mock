@@ -33,7 +33,7 @@
     --color-border-dark: #ccc;
     
     /* Fundos */
-    --color-bg: #F7F9FA;
+    --color-bg: lab(96.286% -.852436 -2.46847);
     --color-bg-header-footer: #EDF5FF;
     --color-bg-white: #fff;
     --color-bg-hover: #EDEFF0;
@@ -88,6 +88,8 @@
     --spacing-md: var(--spacing-4);
     --spacing-lg: var(--spacing-5);
     --spacing-xl: var(--spacing-6);
+    --spacing-2xl: var(--spacing-7);
+    --spacing-3xl: var(--spacing-8);
     
     /* ==========================================
        BORDER RADIUS

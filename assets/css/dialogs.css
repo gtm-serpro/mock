@@ -97,7 +97,7 @@
     background-color: var(--color-bg-white);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: 0 var(--spacing-md) 1px var(--spacing-xl);
+    padding: 0 var(--spacing-md) 1px var(--spacing-2xl);
     font-size: var(--font-size-base);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     transition: border-color var(--transition-fast), 
@@ -115,27 +115,35 @@
     left: var(--spacing-sm);
 }
 
-/* Botões de fechar */
+/* ==========================================
+   BOTÕES DE ÍCONE - Padronizados
+   ========================================== */
+
 #filtersDialogCloseBtn,
 #infoDialogCloseBtn,
-#ajudaDialogCloseBtn {
+#ajudaDialogCloseBtn,
+#infoBtn {
     width: var(--btn-height);
     height: var(--btn-height);
     padding: var(--spacing-xs);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent;
-    border: none;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
     cursor: pointer;
     flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast);
 }
 
 #filtersDialogCloseBtn:hover,
 #infoDialogCloseBtn:hover,
-#ajudaDialogCloseBtn:hover {
-    background-color: var(--color-primary-hover);
+#ajudaDialogCloseBtn:hover,
+#infoBtn:hover {
+    background-color: var(--color-bg-hover);
 }
 
 #filtersDialogCloseBtn img,
@@ -144,6 +152,17 @@
     width: var(--icon-size-sm);
     height: var(--icon-size-sm);
     pointer-events: none;
+}
+
+#infoBtn img {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+    pointer-events: none;
+}
+
+/* Botão de info - fica à esquerda */
+#infoBtn {
+    margin-right: auto;
 }
 
 /* ==========================================
@@ -195,6 +214,7 @@
     color: var(--color-primary);
     font-weight: var(--font-weight-medium);
     cursor: pointer;
+    transition: background-color var(--transition-fast);
 }
 
 #filtersDialogClearBtn:hover {
@@ -211,6 +231,8 @@
     color: var(--color-text);
     font-weight: var(--font-weight-medium);
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color var(--transition-fast);
 }
 
 #filtersDialogCancelBtn:hover {
@@ -227,35 +249,14 @@
     color: white;
     font-weight: var(--font-weight-medium);
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast);
 }
 
 #filtersDialogApplyBtn:hover {
     background-color: var(--color-primary-dark);
     border-color: var(--color-primary-dark);
-}
-
-/* Botão de info - fica à esquerda */
-#infoBtn {
-    width: var(--btn-height);
-    height: var(--btn-height);
-    padding: var(--spacing-xs);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    margin-right: auto;
-}
-
-#infoBtn:hover {
-    background-color: var(--color-primary-hover);
-}
-
-#infoBtn img {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
 }
 
 /* ==========================================
@@ -283,13 +284,21 @@
 .filter-section-header img {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
-    opacity: 0.7;
 }
 
 .filter-section-header span {
     border-bottom: 1px solid var(--color-primary);
     padding-bottom: 2px;
     flex: 1;
+}
+/* ==========================================
+   FILTER FLEX
+   ========================================== */
+
+.filter-flex {
+    display: flex;
+    gap: var(--spacing-2xl);
+    min-width: 0;
 }
 
 /* ==========================================
@@ -395,13 +404,16 @@
     height: 16px;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    background-color: var(--color-primary-light);
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary-hover);
+    background-color: var(--color-bg-white);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
 }
 
-/* Input - Estilo moderno */
+/* ==========================================
+   INPUT - Estilo moderno padronizado
+   ========================================== */
+
 .filter-input {
     height: var(--btn-height);
     padding: 0 var(--spacing-sm);
@@ -439,7 +451,10 @@
     box-shadow: 0 0 0 3px rgba(229, 34, 7, 0.15);
 }
 
-/* Date range */
+/* ==========================================
+   DATE RANGE - Campos de data com largura limitada
+   ========================================== */
+
 .filter-date-range {
     display: flex;
     align-items: center;
@@ -455,9 +470,13 @@
 .filter-date-range .filter-input {
     flex: 1;
     min-width: 0;
+    max-width: 180px;
 }
 
-/* Value range */
+/* ==========================================
+   VALUE RANGE
+   ========================================== */
+
 .filter-value-range {
     display: flex;
     align-items: center;

@@ -32,7 +32,10 @@ search {
     height: var(--icon-size-md);
 }
 
-/* Search Input - Estilo moderno */
+/* ==========================================
+   SEARCH INPUT - Estilo moderno padronizado
+   ========================================== */
+
 .searchInput {
     flex: 1;
     height: var(--btn-height);
@@ -63,7 +66,10 @@ search {
     opacity: 0.5;
 }
 
-/* Botão Buscar */
+/* ==========================================
+   BOTÃO BUSCAR (primary)
+   ========================================== */
+
 .searchBtn {
     height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
@@ -82,7 +88,10 @@ search {
     border-color: var(--color-primary-dark);
 }
 
-/* Botão Fechar (X) */
+/* ==========================================
+   BOTÃO FECHAR (X) - Estilo padronizado
+   ========================================== */
+
 .searchCloseBtn {
     position: absolute;
     top: 5px;
@@ -92,10 +101,12 @@ search {
     display: none;
     justify-content: center;
     align-items: center;
-    border-radius: var(--radius-full);
     padding: 0;
-    border: none;
-    background-color: transparent;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color var(--transition-fast);
 }
 
 .searchCloseBtn:hover {
@@ -103,8 +114,8 @@ search {
 }
 
 .searchCloseBtn img {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     display: block;
 }
 
@@ -112,34 +123,37 @@ search {
     display: flex;
 }
 
-/* Atalho de teclado */
+/* ==========================================
+   ATALHO DE TECLADO (KBD)
+   ========================================== */
+
 .searchKBD {
     position: absolute;
     top: 5px;
     right: 5px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg);
     height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 3px var(--spacing-xs) 0 var(--spacing-xs);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
     color: var(--color-text-muted);
 }
 
-/* ============================================
-   BOTÃO FILTRAR
-   ============================================ */
+/* ==========================================
+   BOTÃO FILTRAR (secondary)
+   ========================================== */
 
 .filterBtn {
     position: relative;
     height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
+    background-color: var(--color-primary-light);
     border: 1px solid var(--color-primary);
     border-radius: var(--radius-full);
-    background-color: var(--color-primary-light);
     font-weight: var(--font-weight-medium);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     transition: background-color var(--transition-fast);
@@ -191,9 +205,9 @@ search {
     display: none;
 }
 
-/* ============================================
+/* ==========================================
    MEDIA QUERIES
-   ============================================ */
+   ========================================== */
 
 @media (max-width: 800px) {
     .searchInput {

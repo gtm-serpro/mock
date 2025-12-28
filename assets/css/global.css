@@ -4,7 +4,7 @@
 
 /* Ícones com opacidade reduzida */
 .iconColor {
-    opacity: 0.4;
+    filter: brightness(0) saturate(100%) invert(28%) sepia(38%) saturate(2702%) hue-rotate(194deg) brightness(93%) contrast(98%);
 }
 
 /* Reset de cores e fontes */
