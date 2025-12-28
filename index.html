@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/global.css">
     
-    <!-- CSS Componentes -->
+    <!-- CSS Páginas -->
     <link rel="stylesheet" href="assets/css/mainHeader.css">
+    <link rel="stylesheet" href="assets/css/pageEmpty.css">
     <link rel="stylesheet" href="assets/css/pageResults.css">
     <link rel="stylesheet" href="assets/css/dialogs.css">
     
     <title>eProcesso Buscador</title>
 </head>
-<body>
+<body class="empty-state">
     <!-- ============================================
          HEADER
          ============================================ -->
@@ -32,8 +33,8 @@
             <img id="logoShort" src="assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
         </div>
         
-        <!-- Search -->
-        <search>
+        <!-- Search (Header) - escondido no empty state -->
+        <search id="headerSearch">
             <form class="searchForm" action="">
                 <div class="searchInputWraper">
                     <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
@@ -74,6 +75,47 @@
             </ul>
         </div>
     </header>
+
+    <!-- ============================================
+         EMPTY PAGE
+         ============================================ -->
+    <main id="pageEmpty">
+        <div class="empty-component">
+            <!-- Ícone -->
+            <div class="empty-icon">
+                <img src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+            </div>
+            
+            <!-- Texto -->
+            <div class="empty-text">
+                <h1 class="empty-title">Nenhuma busca realizada</h1>
+                <p class="empty-description">
+                    Use os filtros avançados para realizar uma busca e visualizar os resultados aqui.
+                </p>
+            </div>
+            
+            <!-- Search Bar -->
+            <search class="empty-search">
+                <form class="searchForm" action="">
+                    <div class="searchInputWraper">
+                        <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                        <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                        <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                            <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
+                        </button>
+                        <kbd class="searchKBD">Ctrl+K</kbd>
+                    </div>
+                    <button class="searchBtn" type="submit">Buscar</button>
+                    <button type="button" class="filterBtn">
+                        <span class="filterBtnIcon">
+                            <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
+                        </span>
+                        <span class="filterBtnText">Filtrar</span>
+                    </button>
+                </form>
+            </search>
+        </div>
+    </main>
 
     <!-- Overlay do Sidebar -->
     <div id="sidebarOverlay"></div>
@@ -202,13 +244,6 @@
                 </div>
             </footer>
         </section>
-    </main>
-
-    <!-- ============================================
-         EMPTY PAGE
-         ============================================ -->
-    <main id="pageEmpty">
-
     </main>
 
     <!-- ============================================

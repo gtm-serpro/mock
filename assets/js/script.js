@@ -34,7 +34,7 @@ const CONFIG = {
         
         // Dialogs
         filtersDialog: '#filtersDialog',
-        filterBtn: '.filterBtn',
+        filterBtn: '.filterBtn', // Pode ter múltiplos
         infoDialog: '#infoDialog',
         ajudaDialog: '#ajudaDialog'
     }
@@ -53,50 +53,63 @@ const $$ = (selector) => document.querySelectorAll(selector);
 
 class SearchComponent {
     constructor() {
-        this.input = $(CONFIG.selectors.searchInput);
-        this.wrapper = $(CONFIG.selectors.searchWrapper);
-        this.closeBtn = $(CONFIG.selectors.searchCloseBtn);
+        this.inputs = $$(CONFIG.selectors.searchInput);
+        this.wrappers = $$(CONFIG.selectors.searchWrapper);
+        this.closeBtns = $$(CONFIG.selectors.searchCloseBtn);
         
-        if (this.input && this.wrapper) {
+        if (this.inputs.length > 0) {
             this.init();
         }
     }
     
     init() {
         this.bindEvents();
-        this.updatePlaceholder();
+        this.updatePlaceholders();
     }
     
     bindEvents() {
-        // Toggle classe hasValue
-        this.input.addEventListener('input', () => {
-            this.wrapper.classList.toggle('hasValue', this.input.value.length > 0);
+        // Toggle classe hasValue para cada input
+        this.inputs.forEach((input, index) => {
+            const wrapper = this.wrappers[index];
+            if (input && wrapper) {
+                input.addEventListener('input', () => {
+                    wrapper.classList.toggle('hasValue', input.value.length > 0);
+                });
+            }
         });
         
-        // Botão limpar
-        if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.clear();
-            });
-        }
+        // Botões limpar
+        this.closeBtns.forEach((btn, index) => {
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.clear(index);
+                });
+            }
+        });
         
         // Placeholder responsivo
-        window.addEventListener('resize', () => this.updatePlaceholder());
+        window.addEventListener('resize', () => this.updatePlaceholders());
     }
     
-    clear() {
-        this.input.value = '';
-        this.wrapper.classList.remove('hasValue');
-        this.input.focus();
-    }
-    
-    updatePlaceholder() {
-        if (window.innerWidth <= CONFIG.breakpoints.mobile) {
-            this.input.placeholder = 'Buscar...';
-        } else {
-            this.input.placeholder = 'Digite para buscar...';
+    clear(index) {
+        const input = this.inputs[index];
+        const wrapper = this.wrappers[index];
+        if (input && wrapper) {
+            input.value = '';
+            wrapper.classList.remove('hasValue');
+            input.focus();
         }
+    }
+    
+    updatePlaceholders() {
+        const placeholder = window.innerWidth <= CONFIG.breakpoints.mobile 
+            ? 'Buscar...' 
+            : 'Digite para buscar...';
+        
+        this.inputs.forEach(input => {
+            if (input) input.placeholder = placeholder;
+        });
     }
 }
 
@@ -303,13 +316,15 @@ class DialogComponent {
             });
         }
         
-        // Botão de abrir (por seletor)
+        // Botões de abrir (por seletor - múltiplos)
         if (this.openBtnSelector) {
-            const openBtn = $(this.openBtnSelector);
-            openBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.open();
+            const openBtns = $$(this.openBtnSelector);
+            openBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.open();
+                });
             });
         }
         
@@ -383,7 +398,7 @@ class KeyboardShortcuts {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Search
+    // Search (suporta múltiplos)
     const search = new SearchComponent();
     
     // Sidebar
@@ -401,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Dialogs
     const filtersDialog = new DialogComponent('filtersDialog', {
-        openBtnSelector: CONFIG.selectors.filterBtn,
+        openBtnSelector: CONFIG.selectors.filterBtn, // Agora pega todos os .filterBtn
         closeBtnId: 'filtersDialogCloseBtn',
         cancelBtnId: 'filtersDialogCancelBtn'
     });
