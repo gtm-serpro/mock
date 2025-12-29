@@ -56,6 +56,15 @@ const CONFIG = {
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+// Debounce - atrasa execução até parar de chamar
+const debounce = (fn, delay = 150) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+};
+
 // ============================================
 // SEARCH COMPONENT
 // ============================================
@@ -97,8 +106,8 @@ class SearchComponent {
             }
         });
         
-        // Placeholder responsivo
-        window.addEventListener('resize', () => this.updatePlaceholders());
+        // Placeholder responsivo (com debounce)
+        window.addEventListener('resize', debounce(() => this.updatePlaceholders(), 100));
     }
     
     clear(index) {
@@ -172,8 +181,8 @@ class SidebarComponent {
         // Double-click reset
         this.resizer.addEventListener('dblclick', () => this.resetWidth());
         
-        // Window resize
-        window.addEventListener('resize', () => this.updateResizerPosition());
+        // Window resize (com debounce)
+        window.addEventListener('resize', debounce(() => this.updateResizerPosition(), 100));
     }
     
     toggle() {
@@ -648,6 +657,11 @@ class AutocompleteComponent {
         // Encontrar todos os campos com badge AUTO
         const autoFields = $$('.filter-field');
         
+        // Handler com debounce para filtrar sugestões
+        this.debouncedFilter = debounce((input, list, fieldName) => {
+            this.filterSuggestions(input, list, fieldName);
+        }, 100);
+        
         autoFields.forEach(field => {
             const badge = field.querySelector('.filter-badge');
             if (!badge || badge.textContent.trim() !== 'AUTO') return;
@@ -660,19 +674,31 @@ class AutocompleteComponent {
             const fieldName = input.dataset.field;
             if (!fieldName || !this.mockData[fieldName]) return;
             
+            // Gerar ID único para acessibilidade
+            const listId = `autocomplete-${fieldName}-${Date.now()}`;
+            
             // Adicionar wrapper de autocomplete
             inputGroup.classList.add('filter-autocomplete');
             
             // Criar lista de sugestões
             const list = document.createElement('ul');
             list.className = 'filter-autocomplete-list';
+            list.id = listId;
             list.setAttribute('role', 'listbox');
+            list.setAttribute('aria-label', `Sugestões para ${fieldName}`);
             inputGroup.appendChild(list);
+            
+            // Atributos ARIA no input
+            input.setAttribute('role', 'combobox');
+            input.setAttribute('aria-autocomplete', 'list');
+            input.setAttribute('aria-expanded', 'false');
+            input.setAttribute('aria-controls', listId);
+            input.setAttribute('aria-haspopup', 'listbox');
             
             // Eventos
             input.addEventListener('focus', () => this.showSuggestions(input, list, fieldName));
-            input.addEventListener('input', () => this.filterSuggestions(input, list, fieldName));
-            input.addEventListener('blur', () => this.hideSuggestions(list));
+            input.addEventListener('input', () => this.debouncedFilter(input, list, fieldName));
+            input.addEventListener('blur', () => this.hideSuggestions(input, list));
             input.addEventListener('keydown', (e) => this.handleKeydown(e, input, list));
         });
         
@@ -689,12 +715,16 @@ class AutocompleteComponent {
         this.highlightedIndex = -1;
         this.renderSuggestions(input, list, fieldName, input.value);
         input.closest('.filter-autocomplete').classList.add('open');
+        input.setAttribute('aria-expanded', 'true');
     }
     
-    hideSuggestions(list) {
+    hideSuggestions(input, list) {
         // Delay para permitir clique nos itens
         setTimeout(() => {
-            list.closest('.filter-autocomplete')?.classList.remove('open');
+            const container = list.closest('.filter-autocomplete');
+            container?.classList.remove('open');
+            input?.setAttribute('aria-expanded', 'false');
+            input?.removeAttribute('aria-activedescendant');
             this.activeAutocomplete = null;
             this.highlightedIndex = -1;
         }, 200);
@@ -702,6 +732,7 @@ class AutocompleteComponent {
     
     filterSuggestions(input, list, fieldName) {
         this.highlightedIndex = -1;
+        input.removeAttribute('aria-activedescendant');
         this.renderSuggestions(input, list, fieldName, input.value);
     }
     
@@ -720,6 +751,7 @@ class AutocompleteComponent {
         if (filtered.length === 0) {
             const empty = document.createElement('li');
             empty.className = 'filter-autocomplete-empty';
+            empty.setAttribute('role', 'presentation');
             empty.textContent = 'Nenhum resultado encontrado';
             list.appendChild(empty);
             return;
@@ -728,9 +760,13 @@ class AutocompleteComponent {
         // Renderizar itens
         filtered.forEach((item, index) => {
             const li = document.createElement('li');
+            const itemId = `${list.id}-item-${index}`;
+            li.id = itemId;
             li.className = 'filter-autocomplete-item';
             li.setAttribute('role', 'option');
+            li.setAttribute('aria-selected', 'false');
             li.dataset.value = item;
+            li.dataset.index = index;
             
             // Highlight do texto que corresponde
             if (query) {
@@ -746,7 +782,7 @@ class AutocompleteComponent {
             });
             
             li.addEventListener('mouseenter', () => {
-                this.highlightItem(list, index);
+                this.highlightItem(input, list, index);
             });
             
             list.appendChild(li);
@@ -754,29 +790,40 @@ class AutocompleteComponent {
     }
     
     highlightMatch(text, query) {
+        if (!query) return text;
+        
         const normalizedText = this.normalizeText(text);
         const normalizedQuery = this.normalizeText(query);
-        const index = normalizedText.indexOf(normalizedQuery);
+        const matchIndex = normalizedText.indexOf(normalizedQuery);
         
-        if (index === -1) return text;
+        if (matchIndex === -1) return text;
         
-        // Encontrar posição correspondente no texto original
-        let originalIndex = 0;
-        let normalizedIndex = 0;
+        // Mapear índices do texto normalizado para o original
+        // Isso resolve o bug com caracteres acentuados
+        const charMap = [];
+        let normalizedPos = 0;
         
-        while (normalizedIndex < index && originalIndex < text.length) {
-            if (this.normalizeText(text[originalIndex]) !== '') {
-                normalizedIndex++;
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const normalizedChar = this.normalizeText(char);
+            
+            if (normalizedChar.length > 0) {
+                charMap.push(i);
+                normalizedPos++;
             }
-            originalIndex++;
         }
         
-        const start = originalIndex;
-        const end = start + query.length;
+        // Encontrar posições no texto original
+        const startOriginal = charMap[matchIndex] ?? 0;
+        const endNormalized = matchIndex + normalizedQuery.length;
+        const endOriginal = (charMap[endNormalized] ?? text.length);
         
-        return text.substring(0, start) + 
-               '<mark>' + text.substring(start, end) + '</mark>' + 
-               text.substring(end);
+        // Construir resultado com highlight
+        const before = text.substring(0, startOriginal);
+        const match = text.substring(startOriginal, endOriginal);
+        const after = text.substring(endOriginal);
+        
+        return `${before}<mark>${match}</mark>${after}`;
     }
     
     normalizeText(text) {
@@ -788,16 +835,24 @@ class AutocompleteComponent {
     
     selectItem(input, list, value) {
         input.value = value;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
         list.closest('.filter-autocomplete')?.classList.remove('open');
         
         // Disparar evento input para atualizar operador
         input.dispatchEvent(new Event('input', { bubbles: true }));
     }
     
-    highlightItem(list, index) {
+    highlightItem(input, list, index) {
         const items = list.querySelectorAll('.filter-autocomplete-item');
         items.forEach((item, i) => {
-            item.classList.toggle('highlighted', i === index);
+            const isHighlighted = i === index;
+            item.classList.toggle('highlighted', isHighlighted);
+            item.setAttribute('aria-selected', isHighlighted ? 'true' : 'false');
+            
+            if (isHighlighted && item.id) {
+                input.setAttribute('aria-activedescendant', item.id);
+            }
         });
         this.highlightedIndex = index;
     }
@@ -812,14 +867,14 @@ class AutocompleteComponent {
             case 'ArrowDown':
                 e.preventDefault();
                 this.highlightedIndex = Math.min(this.highlightedIndex + 1, items.length - 1);
-                this.highlightItem(list, this.highlightedIndex);
+                this.highlightItem(input, list, this.highlightedIndex);
                 items[this.highlightedIndex]?.scrollIntoView({ block: 'nearest' });
                 break;
                 
             case 'ArrowUp':
                 e.preventDefault();
                 this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0);
-                this.highlightItem(list, this.highlightedIndex);
+                this.highlightItem(input, list, this.highlightedIndex);
                 items[this.highlightedIndex]?.scrollIntoView({ block: 'nearest' });
                 break;
                 
@@ -832,6 +887,9 @@ class AutocompleteComponent {
                 break;
                 
             case 'Escape':
+                e.preventDefault();
+                input.setAttribute('aria-expanded', 'false');
+                input.removeAttribute('aria-activedescendant');
                 list.closest('.filter-autocomplete')?.classList.remove('open');
                 break;
         }
@@ -840,6 +898,9 @@ class AutocompleteComponent {
     closeAll() {
         $$('.filter-autocomplete.open').forEach(el => {
             el.classList.remove('open');
+            const input = el.querySelector('input');
+            input?.setAttribute('aria-expanded', 'false');
+            input?.removeAttribute('aria-activedescendant');
         });
         this.activeAutocomplete = null;
         this.highlightedIndex = -1;
