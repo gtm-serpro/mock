@@ -20,7 +20,7 @@ body {
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-white);
     overflow: hidden;
 }
 
