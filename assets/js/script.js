@@ -17,9 +17,9 @@ const CONFIG = {
         maxWidth: 1000
     },
     operators: {
-        contains: { label: 'contém', class: 'contains' },
-        'not-contains': { label: 'não contém', class: 'not-contains' },
-        equals: { label: 'igual', class: 'equals' }
+        contains: { label: 'Contém', class: 'contains' },
+        'not-contains': { label: 'Não contém', class: 'not-contains' },
+        equals: { label: 'Igual', class: 'equals' }
     },
     selectors: {
         // Search
@@ -210,6 +210,8 @@ class SidebarComponent {
         this.resizer = $(CONFIG.selectors.sidebarResizer);
         
         this.isResizing = false;
+        this.startX = 0;
+        this.startWidth = 0;
         
         if (this.sidebar) {
             this.init();
@@ -219,7 +221,6 @@ class SidebarComponent {
     init() {
         this.bindToggleEvents();
         this.bindResizerEvents();
-        this.updateResizerPosition();
     }
     
     bindToggleEvents() {
@@ -241,15 +242,12 @@ class SidebarComponent {
         document.addEventListener('mouseup', () => this.stopResize());
         
         // Touch events
-        this.resizer.addEventListener('touchstart', (e) => this.startResize(e));
-        document.addEventListener('touchmove', (e) => this.resizeTouch(e));
+        this.resizer.addEventListener('touchstart', (e) => this.startResize(e), { passive: false });
+        document.addEventListener('touchmove', (e) => this.resizeTouch(e), { passive: false });
         document.addEventListener('touchend', () => this.stopResize());
         
         // Double-click reset
         this.resizer.addEventListener('dblclick', () => this.resetWidth());
-        
-        // Window resize (com debounce)
-        window.addEventListener('resize', debounce(() => this.updateResizerPosition(), 100));
     }
     
     toggle() {
@@ -263,28 +261,39 @@ class SidebarComponent {
     }
     
     startResize(e) {
+        e.preventDefault();
         this.isResizing = true;
+        this.startX = e.clientX || e.touches?.[0]?.clientX || 0;
+        this.startWidth = this.sidebar.offsetWidth;
         this.resizer.classList.add('dragging');
         document.body.classList.add('resizing');
-        e.preventDefault();
     }
     
     resize(e) {
         if (!this.isResizing) return;
-        this.setWidth(e.clientX);
+        
+        const currentX = e.clientX;
+        const diff = currentX - this.startX;
+        const newWidth = this.startWidth + diff;
+        
+        this.setWidth(newWidth);
     }
     
     resizeTouch(e) {
         if (!this.isResizing) return;
-        this.setWidth(e.touches[0].clientX);
+        e.preventDefault();
+        
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - this.startX;
+        const newWidth = this.startWidth + diff;
+        
+        this.setWidth(newWidth);
     }
     
     setWidth(width) {
         const { minWidth, maxWidth } = CONFIG.sidebar;
-        if (width >= minWidth && width <= maxWidth) {
-            this.sidebar.style.width = `${width}px`;
-            this.updateResizerPosition();
-        }
+        const clampedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+        this.sidebar.style.width = `${clampedWidth}px`;
     }
     
     stopResize() {
@@ -297,14 +306,6 @@ class SidebarComponent {
     
     resetWidth() {
         this.sidebar.style.width = `${CONFIG.sidebar.defaultWidth}px`;
-        this.updateResizerPosition();
-    }
-    
-    updateResizerPosition() {
-        if (this.resizer) {
-            const sidebarWidth = this.sidebar.offsetWidth;
-            this.resizer.style.left = `${sidebarWidth - 4}px`;
-        }
     }
 }
 
@@ -374,6 +375,89 @@ class DropdownComponent {
 }
 
 // ============================================
+// FILTER COUNTER COMPONENT
+// ============================================
+
+class FilterCounterComponent {
+    constructor(dialogSelector) {
+        this.dialog = $(dialogSelector);
+        this.badges = $$('.filtersUsedNumbers');
+        this.filterCount = 0;
+        
+        if (this.dialog) {
+            this.init();
+        }
+    }
+    
+    init() {
+        // Atualizar contador quando inputs mudam
+        this.dialog.querySelectorAll('.filter-input').forEach(input => {
+            input.addEventListener('input', () => this.updateCount());
+            input.addEventListener('change', () => this.updateCount());
+        });
+        
+        // Atualizar ao abrir o dialog
+        this.dialog.addEventListener('close', () => this.updateCount());
+        
+        // Inicializar
+        this.updateCount();
+    }
+    
+    updateCount() {
+        let count = 0;
+        
+        // Contar inputs de texto com valor
+        this.dialog.querySelectorAll('.filter-input-group .filter-input').forEach(input => {
+            if (input.value.trim()) {
+                count++;
+            }
+        });
+        
+        // Contar datas preenchidas (cada par conta como 1 filtro se ao menos uma data preenchida)
+        this.dialog.querySelectorAll('.filter-date-range').forEach(range => {
+            const inputs = range.querySelectorAll('input[type="date"]');
+            const hasValue = Array.from(inputs).some(input => input.value);
+            if (hasValue) {
+                count++;
+            }
+        });
+        
+        // Contar ranges de valor (conta como 1 se ao menos um valor preenchido)
+        this.dialog.querySelectorAll('.filter-value-range').forEach(range => {
+            const inputs = range.querySelectorAll('.filter-input');
+            const hasValue = Array.from(inputs).some(input => input.value.trim());
+            if (hasValue) {
+                count++;
+            }
+        });
+        
+        this.filterCount = count;
+        this.updateBadges();
+    }
+    
+    updateBadges() {
+        this.badges.forEach(badge => {
+            if (this.filterCount > 0) {
+                badge.textContent = this.filterCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.textContent = '';
+                badge.style.display = 'none';
+            }
+        });
+    }
+    
+    getCount() {
+        return this.filterCount;
+    }
+    
+    reset() {
+        this.filterCount = 0;
+        this.updateBadges();
+    }
+}
+
+// ============================================
 // DIALOG COMPONENT
 // ============================================
 
@@ -385,6 +469,7 @@ class DialogComponent {
         this.closeBtnId = options.closeBtnId;
         this.cancelBtnId = options.cancelBtnId;
         this.clearBtnId = options.clearBtnId;
+        this.filterCounter = options.filterCounter;
         
         if (this.dialog) {
             this.init();
@@ -487,6 +572,11 @@ class DialogComponent {
             input.value = '';
         });
         
+        // Limpar inputs de data
+        this.dialog.querySelectorAll('input[type="date"]').forEach(input => {
+            input.value = '';
+        });
+        
         // Limpar input de busca do header do dialog
         this.dialog.querySelectorAll('.searchInput').forEach(input => {
             input.value = '';
@@ -497,7 +587,7 @@ class DialogComponent {
             const opBtn = group.querySelector('.filter-operator');
             if (opBtn) {
                 opBtn.dataset.operator = 'contains';
-                opBtn.textContent = 'contém';
+                opBtn.textContent = 'Contém';
                 opBtn.classList.remove('not-contains', 'equals');
                 opBtn.classList.add('contains');
             }
@@ -509,6 +599,11 @@ class DialogComponent {
         this.dialog.querySelectorAll('.filter-autocomplete.open').forEach(ac => {
             ac.classList.remove('open');
         });
+        
+        // Atualizar contador de filtros
+        if (this.filterCounter) {
+            this.filterCounter.updateCount();
+        }
     }
 }
 
@@ -521,9 +616,9 @@ class FilterOperatorComponent {
         this.groups = $$(CONFIG.selectors.filterInputGroup);
         this.operators = ['contains', 'not-contains', 'equals'];
         this.labels = {
-            'contains': 'contém',
-            'not-contains': 'não contém',
-            'equals': 'igual'
+            'contains': 'Contém',
+            'not-contains': 'Não contém',
+            'equals': 'Igual'
         };
         
         if (this.groups.length > 0) {
@@ -1590,12 +1685,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fechar dropdowns ao clicar fora
     document.addEventListener('click', () => DropdownComponent.closeAll());
     
+    // Filter Counter - deve ser criado antes do dialog
+    const filterCounter = new FilterCounterComponent('#filtersDialog');
+    
     // Dialogs
     const filtersDialog = new DialogComponent('filtersDialog', {
         openBtnSelector: CONFIG.selectors.filterBtn,
         closeBtnId: 'filtersDialogCloseBtn',
         cancelBtnId: 'filtersDialogCancelBtn',
-        clearBtnId: 'filtersDialogClearBtn'
+        clearBtnId: 'filtersDialogClearBtn',
+        filterCounter: filterCounter
     });
     
     const infoDialog = new DialogComponent('infoDialog', {
@@ -1608,7 +1707,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeBtnId: 'ajudaDialogCloseBtn'
     });
     
-    // Filter Operators (toggle contém/não contém/igual)
+    // Filter Operators (toggle contém/Não contém/Igual)
     const filterOperators = new FilterOperatorComponent();
     
     // Autocomplete para campos com badge AUTO
@@ -1632,6 +1731,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Mostrar página de resultados
         pageController.showResults();
+        
+        // Atualizar contador de filtros
+        filterCounter.updateCount();
         
         // Fechar dialog de filtros se estiver aberto
         filtersDialog.close();

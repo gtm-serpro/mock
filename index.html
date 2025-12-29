@@ -22,9 +22,7 @@
     <title>eProcesso Buscador</title>
 </head>
 <body class="empty-state">
-    <!-- ============================================
-         HEADER
-         ============================================ -->
+    <!-- HEADER -->
     <header id="mainHeader">
         <div id="mainHeaderLeft">
             <button id="sidebarBtn" class="btn-icon" aria-label="Abrir menu">
@@ -34,7 +32,6 @@
             <img id="logoShort" src="assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
         </div>
         
-        <!-- Search (Header) - escondido no empty state -->
         <search id="headerSearch">
             <form class="searchForm" action="">
                 <div class="searchInputWraper">
@@ -51,19 +48,17 @@
                         <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
                     </span>
                     <span class="filterBtnText">Filtrar</span>
-                    <span class="filtersUsedNumbers">1</span>
+                    <span class="filtersUsedNumbers"></span>
                 </button>
             </form>
         </search>
         
-        <!-- Logos Parceiros -->
         <div id="logosParceiros">
             <img src="assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
             <img src="assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
             <img src="assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
         </div>
         
-        <!-- Accessibility Dropdown -->
         <div id="accessibilityDropdown" class="dropdown">
             <button id="accessibilityBtn" class="btn-icon" aria-label="Acessibilidade">
                 <img class="iconColor" src="assets/img/icons/universal-access-solid-full.svg" alt="">
@@ -77,25 +72,16 @@
         </div>
     </header>
 
-    <!-- ============================================
-         EMPTY PAGE
-         ============================================ -->
+    <!-- EMPTY PAGE -->
     <main id="pageEmpty">
         <div class="empty-component">
-            <!-- Ícone -->
             <div class="empty-icon">
                 <img src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
             </div>
-            
-            <!-- Texto -->
             <div class="empty-text">
                 <h1 class="empty-title">Busque processos administrativos</h1>
-                <p class="empty-description">
-                    Digite um termo para pesquisar processos da Receita Federal, PGFN e CARF.
-                </p>
+                <p class="empty-description">Digite um termo para pesquisar processos da Receita Federal, PGFN e CARF.</p>
             </div>
-            
-            <!-- Search Bar -->
             <search class="empty-search">
                 <form class="searchForm" action="">
                     <div class="searchInputWraper">
@@ -112,20 +98,17 @@
                             <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
                         </span>
                         <span class="filterBtnText">Filtrar</span>
+                        <span class="filtersUsedNumbers"></span>
                     </button>
                 </form>
             </search>
         </div>
     </main>
 
-    <!-- Overlay do Sidebar -->
     <div id="sidebarOverlay"></div>
 
-    <!-- ============================================
-         PAGE RESULTS
-         ============================================ -->
+    <!-- PAGE RESULTS -->
     <main id="pageResults">
-        <!-- Sidebar -->
         <aside id="sidebar">
             <div class="facetGroup open">
                 <button class="facetTitle" title="Tipo de Processo">
@@ -133,78 +116,42 @@
                     <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
                 </button>
                 <ul class="facetList">
-                    <li class="facetText">
-                        <button title="Processo Administrativo">
-                            <span>Processo Administrativo</span>
-                            <span class="facetNumber">45</span>
-                        </button>
-                    </li>
-                    <li class="facetText">
-                        <button title="Recurso Voluntário">
-                            <span>Recurso Voluntário</span>
-                            <span class="facetNumber">32</span>
-                        </button>
-                    </li>
-                    <li class="facetText">
-                        <button title="Recurso de Ofício">
-                            <span>Recurso de Ofício</span>
-                            <span class="facetNumber">28</span>
-                        </button>
-                    </li>
+                    <li class="facetText"><button title="Processo Administrativo"><span>Processo Administrativo</span><span class="facetNumber">45</span></button></li>
+                    <li class="facetText"><button title="Recurso Voluntário"><span>Recurso Voluntário</span><span class="facetNumber">32</span></button></li>
+                    <li class="facetText"><button title="Recurso de Ofício"><span>Recurso de Ofício</span><span class="facetNumber">28</span></button></li>
                 </ul>
             </div>
-            
             <div class="facetGroup">
                 <button class="facetTitle" title="Órgão Julgador">
                     <span>Órgão Julgador</span>
                     <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
                 </button>
                 <ul class="facetList">
-                    <li class="facetText">
-                        <button title="CARF - 1ª Seção">
-                            <span>CARF - 1ª Seção</span>
-                            <span class="facetNumber">18</span>
-                        </button>
-                    </li>
-                    <li class="facetText">
-                        <button title="CARF - 2ª Seção">
-                            <span>CARF - 2ª Seção</span>
-                            <span class="facetNumber">15</span>
-                        </button>
-                    </li>
+                    <li class="facetText"><button title="CARF - 1ª Seção"><span>CARF - 1ª Seção</span><span class="facetNumber">18</span></button></li>
+                    <li class="facetText"><button title="CARF - 2ª Seção"><span>CARF - 2ª Seção</span><span class="facetNumber">15</span></button></li>
                 </ul>
             </div>
+            <!-- Resizer DENTRO do sidebar -->
+            <div id="sidebarResizer"></div>
         </aside>
 
-        <!-- Sidebar Resizer -->
-        <div id="sidebarResizer"></div>
-
-        <!-- Main Content -->
         <section id="mainContent">
-            <section id="results">
-                <!-- Cards de resultado serão renderizados via JavaScript -->
-            </section>
-
-            <!-- Footer -->
+            <section id="results"></section>
             <footer id="pageResultsFooter">
                 <div id="pageResultsFooterLeft">
                     <button id="ajudaBtn" class="btn-icon" aria-label="Ajuda">
                         <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="">
                     </button>
-                    
                     <button class="pageNavMobile btn-icon" aria-label="Página anterior">
                         <img class="iconColor" src="assets/img/icons/chevron-left-solid-full.svg" alt="">
                     </button>
-                    
                     <div id="resultsCount">
                         <span class="fullText">Mostrando <strong>1-10</strong> de <strong>123</strong> resultados</span>
                         <span class="shortText"><strong>1-10</strong> / <strong>123</strong></span>
                     </div>
-
                     <button class="pageNavMobile btn-icon" aria-label="Próxima página">
                         <img class="iconColor" src="assets/img/icons/chevron-right-solid-full.svg" alt="">
                     </button>
-
                     <div id="pagination">
                         <button class="pageNav">Anterior</button>
                         <button class="pageNumber">...</button>
@@ -217,9 +164,7 @@
                         <button class="pageNav">Próximo</button>
                     </div>
                 </div>
-                
                 <div id="pageResultsFooterRight">
-                    <!-- Download Dropdown (Mobile) -->
                     <div id="downloadDropdown" class="dropdown">
                         <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
                             <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
@@ -230,8 +175,6 @@
                             <li><button class="dropdown-item" value="csv">CSV</button></li>
                         </ul>
                     </div>
-
-                    <!-- Download Buttons (Desktop) -->
                     <div id="downloadGroup">
                         <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
                         <button class="downloadBtn">XML</button>
@@ -243,34 +186,28 @@
         </section>
     </main>
 
-    <!-- ============================================
-         DIALOGS
-         ============================================ -->
-    
-    <!-- Filters Dialog -->
+    <!-- DIALOGS -->
     <dialog id="filtersDialog">
         <header>
             <div class="dialog-header-content">
                 <img class="dialog-header-logo" src="assets/img/favicon/logo-simbolo_e-Processo.svg" alt="">
                 <div class="dialog-header-search searchInputWraper">
                     <form class="searchForm" action="">
-                    <div class="searchInputWraper">
-                        <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
-                        <input class="searchInput" type="text" placeholder="Digite para buscar...">
-                        <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
-                            <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
-                        </button>
-                    </div>
-                </form>
+                        <div class="searchInputWraper">
+                            <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                            <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                            <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar">
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
-        
         <main>
-            <!-- Filtros de Data -->
             <section class="filter-section">
                 <div class="filter-section-header">
                     <img class="iconColor" src="assets/img/icons/calendar-solid-full.svg" alt="">
@@ -278,31 +215,19 @@
                 </div>
                 <div class="filter-flex">
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Data do Protocolo do Processo</span>
-                        </label>
+                        <label class="filter-label"><span class="filter-label-text">Data do Protocolo do Processo</span></label>
                         <div class="filter-date-range">
-                            <span>De</span>
-                            <input type="date" class="filter-input">
-                            <span>Até</span>
-                            <input type="date" class="filter-input">
+                            <span>De</span><input type="date" class="filter-input"><span>Até</span><input type="date" class="filter-input">
                         </div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Data da Juntada</span>
-                        </label>
+                        <label class="filter-label"><span class="filter-label-text">Data da Juntada</span></label>
                         <div class="filter-date-range">
-                            <span>De</span>
-                            <input type="date" class="filter-input">
-                            <span>Até</span>
-                            <input type="date" class="filter-input">
+                            <span>De</span><input type="date" class="filter-input"><span>Até</span><input type="date" class="filter-input">
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Processo e Documento -->
             <section class="filter-section">
                 <div class="filter-section-header">
                     <img class="iconColor" src="assets/img/icons/file-solid-full.svg" alt="">
@@ -310,115 +235,51 @@
                 </div>
                 <div class="filter-grid filter-grid-6">
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Grupo Processo</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="grupo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Grupo Processo</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="grupo_processo"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Tipo Processo</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Tipo Processo</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_processo"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Subtipo Processo</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="subtipo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Subtipo Processo</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="subtipo_processo"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Nr Processo</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="nr_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Nr Processo</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="nr_processo"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Situação do Documento</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="situacao_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Situação do Documento</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="situacao_documento"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Assuntos/Objetos</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="assuntos_objetos">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Assuntos/Objetos</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="assuntos_objetos"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Tipo do Documento</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Tipo do Documento</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_documento"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Título Documento</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="titulo_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Título Documento</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="titulo_documento"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Nr Doc Principal</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="nr_doc_principal">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Nr Doc Principal</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="nr_doc_principal"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Tributo ACT</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="tributo_act">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Tributo ACT</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="tributo_act"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field filter-col-span-2">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Valor do Processo</span>
-                        </label>
-                        <div class="filter-value-range">
-                            <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric">
-                            <span>até</span>
-                            <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric">
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Valor do Processo</span></label>
+                        <div class="filter-value-range"><input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric"><span>até</span><input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric"></div>
                     </div>
                 </div>
             </section>
-
-            <!-- Unidade e Equipe -->
             <section class="filter-section">
                 <div class="filter-section-header">
                     <img class="iconColor" src="assets/img/icons/building-user-solid-full.svg" alt="">
@@ -426,49 +287,23 @@
                 </div>
                 <div class="filter-grid filter-grid-4">
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Unidade de Origem do Documento</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_origem">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Unidade de Origem do Documento</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_origem"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Equipe de Origem do Documento</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_origem">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Equipe de Origem do Documento</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_origem"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Unidade Atual</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_atual">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Unidade Atual</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_atual"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Equipe Atual</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_atual">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Equipe Atual</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_atual"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                 </div>
             </section>
-
-            <!-- Partes Envolvidas -->
             <section class="filter-section">
                 <div class="filter-section-header">
                     <img class="iconColor" src="assets/img/icons/user-group-solid-full.svg" alt="">
@@ -476,54 +311,27 @@
                 </div>
                 <div class="filter-grid filter-grid-5">
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">NI Contribuinte</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="ni_contribuinte">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">NI Contribuinte</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="ni_contribuinte"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Nome do Contribuinte</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_contribuinte">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Nome do Contribuinte</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="nome_contribuinte"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">CPF Responsável</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="cpf_responsavel">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">CPF Responsável</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="cpf_responsavel"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Nome Usuário Juntada</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_usuario_juntada">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Nome Usuário Juntada</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="nome_usuario_juntada"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Nome Relator DRJ</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_relator_drj">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Nome Relator DRJ</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="nome_relator_drj"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                 </div>
             </section>
-
-            <!-- Julgamento -->
             <section class="filter-section">
                 <div class="filter-section-header">
                     <img class="iconColor" src="assets/img/icons/scale-balanced-solid-full.svg" alt="">
@@ -531,37 +339,20 @@
                 </div>
                 <div class="filter-grid filter-grid-3">
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Alegações no Recurso</span>
-                            <span class="filter-badge">AUTO</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="alegacoes_recurso">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Alegações no Recurso</span><span class="filter-badge">AUTO</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="alegacoes_recurso"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Result Julgamento DRJ nível 1</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel1">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 1</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel1"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                     <div class="filter-field">
-                        <label class="filter-label">
-                            <span class="filter-label-text">Result Julgamento DRJ nível 2</span>
-                        </label>
-                        <div class="filter-input-group">
-                            <input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel2">
-                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
-                        </div>
+                        <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 2</span></label>
+                        <div class="filter-input-group"><input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel2"><button type="button" class="filter-operator contains" data-operator="contains">Contém</button></div>
                     </div>
                 </div>
             </section>
         </main>
-        
         <footer>
             <button id="infoBtn" class="btn-icon" aria-label="Informações">
                 <img class="iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt="">
@@ -574,7 +365,6 @@
         </footer>
     </dialog>
 
-    <!-- Info Dialog -->
     <dialog id="infoDialog">
         <header>
             <h2>Informações</h2>
@@ -582,12 +372,9 @@
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
-        <main>
-            <p>Conteúdo de informações sobre os filtros...</p>
-        </main>
+        <main><p>Conteúdo de informações sobre os filtros...</p></main>
     </dialog>
 
-    <!-- Ajuda Dialog -->
     <dialog id="ajudaDialog">
         <header>
             <h2>Ajuda</h2>
@@ -595,9 +382,7 @@
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
-        <main>
-            <p>Conteúdo de ajuda...</p>
-        </main>
+        <main><p>Conteúdo de ajuda...</p></main>
     </dialog>
 
     <script src="assets/js/script.js"></script>
