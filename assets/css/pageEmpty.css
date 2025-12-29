@@ -10,7 +10,7 @@
     justify-content: center;
     padding: var(--spacing-xl);
     padding-bottom: calc(var(--spacing-xl) + 60px); /* Compensa visualmente */
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-white);
 }
 
 
@@ -46,7 +46,7 @@ body.empty-state #headerSearch {
     padding: var(--spacing-8);
     border: 2px dashed var(--color-border);
     border-radius: var(--radius-lg);
-    background-color: var(--color-bg-white);
+    background-color: var(--color-bg);
 }
 
 /* Ícone */

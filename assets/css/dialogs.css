@@ -56,7 +56,7 @@
     gap: var(--spacing-md);
     padding: var(--spacing-sm) var(--spacing-lg);
     border-bottom: 1px solid var(--color-primary);
-    background-color: var(--color-bg-header-footer);
+    background-color: var(--color-primary-light);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     flex-shrink: 0;
 }
@@ -67,6 +67,13 @@
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     margin: 0;
+}
+#filtersDialog .searchInputWraper{
+    max-width:100%;
+}
+#filtersDialog .searchCloseBtn{
+    right:5px;
+    top:9px;
 }
 
 /* Header com logo e search */
@@ -97,7 +104,7 @@
     background-color: var(--color-bg-white);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: 0 var(--spacing-md) 1px var(--spacing-2xl);
+    padding: 0 var(--spacing-2xl) 1px var(--spacing-2xl);
     font-size: var(--font-size-base);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     transition: border-color var(--transition-fast), 
@@ -138,12 +145,19 @@
     transition: background-color var(--transition-fast),
                 border-color var(--transition-fast);
 }
+#filtersDialogCloseBtn,
+#infoDialogCloseBtn,
+#ajudaDialogCloseBtn{
+    background-color:transparent;
+    border:none;
+    box-shadow:none;
+}
 
 #filtersDialogCloseBtn:hover,
 #infoDialogCloseBtn:hover,
 #ajudaDialogCloseBtn:hover,
 #infoBtn:hover {
-    background-color: var(--color-bg-hover);
+    background-color: var(--color-primary-hover);
 }
 
 #filtersDialogCloseBtn img,
@@ -190,7 +204,7 @@
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-lg);
     border-top: 1px solid var(--color-primary);
-    background-color: var(--color-bg-header-footer);
+    background-color: var(--color-primary-light);
     border-radius: 0 0 var(--radius-md) var(--radius-md);
     flex-shrink: 0;
 }
@@ -231,7 +245,7 @@
 #filtersDialogCancelBtn {
     height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
-    background-color: var(--color-primary-light);
+    background-color: var(--color-bg-white);
     border: 1px solid var(--color-primary);
     border-radius: var(--radius-full);
     color: var(--color-primary);

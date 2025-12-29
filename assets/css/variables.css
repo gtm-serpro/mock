@@ -34,7 +34,7 @@
     
     /* Fundos */
     --color-bg: lab(96.286% -.852436 -2.46847);
-    --color-bg-header-footer: #EDF5FF;
+    --color-bg-card-header: #F7F9FA;
     --color-bg-white: #fff;
     --color-bg-hover: #EDEFF0;
     --color-bg-dark: #071D41;
