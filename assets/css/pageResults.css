@@ -17,7 +17,7 @@
     width: var(--sidebar-width);
     min-width: 10px;
     max-width: 1000px;
-    border-right: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-border);
     background-color: var(--color-bg-white);
     padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md) var(--spacing-md);
     overflow-y: auto;
@@ -45,6 +45,7 @@
 #sidebarResizer::before {
     content: '';
     position: absolute;
+    top:50px;
     right: 2.5px;
     width: 4.5px;
     height: 40px;
