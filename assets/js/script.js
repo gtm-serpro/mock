@@ -17,9 +17,9 @@ const CONFIG = {
         maxWidth: 1000
     },
     operators: {
-        contains: { label: 'Contém', class: 'contains' },
-        'not-contains': { label: 'Não contém', class: 'not-contains' },
-        equals: { label: 'Igual', class: 'equals' }
+        contains: { label: 'contém', class: 'contains' },
+        'not-contains': { label: 'não contém', class: 'not-contains' },
+        equals: { label: 'igual', class: 'equals' }
     },
     selectors: {
         // Search
@@ -421,12 +421,17 @@ class DialogComponent {
             const opBtn = group.querySelector('.filter-operator');
             if (opBtn) {
                 opBtn.dataset.operator = 'contains';
-                opBtn.textContent = 'Contém';
+                opBtn.textContent = 'contém';
                 opBtn.classList.remove('not-contains', 'equals');
                 opBtn.classList.add('contains');
             }
-            // Esconder operador e remover classes
-            group.classList.remove('has-operator', 'operator-not-contains');
+            // Esconder operador e remover todas as classes de padding
+            group.classList.remove('has-operator', 'operator-contains', 'operator-not-contains', 'operator-equals');
+        });
+        
+        // Fechar autocompletes abertos
+        this.dialog.querySelectorAll('.filter-autocomplete.open').forEach(ac => {
+            ac.classList.remove('open');
         });
     }
 }
@@ -440,9 +445,9 @@ class FilterOperatorComponent {
         this.groups = $$(CONFIG.selectors.filterInputGroup);
         this.operators = ['contains', 'not-contains', 'equals'];
         this.labels = {
-            'contains': 'Contém',
-            'not-contains': 'Não contém',
-            'equals': 'Igual'
+            'contains': 'contém',
+            'not-contains': 'não contém',
+            'equals': 'igual'
         };
         
         if (this.groups.length > 0) {
@@ -494,14 +499,17 @@ class FilterOperatorComponent {
     showOperator(group, opBtn) {
         group.classList.add('has-operator');
         const currentOp = opBtn.dataset.operator || 'contains';
-        if (currentOp === 'not-contains') {
-            group.classList.add('operator-not-contains');
-        }
+        this.updateOperatorClass(group, currentOp);
     }
     
     hideOperator(group, opBtn) {
         group.classList.remove('has-operator');
-        group.classList.remove('operator-not-contains');
+        group.classList.remove('operator-contains', 'operator-not-contains', 'operator-equals');
+    }
+    
+    updateOperatorClass(group, operator) {
+        group.classList.remove('operator-contains', 'operator-not-contains', 'operator-equals');
+        group.classList.add(`operator-${operator}`);
     }
     
     cycleOperator(group, opBtn) {
@@ -518,12 +526,323 @@ class FilterOperatorComponent {
         opBtn.classList.remove('contains', 'not-contains', 'equals');
         opBtn.classList.add(next);
         
-        // Atualizar classe do grupo para padding maior
-        if (next === 'not-contains') {
-            group.classList.add('operator-not-contains');
-        } else {
-            group.classList.remove('operator-not-contains');
+        // Atualizar classe do grupo para padding dinâmico
+        this.updateOperatorClass(group, next);
+    }
+}
+
+// ============================================
+// AUTOCOMPLETE COMPONENT
+// ============================================
+
+class AutocompleteComponent {
+    constructor() {
+        // Dados emulados por campo
+        this.mockData = {
+            'grupo_processo': [
+                'Processo Administrativo Fiscal',
+                'Processo de Restituição',
+                'Processo de Compensação',
+                'Processo de Ressarcimento',
+                'Processo de Revisão',
+                'Processo de Consulta'
+            ],
+            'tipo_processo': [
+                'Recurso Voluntário',
+                'Recurso de Ofício',
+                'Recurso Especial',
+                'Embargos de Declaração',
+                'Manifestação de Inconformidade',
+                'Impugnação'
+            ],
+            'subtipo_processo': [
+                'IRPJ - Lucro Real',
+                'IRPJ - Lucro Presumido',
+                'CSLL',
+                'PIS/COFINS',
+                'IPI',
+                'Contribuições Previdenciárias'
+            ],
+            'situacao_documento': [
+                'Em Análise',
+                'Julgado',
+                'Pendente de Diligência',
+                'Aguardando Distribuição',
+                'Em Pauta',
+                'Arquivado'
+            ],
+            'tipo_documento': [
+                'Acórdão',
+                'Decisão',
+                'Despacho',
+                'Auto de Infração',
+                'Intimação',
+                'Petição',
+                'Recurso',
+                'Parecer'
+            ],
+            'tributo_act': [
+                'IRPJ',
+                'CSLL',
+                'PIS',
+                'COFINS',
+                'IPI',
+                'IRRF',
+                'IOF',
+                'Contribuição Previdenciária'
+            ],
+            'unidade_origem': [
+                'DRF São Paulo',
+                'DRF Rio de Janeiro',
+                'DRF Belo Horizonte',
+                'DRF Brasília',
+                'DRF Curitiba',
+                'DRF Porto Alegre',
+                'DRF Salvador',
+                'DRF Recife'
+            ],
+            'equipe_origem': [
+                'EQMAF01',
+                'EQMAF02',
+                'EQCAC01',
+                'EQCAC02',
+                'EQFIS01',
+                'EQFIS02',
+                'EQREV01'
+            ],
+            'unidade_atual': [
+                'CARF - 1ª Seção',
+                'CARF - 2ª Seção',
+                'CARF - 3ª Seção',
+                'DRJ São Paulo',
+                'DRJ Brasília',
+                'DRJ Rio de Janeiro',
+                'CSRF'
+            ],
+            'equipe_atual': [
+                '1ª Turma Ordinária',
+                '2ª Turma Ordinária',
+                '3ª Turma Ordinária',
+                '1ª Turma Especial',
+                '2ª Turma Especial',
+                'Turma Superior'
+            ],
+            'alegacoes_recurso': [
+                'Decadência',
+                'Prescrição',
+                'Nulidade do Auto de Infração',
+                'Cerceamento de Defesa',
+                'Erro na Apuração',
+                'Divergência Jurisprudencial',
+                'Inconstitucionalidade'
+            ]
+        };
+        
+        this.activeAutocomplete = null;
+        this.highlightedIndex = -1;
+        
+        this.init();
+    }
+    
+    init() {
+        // Encontrar todos os campos com badge AUTO
+        const autoFields = $$('.filter-field');
+        
+        autoFields.forEach(field => {
+            const badge = field.querySelector('.filter-badge');
+            if (!badge || badge.textContent.trim() !== 'AUTO') return;
+            
+            const inputGroup = field.querySelector('.filter-input-group');
+            const input = inputGroup?.querySelector('.filter-input');
+            
+            if (!input || !inputGroup) return;
+            
+            const fieldName = input.dataset.field;
+            if (!fieldName || !this.mockData[fieldName]) return;
+            
+            // Adicionar wrapper de autocomplete
+            inputGroup.classList.add('filter-autocomplete');
+            
+            // Criar lista de sugestões
+            const list = document.createElement('ul');
+            list.className = 'filter-autocomplete-list';
+            list.setAttribute('role', 'listbox');
+            inputGroup.appendChild(list);
+            
+            // Eventos
+            input.addEventListener('focus', () => this.showSuggestions(input, list, fieldName));
+            input.addEventListener('input', () => this.filterSuggestions(input, list, fieldName));
+            input.addEventListener('blur', () => this.hideSuggestions(list));
+            input.addEventListener('keydown', (e) => this.handleKeydown(e, input, list));
+        });
+        
+        // Fechar ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.filter-autocomplete')) {
+                this.closeAll();
+            }
+        });
+    }
+    
+    showSuggestions(input, list, fieldName) {
+        this.activeAutocomplete = { input, list, fieldName };
+        this.highlightedIndex = -1;
+        this.renderSuggestions(input, list, fieldName, input.value);
+        input.closest('.filter-autocomplete').classList.add('open');
+    }
+    
+    hideSuggestions(list) {
+        // Delay para permitir clique nos itens
+        setTimeout(() => {
+            list.closest('.filter-autocomplete')?.classList.remove('open');
+            this.activeAutocomplete = null;
+            this.highlightedIndex = -1;
+        }, 200);
+    }
+    
+    filterSuggestions(input, list, fieldName) {
+        this.highlightedIndex = -1;
+        this.renderSuggestions(input, list, fieldName, input.value);
+    }
+    
+    renderSuggestions(input, list, fieldName, query) {
+        const data = this.mockData[fieldName] || [];
+        const normalizedQuery = this.normalizeText(query);
+        
+        // Filtrar dados
+        const filtered = data.filter(item => 
+            this.normalizeText(item).includes(normalizedQuery)
+        );
+        
+        // Limpar lista
+        list.innerHTML = '';
+        
+        if (filtered.length === 0) {
+            const empty = document.createElement('li');
+            empty.className = 'filter-autocomplete-empty';
+            empty.textContent = 'Nenhum resultado encontrado';
+            list.appendChild(empty);
+            return;
         }
+        
+        // Renderizar itens
+        filtered.forEach((item, index) => {
+            const li = document.createElement('li');
+            li.className = 'filter-autocomplete-item';
+            li.setAttribute('role', 'option');
+            li.dataset.value = item;
+            
+            // Highlight do texto que corresponde
+            if (query) {
+                li.innerHTML = this.highlightMatch(item, query);
+            } else {
+                li.textContent = item;
+            }
+            
+            // Eventos
+            li.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.selectItem(input, list, item);
+            });
+            
+            li.addEventListener('mouseenter', () => {
+                this.highlightItem(list, index);
+            });
+            
+            list.appendChild(li);
+        });
+    }
+    
+    highlightMatch(text, query) {
+        const normalizedText = this.normalizeText(text);
+        const normalizedQuery = this.normalizeText(query);
+        const index = normalizedText.indexOf(normalizedQuery);
+        
+        if (index === -1) return text;
+        
+        // Encontrar posição correspondente no texto original
+        let originalIndex = 0;
+        let normalizedIndex = 0;
+        
+        while (normalizedIndex < index && originalIndex < text.length) {
+            if (this.normalizeText(text[originalIndex]) !== '') {
+                normalizedIndex++;
+            }
+            originalIndex++;
+        }
+        
+        const start = originalIndex;
+        const end = start + query.length;
+        
+        return text.substring(0, start) + 
+               '<mark>' + text.substring(start, end) + '</mark>' + 
+               text.substring(end);
+    }
+    
+    normalizeText(text) {
+        return text
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+    
+    selectItem(input, list, value) {
+        input.value = value;
+        list.closest('.filter-autocomplete')?.classList.remove('open');
+        
+        // Disparar evento input para atualizar operador
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    
+    highlightItem(list, index) {
+        const items = list.querySelectorAll('.filter-autocomplete-item');
+        items.forEach((item, i) => {
+            item.classList.toggle('highlighted', i === index);
+        });
+        this.highlightedIndex = index;
+    }
+    
+    handleKeydown(e, input, list) {
+        const items = list.querySelectorAll('.filter-autocomplete-item');
+        const isOpen = list.closest('.filter-autocomplete')?.classList.contains('open');
+        
+        if (!isOpen || items.length === 0) return;
+        
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                this.highlightedIndex = Math.min(this.highlightedIndex + 1, items.length - 1);
+                this.highlightItem(list, this.highlightedIndex);
+                items[this.highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+                break;
+                
+            case 'ArrowUp':
+                e.preventDefault();
+                this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0);
+                this.highlightItem(list, this.highlightedIndex);
+                items[this.highlightedIndex]?.scrollIntoView({ block: 'nearest' });
+                break;
+                
+            case 'Enter':
+                e.preventDefault();
+                if (this.highlightedIndex >= 0 && items[this.highlightedIndex]) {
+                    const value = items[this.highlightedIndex].dataset.value;
+                    this.selectItem(input, list, value);
+                }
+                break;
+                
+            case 'Escape':
+                list.closest('.filter-autocomplete')?.classList.remove('open');
+                break;
+        }
+    }
+    
+    closeAll() {
+        $$('.filter-autocomplete.open').forEach(el => {
+            el.classList.remove('open');
+        });
+        this.activeAutocomplete = null;
+        this.highlightedIndex = -1;
     }
 }
 
@@ -650,8 +969,11 @@ document.addEventListener('DOMContentLoaded', () => {
         closeBtnId: 'ajudaDialogCloseBtn'
     });
     
-    // Filter Operators (toggle contém/Não contém/Igual)
+    // Filter Operators (toggle contém/não contém/igual)
     const filterOperators = new FilterOperatorComponent();
+    
+    // Autocomplete para campos com badge AUTO
+    const autocomplete = new AutocompleteComponent();
     
     // Currency Inputs (formatação de valores monetários)
     const currencyInputs = new CurrencyInputComponent();

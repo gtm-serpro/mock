@@ -124,7 +124,7 @@
 #ajudaDialogCloseBtn,
 #infoBtn {
     width: var(--btn-height);
-    height: var(--btn-heigh-lg);
+    height: var(--btn-height);
     padding: var(--spacing-xs);
     display: flex;
     justify-content: center;
@@ -207,7 +207,7 @@
 /* Botão Primary (Buscar) - Azul sólido */
 .btn-primary,
 #filtersDialogApplyBtn {
-    height: var(--btn-height-lg);
+    height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
     background-color: var(--color-primary);
     border: 1px solid var(--color-primary);
@@ -229,9 +229,9 @@
 /* Botão Secondary (Cancelar, Filtrar) - Fundo azul claro, texto azul */
 .btn-secondary,
 #filtersDialogCancelBtn {
-    height: var(--btn-height-lg);
+    height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
-    background-color: var(--color-bg-white);
+    background-color: var(--color-primary-light);
     border: 1px solid var(--color-primary);
     border-radius: var(--radius-full);
     color: var(--color-primary);
@@ -249,7 +249,7 @@
 /* Botão Ghost (Limpar Filtros) - Transparente, texto azul */
 .btn-ghost,
 #filtersDialogClearBtn {
-    height: var(--btn-height-lg);
+    height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
     background-color: transparent;
     border: none;
@@ -470,13 +470,21 @@
     box-shadow: 0 0 0 3px rgba(229, 34, 7, 0.15);
 }
 
-/* Input com operador visível - padding maior à direita */
+/* Input com operador visível - padding dinâmico baseado no operador */
 .filter-input-group.has-operator .filter-input {
-    padding-right: 70px;
+    padding-right: var(--operator-padding, 60px);
+}
+
+.filter-input-group.has-operator.operator-contains .filter-input {
+    --operator-padding: 60px;
 }
 
 .filter-input-group.has-operator.operator-not-contains .filter-input {
-    padding-right: 90px;
+    --operator-padding: 85px;
+}
+
+.filter-input-group.has-operator.operator-equals .filter-input {
+    --operator-padding: 52px;
 }
 
 /* ==========================================
@@ -491,7 +499,7 @@
     height: 24px;
     padding: 0 8px;
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
@@ -513,7 +521,6 @@
 .filter-operator.contains {
     background-color: #DBEAFE;
     color: #1D4ED8;
-    border:1px solid #BFDBFE;
 }
 
 .filter-operator.contains:hover {
@@ -523,7 +530,6 @@
 .filter-operator.not-contains {
     background-color: #FEE2E2;
     color: #DC2626;
-    border:1px solid #FECACA;
 }
 
 .filter-operator.not-contains:hover {
@@ -533,7 +539,6 @@
 .filter-operator.equals {
     background-color: #D1FAE5;
     color: #059669;
-    border:1px solid #A7F3D0;
 }
 
 .filter-operator.equals:hover {
@@ -581,4 +586,67 @@
 .filter-value-range .filter-input {
     flex: 1;
     min-width: 0;
+}
+
+/* ==========================================
+   AUTOCOMPLETE
+   ========================================== */
+
+.filter-autocomplete {
+    position: relative;
+}
+
+.filter-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: var(--z-dropdown);
+    list-style: none;
+    padding: var(--spacing-xs) 0;
+    display: none;
+}
+
+.filter-autocomplete.open .filter-autocomplete-list {
+    display: block;
+}
+
+.filter-autocomplete-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    transition: background-color var(--transition-fast);
+}
+
+.filter-autocomplete-item:hover,
+.filter-autocomplete-item.highlighted {
+    background-color: var(--color-primary-light);
+}
+
+.filter-autocomplete-item.selected {
+    background-color: var(--color-primary-hover);
+    font-weight: var(--font-weight-medium);
+}
+
+.filter-autocomplete-empty {
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+}
+
+/* Highlight do texto que corresponde à busca */
+.filter-autocomplete-item mark {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    padding: 0 2px;
+    border-radius: 2px;
 }
