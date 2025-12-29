@@ -144,14 +144,14 @@ search {
 }
 
 /* ==========================================
-   BOTÃO FILTRAR (secondary)
+   BOTÃO FILTRAR (secondary - Igual ao Cancelar)
    ========================================== */
 
 .filterBtn {
     position: relative;
     height: var(--btn-height);
     padding: 0 var(--btn-padding-x);
-    background-color: var(--color-primary-light);
+    background-color: var(--color-bg-white);
     border: 1px solid var(--color-primary);
     border-radius: var(--radius-full);
     font-weight: var(--font-weight-medium);

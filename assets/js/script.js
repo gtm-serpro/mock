@@ -16,6 +16,11 @@ const CONFIG = {
         minWidth: 10,
         maxWidth: 1000
     },
+    operators: {
+        contains: { label: 'Contém', class: 'contains' },
+        'not-contains': { label: 'Não contém', class: 'not-contains' },
+        equals: { label: 'Igual', class: 'equals' }
+    },
     selectors: {
         // Search
         searchInput: '.searchInput',
@@ -34,9 +39,13 @@ const CONFIG = {
         
         // Dialogs
         filtersDialog: '#filtersDialog',
-        filterBtn: '.filterBtn', // Pode ter múltiplos
+        filterBtn: '.filterBtn',
         infoDialog: '#infoDialog',
-        ajudaDialog: '#ajudaDialog'
+        ajudaDialog: '#ajudaDialog',
+        
+        // Filter operators
+        filterInputGroup: '.filter-input-group',
+        filterOperator: '.filter-operator'
     }
 };
 
@@ -299,6 +308,7 @@ class DialogComponent {
         this.openBtnSelector = options.openBtnSelector;
         this.closeBtnId = options.closeBtnId;
         this.cancelBtnId = options.cancelBtnId;
+        this.clearBtnId = options.clearBtnId;
         
         if (this.dialog) {
             this.init();
@@ -352,10 +362,20 @@ class DialogComponent {
             }
         }
         
+        // Botão limpar filtros
+        if (this.clearBtnId) {
+            const clearBtn = $(`#${this.clearBtnId}`);
+            if (clearBtn) {
+                clearBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.clearFilters();
+                });
+            }
+        }
+        
         // Fechar ao clicar no backdrop (área fora do dialog)
         this.dialog.addEventListener('click', (e) => {
-            // Verifica se o clique foi diretamente no dialog (backdrop)
-            // e não em algum elemento filho
             if (e.target === this.dialog) {
                 this.close();
             }
@@ -383,6 +403,183 @@ class DialogComponent {
         } else {
             this.open();
         }
+    }
+    
+    clearFilters() {
+        // Limpar todos os inputs de texto
+        this.dialog.querySelectorAll('.filter-input').forEach(input => {
+            input.value = '';
+        });
+        
+        // Limpar input de busca do header do dialog
+        this.dialog.querySelectorAll('.searchInput').forEach(input => {
+            input.value = '';
+        });
+        
+        // Resetar todos os operadores para "contém"
+        this.dialog.querySelectorAll('.filter-input-group').forEach(group => {
+            const opBtn = group.querySelector('.filter-operator');
+            if (opBtn) {
+                opBtn.dataset.operator = 'contains';
+                opBtn.textContent = 'Contém';
+                opBtn.classList.remove('not-contains', 'equals');
+                opBtn.classList.add('contains');
+            }
+            // Esconder operador e remover classes
+            group.classList.remove('has-operator', 'operator-not-contains');
+        });
+    }
+}
+
+// ============================================
+// FILTER OPERATOR COMPONENT
+// ============================================
+
+class FilterOperatorComponent {
+    constructor() {
+        this.groups = $$(CONFIG.selectors.filterInputGroup);
+        this.operators = ['contains', 'not-contains', 'equals'];
+        this.labels = {
+            'contains': 'Contém',
+            'not-contains': 'Não contém',
+            'equals': 'Igual'
+        };
+        
+        if (this.groups.length > 0) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.groups.forEach(group => {
+            const input = group.querySelector('.filter-input');
+            const opBtn = group.querySelector('.filter-operator');
+            
+            if (!input || !opBtn) return;
+            
+            // Mostrar operador no foco
+            input.addEventListener('focus', () => {
+                this.showOperator(group, opBtn);
+            });
+            
+            // Esconder operador ao sair do foco (se não tiver valor)
+            input.addEventListener('blur', () => {
+                // Delay para permitir clique no operador
+                setTimeout(() => {
+                    if (!input.value.trim() && !opBtn.matches(':hover')) {
+                        this.hideOperator(group, opBtn);
+                    }
+                }, 150);
+            });
+            
+            // Mostrar operador ao digitar
+            input.addEventListener('input', () => {
+                if (input.value.trim()) {
+                    this.showOperator(group, opBtn);
+                } else if (!input.matches(':focus')) {
+                    this.hideOperator(group, opBtn);
+                }
+            });
+            
+            // Toggle do operador ao clicar
+            opBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.cycleOperator(group, opBtn);
+                input.focus();
+            });
+        });
+    }
+    
+    showOperator(group, opBtn) {
+        group.classList.add('has-operator');
+        const currentOp = opBtn.dataset.operator || 'contains';
+        if (currentOp === 'not-contains') {
+            group.classList.add('operator-not-contains');
+        }
+    }
+    
+    hideOperator(group, opBtn) {
+        group.classList.remove('has-operator');
+        group.classList.remove('operator-not-contains');
+    }
+    
+    cycleOperator(group, opBtn) {
+        const current = opBtn.dataset.operator || 'contains';
+        const currentIndex = this.operators.indexOf(current);
+        const nextIndex = (currentIndex + 1) % this.operators.length;
+        const next = this.operators[nextIndex];
+        
+        // Atualizar dataset e texto
+        opBtn.dataset.operator = next;
+        opBtn.textContent = this.labels[next];
+        
+        // Atualizar classes do botão
+        opBtn.classList.remove('contains', 'not-contains', 'equals');
+        opBtn.classList.add(next);
+        
+        // Atualizar classe do grupo para padding maior
+        if (next === 'not-contains') {
+            group.classList.add('operator-not-contains');
+        } else {
+            group.classList.remove('operator-not-contains');
+        }
+    }
+}
+
+// ============================================
+// CURRENCY INPUT COMPONENT
+// ============================================
+
+class CurrencyInputComponent {
+    constructor() {
+        this.inputs = $$('.filter-value-range .filter-input');
+        
+        if (this.inputs.length > 0) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.inputs.forEach(input => {
+            // Permitir apenas números e formatação
+            input.addEventListener('input', (e) => {
+                this.formatCurrency(e.target);
+            });
+            
+            // Prevenir caracteres não numéricos
+            input.addEventListener('keypress', (e) => {
+                // Permitir: números, vírgula, ponto, backspace, delete, tab, escape, enter
+                if (!/[0-9,.]/.test(e.key) && 
+                    !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Formatar ao sair do campo
+            input.addEventListener('blur', (e) => {
+                this.formatCurrency(e.target);
+            });
+        });
+    }
+    
+    formatCurrency(input) {
+        // Remove tudo exceto números
+        let value = input.value.replace(/\D/g, '');
+        
+        if (value === '') {
+            input.value = '';
+            return;
+        }
+        
+        // Converte para número e formata
+        const numValue = parseInt(value, 10) / 100;
+        
+        // Formata como moeda brasileira
+        input.value = numValue.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
     }
 }
 
@@ -437,9 +634,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Dialogs
     const filtersDialog = new DialogComponent('filtersDialog', {
-        openBtnSelector: CONFIG.selectors.filterBtn, // Agora pega todos os .filterBtn
+        openBtnSelector: CONFIG.selectors.filterBtn,
         closeBtnId: 'filtersDialogCloseBtn',
-        cancelBtnId: 'filtersDialogCancelBtn'
+        cancelBtnId: 'filtersDialogCancelBtn',
+        clearBtnId: 'filtersDialogClearBtn'
     });
     
     const infoDialog = new DialogComponent('infoDialog', {
@@ -451,6 +649,12 @@ document.addEventListener('DOMContentLoaded', () => {
         openBtnId: 'ajudaBtn',
         closeBtnId: 'ajudaDialogCloseBtn'
     });
+    
+    // Filter Operators (toggle contém/Não contém/Igual)
+    const filterOperators = new FilterOperatorComponent();
+    
+    // Currency Inputs (formatação de valores monetários)
+    const currencyInputs = new CurrencyInputComponent();
     
     // Atalhos de teclado
     const shortcuts = new KeyboardShortcuts([

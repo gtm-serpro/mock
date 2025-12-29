@@ -13,6 +13,8 @@
     background-color: var(--color-bg);
 }
 
+
+
 /* ============================================
    EMPTY STATE - Controle de visibilidade
    ============================================ */
@@ -82,6 +84,27 @@ body.empty-state #headerSearch {
 /* ============================================
    SEARCH BAR NO EMPTY STATE
    ============================================ */
+
+#empty-search-container{
+    display:flex;
+    align-items:center;
+    gap:var(--spacing-sm)
+}
+
+#saibaMaisBtn img {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+    pointer-events: none;
+}
+
+/* Botão de info - fica à esquerda */
+#saibaMaisBtn {
+    aspect-ratio:1;
+    padding:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
 .empty-search {
     width: 100%;

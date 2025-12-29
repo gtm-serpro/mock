@@ -124,7 +124,7 @@
 #ajudaDialogCloseBtn,
 #infoBtn {
     width: var(--btn-height);
-    height: var(--btn-height);
+    height: var(--btn-heigh-lg);
     padding: var(--spacing-xs);
     display: flex;
     justify-content: center;
@@ -201,47 +201,13 @@
 }
 
 /* ==========================================
-   BOTÕES DO DIALOG - Padronizados
+   BOTÕES PADRONIZADOS
    ========================================== */
 
-/* Botão Limpar Filtros (ghost/text) */
-#filtersDialogClearBtn {
-    height: var(--btn-height);
-    padding: 0 var(--btn-padding-x);
-    background-color: transparent;
-    border: none;
-    border-radius: var(--radius-full);
-    color: var(--color-primary);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    transition: background-color var(--transition-fast);
-}
-
-#filtersDialogClearBtn:hover {
-    background-color: var(--color-primary-hover);
-}
-
-/* Botão Cancelar (secondary/outline) */
-#filtersDialogCancelBtn {
-    height: var(--btn-height);
-    padding: 0 var(--btn-padding-x);
-    background-color: var(--color-bg-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    color: var(--color-text);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: background-color var(--transition-fast);
-}
-
-#filtersDialogCancelBtn:hover {
-    background-color: var(--color-bg-hover);
-}
-
-/* Botão Buscar (primary) */
+/* Botão Primary (Buscar) - Azul sólido */
+.btn-primary,
 #filtersDialogApplyBtn {
-    height: var(--btn-height);
+    height: var(--btn-height-lg);
     padding: 0 var(--btn-padding-x);
     background-color: var(--color-primary);
     border: 1px solid var(--color-primary);
@@ -254,9 +220,49 @@
                 border-color var(--transition-fast);
 }
 
+.btn-primary:hover,
 #filtersDialogApplyBtn:hover {
     background-color: var(--color-primary-dark);
     border-color: var(--color-primary-dark);
+}
+
+/* Botão Secondary (Cancelar, Filtrar) - Fundo azul claro, texto azul */
+.btn-secondary,
+#filtersDialogCancelBtn {
+    height: var(--btn-height-lg);
+    padding: 0 var(--btn-padding-x);
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-full);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color var(--transition-fast);
+}
+
+.btn-secondary:hover,
+#filtersDialogCancelBtn:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Botão Ghost (Limpar Filtros) - Transparente, texto azul */
+.btn-ghost,
+#filtersDialogClearBtn {
+    height: var(--btn-height-lg);
+    padding: 0 var(--btn-padding-x);
+    background-color: transparent;
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-ghost:hover,
+#filtersDialogClearBtn:hover {
+    background-color: var(--color-primary-hover);
 }
 
 /* ==========================================
@@ -291,6 +297,7 @@
     padding-bottom: 2px;
     flex: 1;
 }
+
 /* ==========================================
    FILTER FLEX
    ========================================== */
@@ -411,10 +418,21 @@
 }
 
 /* ==========================================
+   FILTER INPUT GROUP (com operador toggle)
+   ========================================== */
+
+.filter-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* ==========================================
    INPUT - Estilo moderno padronizado
    ========================================== */
 
 .filter-input {
+    width: 100%;
     height: var(--btn-height);
     padding: 0 var(--spacing-sm);
     padding-bottom: 1px;
@@ -425,7 +443,8 @@
     min-width: 0;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     transition: border-color var(--transition-fast), 
-                box-shadow var(--transition-fast);
+                box-shadow var(--transition-fast),
+                padding-right var(--transition-fast);
     outline: none;
 }
 
@@ -449,6 +468,76 @@
 .filter-input.error {
     border-color: var(--color-error);
     box-shadow: 0 0 0 3px rgba(229, 34, 7, 0.15);
+}
+
+/* Input com operador visível - padding maior à direita */
+.filter-input-group.has-operator .filter-input {
+    padding-right: 70px;
+}
+
+.filter-input-group.has-operator.operator-not-contains .filter-input {
+    padding-right: 90px;
+}
+
+/* ==========================================
+   FILTER OPERATOR TOGGLE
+   ========================================== */
+
+.filter-operator {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 24px;
+    padding: 0 8px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-fast),
+                visibility var(--transition-fast),
+                background-color var(--transition-fast);
+}
+
+/* Mostrar operador quando input tem foco ou valor */
+.filter-input-group.has-operator .filter-operator {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estados do operador */
+.filter-operator.contains {
+    background-color: #DBEAFE;
+    color: #1D4ED8;
+    border:1px solid #BFDBFE;
+}
+
+.filter-operator.contains:hover {
+    background-color: #BFDBFE;
+}
+
+.filter-operator.not-contains {
+    background-color: #FEE2E2;
+    color: #DC2626;
+    border:1px solid #FECACA;
+}
+
+.filter-operator.not-contains:hover {
+    background-color: #FECACA;
+}
+
+.filter-operator.equals {
+    background-color: #D1FAE5;
+    color: #059669;
+    border:1px solid #A7F3D0;
+}
+
+.filter-operator.equals:hover {
+    background-color: #A7F3D0;
 }
 
 /* ==========================================
