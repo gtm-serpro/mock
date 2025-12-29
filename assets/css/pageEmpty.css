@@ -91,14 +91,14 @@ body.empty-state #headerSearch {
     gap:var(--spacing-sm)
 }
 
-#saibaMaisBtn img {
+#ajudaBtn img {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
     pointer-events: none;
 }
 
 /* Botão de info - fica à esquerda */
-#saibaMaisBtn {
+#ajudaBtn {
     aspect-ratio:1;
     padding:0;
     display:flex;
