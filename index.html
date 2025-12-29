@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/css/mainHeader.css">
     <link rel="stylesheet" href="assets/css/pageEmpty.css">
     <link rel="stylesheet" href="assets/css/pageResults.css">
+    <link rel="stylesheet" href="assets/css/resultCard.css">
     <link rel="stylesheet" href="assets/css/dialogs.css">
     
     <title>eProcesso Buscador</title>
@@ -94,36 +95,26 @@
                 </p>
             </div>
             
-            <div id="empty-search-container">
-                <!-- Saiba mais -->
-                <button id="ajudaBtn">
-                    <img class="ajudaIcon iconColor" src="/assets/img/icons/circle-question-regular-full.svg" alt="Ajuda">
-                </button>
-                
-                <!-- Search Bar -->
-                <search class="empty-search">
-                    <form class="searchForm" action="">
-                        <div class="searchInputWraper">
-                            <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
-                            <input class="searchInput" type="text" placeholder="Digite para buscar...">
-                            <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
-                                <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
-                            </button>
-                            <kbd class="searchKBD">Ctrl+K</kbd>
-                        </div>
-                        <button class="searchBtn" type="submit">Buscar</button>
-                        <button type="button" class="filterBtn">
-                            <span class="filterBtnIcon">
-                                <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
-                            </span>
-                            <span class="filterBtnText">Filtrar</span>
+            <!-- Search Bar -->
+            <search class="empty-search">
+                <form class="searchForm" action="">
+                    <div class="searchInputWraper">
+                        <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                        <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                        <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                            <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
                         </button>
-                    </form>
-                </search>
-            </div>
-            
-
- 
+                        <kbd class="searchKBD">Ctrl+K</kbd>
+                    </div>
+                    <button class="searchBtn" type="submit">Buscar</button>
+                    <button type="button" class="filterBtn">
+                        <span class="filterBtnIcon">
+                            <img class="iconColor" src="assets/img/icons/filter-solid-full.svg" alt="">
+                        </span>
+                        <span class="filterBtnText">Filtrar</span>
+                    </button>
+                </form>
+            </search>
         </div>
     </main>
 
@@ -191,11 +182,7 @@
         <!-- Main Content -->
         <section id="mainContent">
             <section id="results">
-                <div class="result"></div>
-                <div class="result"></div>
-                <div class="result"></div>
-                <div class="result"></div>
-                <div class="result"></div>
+                <!-- Cards de resultado serão renderizados via JavaScript -->
             </section>
 
             <!-- Footer -->
@@ -279,7 +266,7 @@
             <!-- Filtros de Data -->
             <section class="filter-section">
                 <div class="filter-section-header">
-                    <img class="iconColor" src="assets/img/icons/calendar-regular-full.svg" alt="">
+                    <img class="iconColor" src="assets/img/icons/calendar-solid-full.svg" alt="">
                     <span>Filtros de Data</span>
                 </div>
                 <div class="filter-flex">
@@ -311,7 +298,7 @@
             <!-- Processo e Documento -->
             <section class="filter-section">
                 <div class="filter-section-header">
-                    <img class="iconColor" src="assets/img/icons/file-lines-regular-full.svg" alt="">
+                    <img class="iconColor" src="assets/img/icons/file-solid-full.svg" alt="">
                     <span>Processo e Documento</span>
                 </div>
                 <div class="filter-grid filter-grid-6">
@@ -322,7 +309,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="grupo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -332,7 +319,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -342,7 +329,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="subtipo_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -351,7 +338,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="nr_processo">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -361,7 +348,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="situacao_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -370,7 +357,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="assuntos_objetos">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -380,7 +367,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -389,7 +376,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="titulo_documento">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -398,7 +385,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="nr_doc_principal">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -408,7 +395,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="tributo_act">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field filter-col-span-2">
@@ -427,7 +414,7 @@
             <!-- Unidade e Equipe -->
             <section class="filter-section">
                 <div class="filter-section-header">
-                    <img class="iconColor" src="assets/img/icons/building-regular-full.svg" alt="">
+                    <img class="iconColor" src="assets/img/icons/building-user-solid-full.svg" alt="">
                     <span>Unidade e Equipe</span>
                 </div>
                 <div class="filter-grid filter-grid-4">
@@ -438,7 +425,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_origem">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -448,7 +435,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_origem">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -458,7 +445,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_atual">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -468,7 +455,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_atual">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                 </div>
@@ -477,7 +464,7 @@
             <!-- Partes Envolvidas -->
             <section class="filter-section">
                 <div class="filter-section-header">
-                    <img class="iconColor" src="assets/img/icons/user-regular-full.svg" alt="">
+                    <img class="iconColor" src="assets/img/icons/user-group-solid-full.svg" alt="">
                     <span>Partes Envolvidas</span>
                 </div>
                 <div class="filter-grid filter-grid-5">
@@ -487,7 +474,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="ni_contribuinte">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -496,7 +483,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_contribuinte">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -505,7 +492,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="cpf_responsavel">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -514,7 +501,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_usuario_juntada">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -523,7 +510,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_relator_drj">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                 </div>
@@ -532,7 +519,7 @@
             <!-- Julgamento -->
             <section class="filter-section">
                 <div class="filter-section-header">
-                    <img class="iconColor" src="assets/img/icons/julgamento.svg" alt="">
+                    <img class="iconColor" src="assets/img/icons/scale-balanced-solid-full.svg" alt="">
                     <span>Julgamento</span>
                 </div>
                 <div class="filter-grid filter-grid-3">
@@ -543,7 +530,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="alegacoes_recurso">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -552,7 +539,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel1">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                     <div class="filter-field">
@@ -561,7 +548,7 @@
                         </label>
                         <div class="filter-input-group">
                             <input type="text" class="filter-input" placeholder="Digite..." data-field="result_drj_nivel2">
-                            <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                            <button type="button" class="filter-operator contains" data-operator="contains">contém</button>
                         </div>
                     </div>
                 </div>

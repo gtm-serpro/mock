@@ -614,6 +614,14 @@
     display: none;
 }
 
+/* Autocomplete abrindo para cima */
+.filter-autocomplete.open-up .filter-autocomplete-list {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
 .filter-autocomplete.open .filter-autocomplete-list {
     display: block;
 }

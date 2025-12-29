@@ -74,6 +74,7 @@ class SearchComponent {
         this.inputs = $$(CONFIG.selectors.searchInput);
         this.wrappers = $$(CONFIG.selectors.searchWrapper);
         this.closeBtns = $$(CONFIG.selectors.searchCloseBtn);
+        this.forms = $$('.searchForm');
         
         if (this.inputs.length > 0) {
             this.init();
@@ -92,6 +93,8 @@ class SearchComponent {
             if (input && wrapper) {
                 input.addEventListener('input', () => {
                     wrapper.classList.toggle('hasValue', input.value.length > 0);
+                    // Sincronizar valor entre inputs de busca
+                    this.syncSearchInputs(input.value);
                 });
             }
         });
@@ -106,8 +109,27 @@ class SearchComponent {
             }
         });
         
+        // Submit dos formulários de busca
+        this.forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.performSearch();
+            });
+        });
+        
         // Placeholder responsivo (com debounce)
         window.addEventListener('resize', debounce(() => this.updatePlaceholders(), 100));
+    }
+    
+    syncSearchInputs(value) {
+        // Sincroniza todos os inputs de busca com o mesmo valor
+        this.inputs.forEach(input => {
+            if (input.value !== value) {
+                input.value = value;
+                const wrapper = input.closest('.searchInputWraper');
+                wrapper?.classList.toggle('hasValue', value.length > 0);
+            }
+        });
     }
     
     clear(index) {
@@ -117,7 +139,19 @@ class SearchComponent {
             input.value = '';
             wrapper.classList.remove('hasValue');
             input.focus();
+            // Sincronizar limpeza
+            this.syncSearchInputs('');
         }
+    }
+    
+    performSearch() {
+        const searchTerm = this.inputs[0]?.value?.trim() || '';
+        
+        // Disparar evento customizado de busca
+        const event = new CustomEvent('search', { 
+            detail: { term: searchTerm }
+        });
+        document.dispatchEvent(event);
     }
     
     updatePlaceholders() {
@@ -128,6 +162,39 @@ class SearchComponent {
         this.inputs.forEach(input => {
             if (input) input.placeholder = placeholder;
         });
+    }
+    
+    getSearchTerm() {
+        return this.inputs[0]?.value?.trim() || '';
+    }
+}
+
+// ============================================
+// PAGE CONTROLLER
+// ============================================
+
+class PageController {
+    constructor() {
+        this.body = document.body;
+        this.isEmptyState = this.body.classList.contains('empty-state');
+    }
+    
+    showResults() {
+        this.body.classList.remove('empty-state');
+        this.isEmptyState = false;
+    }
+    
+    showEmpty() {
+        this.body.classList.add('empty-state');
+        this.isEmptyState = true;
+    }
+    
+    toggle() {
+        if (this.isEmptyState) {
+            this.showResults();
+        } else {
+            this.showEmpty();
+        }
     }
 }
 
@@ -713,9 +780,39 @@ class AutocompleteComponent {
     showSuggestions(input, list, fieldName) {
         this.activeAutocomplete = { input, list, fieldName };
         this.highlightedIndex = -1;
+        
+        const container = input.closest('.filter-autocomplete');
+        
+        // Detectar se deve abrir para cima ou para baixo
+        this.updateDropdownPosition(input, container);
+        
         this.renderSuggestions(input, list, fieldName, input.value);
-        input.closest('.filter-autocomplete').classList.add('open');
+        container.classList.add('open');
         input.setAttribute('aria-expanded', 'true');
+    }
+    
+    updateDropdownPosition(input, container) {
+        // Encontrar o main do dialog (área de scroll)
+        const dialogMain = input.closest('#filtersDialog main');
+        if (!dialogMain) {
+            container.classList.remove('open-up');
+            return;
+        }
+        
+        const inputRect = input.getBoundingClientRect();
+        const mainRect = dialogMain.getBoundingClientRect();
+        
+        // Espaço disponível abaixo do input até o fim do main
+        const spaceBelow = mainRect.bottom - inputRect.bottom;
+        
+        // Se não há espaço suficiente para o dropdown (200px + margem), abre para cima
+        const dropdownHeight = 208; // 200px max-height + 8px margins
+        
+        if (spaceBelow < dropdownHeight) {
+            container.classList.add('open-up');
+        } else {
+            container.classList.remove('open-up');
+        }
     }
     
     hideSuggestions(input, list) {
@@ -964,6 +1061,274 @@ class CurrencyInputComponent {
 }
 
 // ============================================
+// RESULT CARD COMPONENT
+// ============================================
+
+class ResultCardComponent {
+    constructor() {
+        this.resultsContainer = $('#results');
+        this.searchTerm = '';
+        this.toast = null;
+        
+        if (this.resultsContainer) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.createToast();
+        this.bindCopyEvents();
+    }
+    
+    createToast() {
+        // Criar toast de feedback
+        this.toast = document.createElement('div');
+        this.toast.className = 'copy-toast';
+        this.toast.textContent = 'Copiado!';
+        document.body.appendChild(this.toast);
+    }
+    
+    bindCopyEvents() {
+        // Delegação de eventos para copiar campos
+        this.resultsContainer.addEventListener('click', (e) => {
+            const field = e.target.closest('.result-field');
+            if (field) {
+                this.copyFieldValue(field);
+            }
+        });
+    }
+    
+    copyFieldValue(field) {
+        const valueElement = field.querySelector('.result-field-value span');
+        if (!valueElement) return;
+        
+        // Pegar texto sem o highlight
+        const text = valueElement.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            this.showToast('Copiado!');
+        }).catch(() => {
+            this.showToast('Erro ao copiar');
+        });
+    }
+    
+    showToast(message) {
+        this.toast.textContent = message;
+        this.toast.classList.add('show');
+        
+        setTimeout(() => {
+            this.toast.classList.remove('show');
+        }, 2000);
+    }
+    
+    setSearchTerm(term) {
+        this.searchTerm = term;
+    }
+    
+    highlightText(text, term) {
+        if (!term || !text) return text;
+        
+        const normalizedText = this.normalizeText(text);
+        const normalizedTerm = this.normalizeText(term);
+        
+        if (!normalizedTerm) return text;
+        
+        const matchIndex = normalizedText.indexOf(normalizedTerm);
+        if (matchIndex === -1) return text;
+        
+        // Mapear índices
+        const charMap = [];
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const normalizedChar = this.normalizeText(char);
+            if (normalizedChar.length > 0) {
+                charMap.push(i);
+            }
+        }
+        
+        const startOriginal = charMap[matchIndex] ?? 0;
+        const endNormalized = matchIndex + normalizedTerm.length;
+        const endOriginal = charMap[endNormalized] ?? text.length;
+        
+        const before = text.substring(0, startOriginal);
+        const match = text.substring(startOriginal, endOriginal);
+        const after = text.substring(endOriginal);
+        
+        return `${before}<mark>${match}</mark>${after}`;
+    }
+    
+    normalizeText(text) {
+        return text
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+    
+    renderResults(results) {
+        this.resultsContainer.innerHTML = '';
+        
+        results.forEach(result => {
+            const card = this.createCard(result);
+            this.resultsContainer.appendChild(card);
+        });
+    }
+    
+    createCard(data) {
+        const card = document.createElement('article');
+        card.className = 'result-card';
+        
+        // Header
+        const header = document.createElement('header');
+        header.className = 'result-card-header';
+        
+        // Botões de ação
+        const actions = document.createElement('div');
+        actions.className = 'result-card-actions';
+        actions.innerHTML = `
+            <div class="btn-group">
+                <a href="${data.pdfUrl || '#'}" class="btn-download" title="Baixar PDF" target="_blank">
+                    <img class="icon-default iconColor" src="assets/img/icons/file-image-regular-full.svg" alt="">
+                    <img class="icon-hover iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
+                </a>
+                <a href="${data.pdfOcrUrl || '#'}" class="btn-download" title="Baixar PDF OCR" target="_blank">
+                    <img class="icon-default iconColor" src="assets/img/icons/file-lines-regular-full.svg" alt="">
+                    <img class="icon-hover iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
+                </a>
+            </div>
+        `;
+        
+        // Título
+        const title = document.createElement('h3');
+        title.className = 'result-card-title';
+        title.innerHTML = this.highlightText(data.titulo || 'Documento sem título', this.searchTerm);
+        
+        header.appendChild(actions);
+        header.appendChild(title);
+        
+        // Body com campos
+        const body = document.createElement('div');
+        body.className = 'result-card-body';
+        
+        const fields = [
+            { label: 'Número do processo', value: data.numeroProcesso, field: 'numero-processo' },
+            { label: 'Data protocolo', value: data.dataProtocolo, field: 'data-protocolo' },
+            { label: 'Data juntada', value: data.dataJuntada, field: 'data-juntada' },
+            { label: 'Unidade origem', value: data.unidadeOrigem, field: 'unidade-origem' },
+            { label: 'Tipo documento', value: data.tipoDocumento, field: 'tipo-documento' },
+            { label: 'Grupo processo', value: data.grupoProcesso, field: 'grupo-processo' },
+            { label: 'NI do Contribuinte', value: data.niContribuinte, field: 'ni-contribuinte' },
+            { label: 'Nome do Contribuinte', value: data.nomeContribuinte, field: 'nome-contribuinte' },
+            { label: 'Tributo ACT', value: data.tributoAct, field: 'tributo-act' }
+        ];
+        
+        fields.forEach(f => {
+            if (f.value) {
+                const field = this.createField(f.label, f.value, f.field);
+                body.appendChild(field);
+            }
+        });
+        
+        card.appendChild(header);
+        card.appendChild(body);
+        
+        return card;
+    }
+    
+    createField(label, value, fieldName) {
+        const field = document.createElement('div');
+        field.className = 'result-field';
+        field.dataset.field = fieldName;
+        field.title = 'Clique para copiar';
+        
+        field.innerHTML = `
+            <dt class="result-field-label">${label}</dt>
+            <dd class="result-field-value">
+                <span>${this.highlightText(value, this.searchTerm)}</span>
+                <img class="result-field-copy iconColor" src="assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        `;
+        
+        return field;
+    }
+    
+    // Dados de exemplo para demonstração
+    static getMockResults() {
+        return [
+            {
+                titulo: 'NOTIFICAÇÃO DE LANÇAMENTO - COFINS',
+                numeroProcesso: '10580.350820/2019-34',
+                dataProtocolo: '15/05/2019 09:15',
+                dataJuntada: '20/05/2019 14:30',
+                unidadeOrigem: 'DRF São Paulo',
+                tipoDocumento: 'NOTIFICAÇÃO',
+                grupoProcesso: 'PROCESSO TRIBUTÁRIO',
+                niContribuinte: '12.345.678/0001-99',
+                nomeContribuinte: 'EMPRESA EXEMPLO LTDA',
+                tributoAct: '35 - COFINS',
+                pdfUrl: '#',
+                pdfOcrUrl: '#'
+            },
+            {
+                titulo: 'AUTO DE INFRAÇÃO - IRPJ',
+                numeroProcesso: '10580.720145/2020-12',
+                dataProtocolo: '10/03/2020 11:45',
+                dataJuntada: '15/03/2020 16:20',
+                unidadeOrigem: 'DRF Rio de Janeiro',
+                tipoDocumento: 'AUTO DE INFRAÇÃO',
+                grupoProcesso: 'PROCESSO ADMINISTRATIVO FISCAL',
+                niContribuinte: '98.765.432/0001-10',
+                nomeContribuinte: 'COMERCIAL BRASIL S.A.',
+                tributoAct: '10 - IRPJ',
+                pdfUrl: '#',
+                pdfOcrUrl: '#'
+            },
+            {
+                titulo: 'RECURSO VOLUNTÁRIO - PIS/COFINS',
+                numeroProcesso: '13502.901234/2021-56',
+                dataProtocolo: '22/08/2021 08:30',
+                dataJuntada: '25/08/2021 10:00',
+                unidadeOrigem: 'CARF - 1ª Seção',
+                tipoDocumento: 'RECURSO',
+                grupoProcesso: 'RECURSO VOLUNTÁRIO',
+                niContribuinte: '55.444.333/0001-22',
+                nomeContribuinte: 'INDÚSTRIA NACIONAL LTDA',
+                tributoAct: '34/35 - PIS/COFINS',
+                pdfUrl: '#',
+                pdfOcrUrl: '#'
+            },
+            {
+                titulo: 'ACÓRDÃO - CSLL',
+                numeroProcesso: '10880.654321/2018-78',
+                dataProtocolo: '05/11/2018 14:00',
+                dataJuntada: '10/11/2018 09:45',
+                unidadeOrigem: 'CARF - 2ª Seção',
+                tipoDocumento: 'ACÓRDÃO',
+                grupoProcesso: 'JULGAMENTO',
+                niContribuinte: '11.222.333/0001-44',
+                nomeContribuinte: 'SERVIÇOS FINANCEIROS S.A.',
+                tributoAct: '20 - CSLL',
+                pdfUrl: '#',
+                pdfOcrUrl: '#'
+            },
+            {
+                titulo: 'DESPACHO DECISÓRIO - IPI',
+                numeroProcesso: '10768.112233/2022-90',
+                dataProtocolo: '18/01/2022 16:30',
+                dataJuntada: '20/01/2022 11:15',
+                unidadeOrigem: 'DRF Belo Horizonte',
+                tipoDocumento: 'DESPACHO',
+                grupoProcesso: 'PROCESSO ADMINISTRATIVO',
+                niContribuinte: '77.888.999/0001-55',
+                nomeContribuinte: 'METALÚRGICA MINAS GERAIS LTDA',
+                tributoAct: '40 - IPI',
+                pdfUrl: '#',
+                pdfOcrUrl: '#'
+            }
+        ];
+    }
+}
+
+// ============================================
 // KEYBOARD SHORTCUTS
 // ============================================
 
@@ -996,6 +1361,9 @@ class KeyboardShortcuts {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Page Controller
+    const pageController = new PageController();
+    
     // Search (suporta múltiplos)
     const search = new SearchComponent();
     
@@ -1038,6 +1406,44 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Currency Inputs (formatação de valores monetários)
     const currencyInputs = new CurrencyInputComponent();
+    
+    // Result Cards
+    const resultCards = new ResultCardComponent();
+    
+    // Listener para evento de busca
+    document.addEventListener('search', (e) => {
+        const searchTerm = e.detail.term;
+        
+        // Atualizar termo de busca nos cards
+        resultCards.setSearchTerm(searchTerm);
+        
+        // Renderizar resultados (mock por enquanto)
+        resultCards.renderResults(ResultCardComponent.getMockResults());
+        
+        // Mostrar página de resultados
+        pageController.showResults();
+        
+        // Fechar dialog de filtros se estiver aberto
+        filtersDialog.close();
+    });
+    
+    // Botão Buscar do dialog de filtros também dispara busca
+    const applyBtn = $('#filtersDialogApplyBtn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Pegar termo do input de busca do dialog
+            const dialogSearchInput = $('#filtersDialog .searchInput');
+            const searchTerm = dialogSearchInput?.value?.trim() || search.getSearchTerm();
+            
+            // Disparar evento de busca
+            const event = new CustomEvent('search', { 
+                detail: { term: searchTerm }
+            });
+            document.dispatchEvent(event);
+        });
+    }
     
     // Atalhos de teclado
     const shortcuts = new KeyboardShortcuts([
