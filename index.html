@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="assets/css/pageResults.css">
     <link rel="stylesheet" href="assets/css/resultCard.css">
     <link rel="stylesheet" href="assets/css/dialogs.css">
+    <link rel="stylesheet" href="assets/css/fieldsSelector.css">
     
     <title>eProcesso Buscador</title>
 </head>
@@ -165,6 +166,24 @@
                     </div>
                 </div>
                 <div id="pageResultsFooterRight">
+                    <!-- NOVO: Seletor de campos visíveis -->
+                    <div id="fieldsDropdown" class="dropdown">
+                        <button id="fieldsDropdownBtn" class="btn-icon" aria-label="Configurar campos visíveis" title="Campos visíveis">
+                            <img class="iconColor" src="assets/img/icons/list-check-solid-full.svg" alt="">
+                        </button>
+                        <div class="fields-menu dropdown-menu dropdown-menu-top dropdown-menu-right">
+                            <div class="fields-menu-header">
+                                <span>Campos visíveis</span>
+                                <div class="fields-menu-actions">
+                                    <button type="button" class="fields-select-all" title="Selecionar todos">Todos</button>
+                                    <button type="button" class="fields-select-none" title="Limpar seleção">Nenhum</button>
+                                </div>
+                            </div>
+                            <div class="fields-menu-list">
+                                <!-- Campos serão inseridos via JS -->
+                            </div>
+                        </div>
+                    </div>
                     <div id="downloadDropdown" class="dropdown">
                         <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
                             <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
@@ -385,6 +404,7 @@
         <main><p>Conteúdo de ajuda...</p></main>
     </dialog>
 
+    <script src="assets/js/fieldsSelector.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

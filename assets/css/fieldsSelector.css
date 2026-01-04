@@ -1,0 +1,245 @@
+/* ============================================
+   FIELDS SELECTOR - Seletor de campos visíveis
+   ============================================ */
+
+/* ==========================================
+   DROPDOWN CONTAINER
+   ========================================== */
+
+#fieldsDropdown {
+    position: relative;
+}
+
+#fieldsDropdownBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--btn-height);
+    height: var(--btn-height);
+    padding: var(--spacing-xs);
+}
+
+#fieldsDropdownBtn img {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+}
+
+/* Badge de campos ocultos */
+#fieldsDropdownBtn .fields-hidden-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-error);
+    color: white;
+    font-size: 10px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-badge);
+}
+
+#fieldsDropdownBtn .fields-hidden-count:empty,
+#fieldsDropdownBtn .fields-hidden-count[data-count="0"] {
+    display: none;
+}
+
+/* ==========================================
+   MENU
+   ========================================== */
+
+.fields-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: var(--spacing-xs);
+    min-width: 280px;
+    max-width: 320px;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-dropdown);
+    overflow: hidden;
+}
+
+#fieldsDropdown.open .fields-menu {
+    display: block;
+}
+
+/* ==========================================
+   HEADER DO MENU
+   ========================================== */
+
+.fields-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+}
+
+.fields-menu-header > span {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.fields-menu-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.fields-menu-actions button {
+    height: 22px;
+    padding: 0 var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-white);
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+}
+
+.fields-menu-actions button:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* ==========================================
+   LISTA DE CAMPOS
+   ========================================== */
+
+.fields-menu-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: var(--spacing-xs) 0;
+}
+
+/* Item da lista */
+.fields-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    user-select: none;
+}
+
+.fields-menu-item:hover {
+    background-color: var(--color-bg);
+}
+
+/* Checkbox customizado */
+.fields-menu-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.fields-menu-item label {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Item desabilitado (campo não presente nos resultados) */
+.fields-menu-item.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.fields-menu-item.disabled label {
+    color: var(--color-text-muted);
+}
+
+/* ==========================================
+   SEPARADOR DE GRUPO
+   ========================================== */
+
+.fields-menu-separator {
+    height: 1px;
+    margin: var(--spacing-xs) var(--spacing-md);
+    background-color: var(--color-border);
+}
+
+.fields-menu-group-title {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 10px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   FOOTER DO MENU (contador)
+   ========================================== */
+
+.fields-menu-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+/* ==========================================
+   RESULTADO COM CAMPOS OCULTOS
+   ========================================== */
+
+.result-field.field-hidden {
+    display: none !important;
+}
+
+/* ==========================================
+   EMPTY STATE - Sem campos para mostrar
+   ========================================== */
+
+.fields-menu-empty {
+    padding: var(--spacing-lg) var(--spacing-md);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+/* ==========================================
+   RESPONSIVO
+   ========================================== */
+
+@media (max-width: 600px) {
+    .fields-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: none;
+        min-width: auto;
+        margin-bottom: 0;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        max-height: 60vh;
+    }
+    
+    .fields-menu-list {
+        max-height: calc(60vh - 100px);
+    }
+}
