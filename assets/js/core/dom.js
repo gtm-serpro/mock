@@ -95,4 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ajudaDialog.open();
         });
     }
+
+    // Abrir dialog de filtros automaticamente se estiver no empty state (sem busca na URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasBusca = urlParams.has('q') || urlParams.has('busca') || urlParams.has('search');
+
+    if (pageController.isEmptyState && !hasBusca) {
+        filtersDialog.open();
+    }
 });
