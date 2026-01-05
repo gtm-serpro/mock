@@ -1,7 +1,6 @@
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
     // Controllers
     const pageController = new PageController();
@@ -39,6 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
         openBtnId: 'ajudaBtn',
         closeBtnId: 'ajudaDialogCloseBtn'
     });
+    
+    // Expor dialogs globalmente (para uso nos templates Velocity)
+    window.openFiltersDialog = () => filtersDialog.open();
+    window.closeFiltersDialog = () => filtersDialog.close();
+    window.openInfoDialog = () => infoDialog.open();
+    window.closeInfoDialog = () => infoDialog.close();
+    window.openAjudaDialog = () => ajudaDialog.open();
+    window.closeAjudaDialog = () => ajudaDialog.close();
     
     // Filter Components
     const filterOperators = new FilterOperatorComponent();
@@ -86,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             action: () => filtersDialog.toggle()
         }
     ]);
-
+    
     // Link "Saiba mais" na tela vazia também abre o dialog de ajuda
     const emptyHelpLink = $('#emptyHelpLink');
     if (emptyHelpLink) {
@@ -95,16 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
             ajudaDialog.open();
         });
     }
-
+    
     // Abrir dialog de filtros automaticamente se estiver no empty state (sem busca na URL)
     const urlParams = new URLSearchParams(window.location.search);
     const hasBusca = urlParams.has('q') || urlParams.has('busca') || urlParams.has('search');
-
     if (pageController.isEmptyState && !hasBusca) {
         filtersDialog.open();
     }
-
-    
 });
 
 // Funções globais usadas nos templates Velocity
@@ -126,7 +130,6 @@ function clearEmptySearch() {
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        // Mostrar toast de confirmação
         const toast = document.querySelector('.copy-toast');
         if (toast) {
             toast.textContent = 'Copiado!';
