@@ -4,16 +4,16 @@
 
 #ajudaDialog {
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 0;
-    max-width: 500px;
-    width: calc(100% - 32px);
+    width: 95vw;
+    max-width: 1200px;
     max-height: calc(100dvh - 64px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 #ajudaDialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-overlay);
 }
 
 /* Header do dialog */
@@ -21,32 +21,377 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #ddd;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-primary);
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 #ajudaDialog header h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+    color: var(--color-primary);
 }
 
 #ajudaDialogCloseBtn {
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#ajudaDialogCloseBtn img {
-    width: 16px;
-    height: 16px;
+    background: transparent;
+    border: none;
 }
 
 /* Main do dialog */
 #ajudaDialog main {
-    padding: 16px;
+    padding: var(--spacing-lg);
     overflow-y: auto;
     max-height: calc(100dvh - 150px);
+}
+
+/* ============================================
+   AJUDA CONTENT - Estilos do conteúdo
+   ============================================ */
+
+.ajuda-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.ajuda-section h3 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ajuda-section p {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
+.ajuda-section kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-family: monospace;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 1px 0 var(--color-border);
+}
+
+.ajuda-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-xs) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.ajuda-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+.ajuda-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-sm);
+    min-width: 70px;
+    text-align: center;
+}
+
+.tag-contains {
+    background-color: #DBEAFE;
+    color: #1D4ED8;
+}
+
+.tag-not-contains {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+.tag-equals {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.ajuda-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 9px;
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-bg-white);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+}
+
+.ajuda-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xs);
+}
+
+.ajuda-shortcuts li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.ajuda-shortcuts kbd {
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Dica com ícone */
+.ajuda-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    margin-top: var(--spacing-sm);
+}
+
+.ajuda-tip-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+
+/* Ícone inline no texto */
+.ajuda-inline-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+/* Subseções */
+.ajuda-subsection {
+    margin-top: var(--spacing-md);
+    padding-left: var(--spacing-sm);
+    border-left: 2px solid var(--color-border);
+}
+
+.ajuda-subsection h4 {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.ajuda-subsection p {
+    margin-bottom: var(--spacing-xs);
+}
+
+.ajuda-subsection .ajuda-list {
+    margin-top: var(--spacing-xs);
+}
+
+/* ============================================
+   INFO DIALOG - Modal de informações
+   ============================================ */
+
+#infoDialog {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0;
+    width: 95vw;
+    max-width: 1200px;
+    max-height: calc(100dvh - 64px);
+    box-shadow: var(--shadow-lg);
+}
+
+#infoDialog::backdrop {
+    background-color: var(--color-overlay);
+}
+
+/* Header do dialog */
+#infoDialog header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-primary);
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+#infoDialog header h2 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+    color: var(--color-primary);
+}
+
+#infoDialogCloseBtn {
+    background: transparent;
+    border: none;
+}
+
+/* Main do dialog */
+#infoDialog main {
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    max-height: calc(100dvh - 150px);
+}
+
+/* ============================================
+   INFO CONTENT - Estilos do conteúdo
+   ============================================ */
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.info-section h3 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.info-section > p {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Operadores */
+.info-operators {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.info-operator-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+}
+
+.info-operator-item .ajuda-tag {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+}
+
+.info-operator-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.info-operator-desc strong {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.info-operator-desc p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.info-example {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.info-example code {
+    background-color: var(--color-bg-white);
+    padding: 1px 4px;
+    border-radius: var(--radius-sm);
+    font-family: monospace;
+    font-size: 10px;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+}
+
+/* Autocomplete tips */
+.info-autocomplete-tips {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+}
+
+.info-tip {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+
+.info-tip-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.info-tip kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-family: monospace;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 1px 0 var(--color-border);
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 600px) {
+    #ajudaDialog,
+    #infoDialog {
+        max-width: 100%;
+        width: 100%;
+        max-height: 100dvh;
+        height: 100dvh;
+        border-radius: 0;
+    }
+    
+    #ajudaDialog header,
+    #infoDialog header {
+        border-radius: 0;
+    }
+    
+    #ajudaDialog main,
+    #infoDialog main {
+        max-height: calc(100dvh - 60px);
+    }
+    
+    .ajuda-shortcuts {
+        grid-template-columns: 1fr;
+    }
 }

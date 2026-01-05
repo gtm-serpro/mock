@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="assets/css/resultCard.css">
     <link rel="stylesheet" href="assets/css/dialogs.css">
     <link rel="stylesheet" href="assets/css/fieldsSelector.css">
+    <link rel="stylesheet" href="assets/css/ajudaDialog.css">
     
     <title>eProcesso Buscador</title>
 </head>
@@ -102,6 +103,10 @@
                         <span class="filtersUsedNumbers"></span>
                     </button>
                 </form>
+                <a href="#" class="empty-help-link" id="emptyHelpLink">
+                    <img class="iconColor" src="assets/img/icons/circle-question-regular-full.svg" alt="">
+                    <span>Ajuda</span>
+                </a>
             </search>
         </div>
     </main>
@@ -120,16 +125,6 @@
                     <li class="facetText"><button title="Processo Administrativo"><span>Processo Administrativo</span><span class="facetNumber">45</span></button></li>
                     <li class="facetText"><button title="Recurso Voluntário"><span>Recurso Voluntário</span><span class="facetNumber">32</span></button></li>
                     <li class="facetText"><button title="Recurso de Ofício"><span>Recurso de Ofício</span><span class="facetNumber">28</span></button></li>
-                </ul>
-            </div>
-            <div class="facetGroup">
-                <button class="facetTitle" title="Órgão Julgador">
-                    <span>Órgão Julgador</span>
-                    <img class="iconColor facetChevron" src="assets/img/icons/chevron-down-solid-full.svg" alt="">
-                </button>
-                <ul class="facetList">
-                    <li class="facetText"><button title="CARF - 1ª Seção"><span>CARF - 1ª Seção</span><span class="facetNumber">18</span></button></li>
-                    <li class="facetText"><button title="CARF - 2ª Seção"><span>CARF - 2ª Seção</span><span class="facetNumber">15</span></button></li>
                 </ul>
             </div>
             <!-- Resizer DENTRO do sidebar -->
@@ -166,7 +161,25 @@
                     </div>
                 </div>
                 <div id="pageResultsFooterRight">
-                    <!-- NOVO: Seletor de campos visíveis -->
+                    
+                    <div id="downloadDropdown" class="dropdown">
+                        <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
+                            <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
+                        </button>
+                        <ul id="downloadMenu" class="dropdown-menu dropdown-menu-top dropdown-menu-right">
+                            <li><button class="dropdown-item" value="xml">XML</button></li>
+                            <li><button class="dropdown-item" value="json">JSON</button></li>
+                            <li><button class="dropdown-item" value="csv">CSV</button></li>
+                        </ul>
+                    </div>
+                    <div id="downloadGroup">
+                        <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
+                        <button class="downloadBtn">XML</button>
+                        <button class="downloadBtn">JSON</button>
+                        <button class="downloadBtn">CSV</button>
+                    </div>
+
+                    <!-- Seletor de campos visíveis -->
                     <div id="fieldsDropdown" class="dropdown">
                         <button id="fieldsDropdownBtn" class="btn-icon" aria-label="Configurar campos visíveis" title="Campos visíveis">
                             <img class="iconColor" src="assets/img/icons/list-check-solid-full.svg" alt="">
@@ -183,22 +196,6 @@
                                 <!-- Campos serão inseridos via JS -->
                             </div>
                         </div>
-                    </div>
-                    <div id="downloadDropdown" class="dropdown">
-                        <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
-                            <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
-                        </button>
-                        <ul id="downloadMenu" class="dropdown-menu dropdown-menu-top dropdown-menu-right">
-                            <li><button class="dropdown-item" value="xml">XML</button></li>
-                            <li><button class="dropdown-item" value="json">JSON</button></li>
-                            <li><button class="dropdown-item" value="csv">CSV</button></li>
-                        </ul>
-                    </div>
-                    <div id="downloadGroup">
-                        <img class="iconColor" src="assets/img/icons/download-solid-full.svg" alt="">
-                        <button class="downloadBtn">XML</button>
-                        <button class="downloadBtn">JSON</button>
-                        <button class="downloadBtn">CSV</button>
                     </div>
                 </div>
             </footer>
@@ -386,12 +383,71 @@
 
     <dialog id="infoDialog">
         <header>
-            <h2>Informações</h2>
+            <h2>Como usar os filtros</h2>
             <button id="infoDialogCloseBtn" class="btn-icon" aria-label="Fechar">
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
-        <main><p>Conteúdo de informações sobre os filtros...</p></main>
+        <main class="info-content">
+            <section class="info-section">
+                <h3>Operadores de busca</h3>
+                <p>Cada campo de filtro possui um operador que define como a busca será realizada. Clique no botão do operador para alternar entre os modos:</p>
+                
+                <div class="info-operators">
+                    <div class="info-operator-item">
+                        <span class="ajuda-tag tag-contains">Contém</span>
+                        <div class="info-operator-desc">
+                            <strong>Busca parcial</strong>
+                            <p>Encontra registros que contenham o texto digitado em qualquer parte do campo.</p>
+                            <span class="info-example">Ex: buscar <code>IRPJ</code> encontra "IRPJ - Lucro Real", "Auto IRPJ", etc.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-operator-item">
+                        <span class="ajuda-tag tag-not-contains">Não contém</span>
+                        <div class="info-operator-desc">
+                            <strong>Exclusão</strong>
+                            <p>Encontra registros que <u>não</u> contenham o texto digitado.</p>
+                            <span class="info-example">Ex: buscar <code>Arquivado</code> exclui todos os processos arquivados.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-operator-item">
+                        <span class="ajuda-tag tag-equals">Igual</span>
+                        <div class="info-operator-desc">
+                            <strong>Correspondência exata</strong>
+                            <p>Encontra apenas registros com valor idêntico ao digitado.</p>
+                            <span class="info-example">Ex: buscar <code>CSLL</code> encontra apenas "CSLL", não "PIS/CSLL".</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h3>Campos com autocomplete</h3>
+                <p>Campos marcados com <span class="ajuda-badge">AUTO</span> oferecem sugestões automáticas baseadas em valores existentes no sistema.</p>
+                
+                <div class="info-autocomplete-tips">
+                    <div class="info-tip">
+                        <span class="info-tip-icon">💡</span>
+                        <span>Comece a digitar para ver sugestões filtradas</span>
+                    </div>
+                    <div class="info-tip">
+                        <span class="info-tip-icon">⌨️</span>
+                        <span>Use <kbd>↑</kbd> <kbd>↓</kbd> para navegar e <kbd>Enter</kbd> para selecionar</span>
+                    </div>
+                    <div class="info-tip">
+                        <span class="info-tip-icon">✏️</span>
+                        <span>Você também pode digitar valores personalizados</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h3>Combinando filtros</h3>
+                <p>Todos os filtros preenchidos são combinados com <strong>E</strong> (AND), ou seja, os resultados devem atender a todos os critérios simultaneamente.</p>
+            </section>
+        </main>
     </dialog>
 
     <dialog id="ajudaDialog">
@@ -401,10 +457,82 @@
                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
             </button>
         </header>
-        <main><p>Conteúdo de ajuda...</p></main>
+        <main class="ajuda-content">
+            <section class="ajuda-section">
+                <h3>Busca por texto</h3>
+                <p>Digite termos no campo de busca para pesquisar no conteúdo dos documentos. A busca procura em todos os campos indexados, incluindo o texto completo dos PDFs pesquisáveis (OCR).</p>
+            </section>
+            
+            <section class="ajuda-section">
+                <h3>Filtros avançados</h3>
+                <p>Clique em <strong>Filtrar</strong> ou pressione <kbd>Ctrl+K</kbd> para abrir o painel de filtros. Você pode preencher quantos filtros quiser — todos são combinados para refinar sua busca, retornando apenas documentos que atendam a <u>todos</u> os critérios.</p>
+                <div class="ajuda-tip">
+                    <span class="ajuda-tip-icon">💡</span>
+                    <span>Clique no botão <img class="ajuda-inline-icon iconColor" src="assets/img/icons/circle-info-solid-full.svg" alt=""> no rodapé do painel de filtros para saber como os operadores funcionam.</span>
+                </div>
+            </section>
+            
+            <section class="ajuda-section">
+                <h3>Busca facetada</h3>
+                <p>A barra lateral esquerda exibe <strong>facetas</strong> — agrupamentos dos resultados por categorias como Tipo de Processo, Órgão Julgador, Tributo, etc. Cada faceta mostra a quantidade de documentos encontrados.</p>
+                <p>Clique em uma faceta para filtrar os resultados apenas por aquela categoria, refinando sua busca de forma rápida e visual.</p>
+            </section>
+            
+            <section class="ajuda-section">
+                <h3>Resultados da busca</h3>
+                <p>Os documentos encontrados são exibidos em cards com os principais campos. Clique em qualquer campo para <strong>copiar</strong> seu valor.</p>
+                <div class="ajuda-subsection">
+                    <h4>Configurar campos visíveis</h4>
+                    <p>Use o botão <img class="ajuda-inline-icon iconColor" src="assets/img/icons/list-check-solid-full.svg" alt=""> no rodapé para escolher quais campos exibir nos cards de resultado. Suas preferências são salvas automaticamente.</p>
+                </div>
+                <div class="ajuda-subsection">
+                    <h4>Download de documentos</h4>
+                    <p>Cada card possui botões para baixar o PDF:</p>
+                    <ul class="ajuda-list">
+                        <li><img class="ajuda-inline-icon iconColor" src="assets/img/icons/file-image-regular-full.svg" alt=""> <strong>PDF Original</strong> — Documento digitalizado</li>
+                        <li><img class="ajuda-inline-icon iconColorGreen" src="assets/img/icons/file-lines-regular-full.svg" alt=""> <strong>PDF Pesquisável</strong> — Versão com OCR (quando disponível)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="ajuda-section">
+                <h3>Exportar resultados</h3>
+                <p>No rodapé da página, use os botões <strong>XML</strong>, <strong>JSON</strong> ou <strong>CSV</strong> para exportar a lista de resultados da busca atual. A exportação inclui todos os metadados dos documentos encontrados.</p>
+            </section>
+            
+            <section class="ajuda-section">
+                <h3>Atalhos de teclado</h3>
+                <ul class="ajuda-list ajuda-shortcuts">
+                    <li><kbd>Ctrl+K</kbd> Abrir/fechar filtros</li>
+                    <li><kbd>Enter</kbd> Executar busca</li>
+                    <li><kbd>Esc</kbd> Fechar diálogos</li>
+                </ul>
+            </section>
+        </main>
     </dialog>
 
+    <!-- JS Core (ordem importa!) -->
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/utils.js"></script>
+    
+    <!-- JS Controllers -->
+    <script src="assets/js/controllers/PageController.js"></script>
+    
+    <!-- JS Components -->
+    <script src="assets/js/components/AccordionComponent.js"></script>
+    <script src="assets/js/components/AutocompleteComponent.js"></script>
+    <script src="assets/js/components/CurrencyInputComponent.js"></script>
+    <script src="assets/js/components/DialogComponent.js"></script>
+    <script src="assets/js/components/DropdownComponent.js"></script>
+    <script src="assets/js/components/FilterCounterComponent.js"></script>
+    <script src="assets/js/components/FilterOperatorComponent.js"></script>
+    <script src="assets/js/components/KeyboardShortcuts.js"></script>
+    <script src="assets/js/components/ResultCardComponent.js"></script>
+    <script src="assets/js/components/SearchComponent.js"></script>
+    <script src="assets/js/components/SidebarComponent.js"></script>
     <script src="assets/js/fieldsSelector.js"></script>
-    <script type="module" src="assets/js/main.js"></script>
+    
+    <!-- JS Inicialização (sempre por último) -->
+    <script src="assets/js/core/dom.js"></script>
 </body>
 </html>

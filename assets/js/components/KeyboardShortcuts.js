@@ -1,4 +1,4 @@
-export class KeyboardShortcuts {
+class KeyboardShortcuts {
   constructor(shortcuts = []) {
     this.shortcuts = shortcuts;
     this.init();

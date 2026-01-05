@@ -158,6 +158,40 @@ body.empty-state #headerSearch {
 }
 
 /* ============================================
+   LINK SAIBA MAIS
+   ============================================ */
+
+.empty-search {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.empty-help-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: background-color var(--transition-fast);
+}
+
+.empty-help-link:hover {
+    background-color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+.empty-help-link img {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 
