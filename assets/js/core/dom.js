@@ -103,4 +103,42 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pageController.isEmptyState && !hasBusca) {
         filtersDialog.open();
     }
+
+    
 });
+
+// Funções globais usadas nos templates Velocity
+function clearHeaderSearch() {
+    const input = document.getElementById('headerSearchInput');
+    if (input) {
+        input.value = '';
+        input.closest('.searchInputWraper')?.classList.remove('hasValue');
+    }
+}
+
+function clearEmptySearch() {
+    const input = document.getElementById('emptySearchInput');
+    if (input) {
+        input.value = '';
+        input.closest('.searchInputWraper')?.classList.remove('hasValue');
+    }
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Mostrar toast de confirmação
+        const toast = document.querySelector('.copy-toast');
+        if (toast) {
+            toast.textContent = 'Copiado!';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+    });
+}
+
+// Expor globalmente
+window.clearHeaderSearch = clearHeaderSearch;
+window.clearEmptySearch = clearEmptySearch;
+window.copyToClipboard = copyToClipboard;

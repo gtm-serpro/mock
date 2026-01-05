@@ -154,7 +154,7 @@
     <script src="/eprocesso/assets/js/components/SidebarComponent.js"></script>
     <script src="/eprocesso/assets/js/components/FilterOperatorComponent.js"></script>
     <script src="/eprocesso/assets/js/components/AutocompleteComponent.js"></script>
-    <script src="/eprocesso/assets/js/components/FieldsSelectorComponent.js"></script>
+    <script src="/eprocesso/assets/js/fieldsSelector.js"></script>
     <script src="/eprocesso/assets/js/core/dom.js"></script>
 </body>
 </html>
