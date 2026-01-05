@@ -1,0 +1,90 @@
+#**
+ *  Info Dialog - How to use filters
+ *#
+
+<dialog id="infoDialog">
+    <header>
+        <h2>Como usar os filtros</h2>
+        <button id="infoDialogCloseBtn" class="btn-icon" aria-label="Fechar" onclick="closeInfoDialog()">
+            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+        </button>
+    </header>
+    <main class="info-content">
+        <section class="info-section">
+            <h3>Operadores de busca</h3>
+            <p>Cada campo de filtro possui um operador que define como a busca será realizada. Clique no botão do operador para alternar entre os modos:</p>
+            
+            <div class="info-operators">
+                <div class="info-operator-item">
+                    <span class="ajuda-tag tag-contains">Contém</span>
+                    <div class="info-operator-desc">
+                        <strong>Busca parcial</strong>
+                        <p>Encontra registros que contenham o texto digitado em qualquer parte do campo.</p>
+                        <span class="info-example">Ex: buscar <code>IRPJ</code> encontra "IRPJ - Lucro Real", "Auto IRPJ", etc.</span>
+                    </div>
+                </div>
+                
+                <div class="info-operator-item">
+                    <span class="ajuda-tag tag-not-contains">Não contém</span>
+                    <div class="info-operator-desc">
+                        <strong>Exclusão</strong>
+                        <p>Encontra registros que <u>não</u> contenham o texto digitado.</p>
+                        <span class="info-example">Ex: buscar <code>Arquivado</code> exclui todos os processos arquivados.</span>
+                    </div>
+                </div>
+                
+                <div class="info-operator-item">
+                    <span class="ajuda-tag tag-equals">Igual</span>
+                    <div class="info-operator-desc">
+                        <strong>Correspondência exata</strong>
+                        <p>Encontra apenas registros com valor idêntico ao digitado.</p>
+                        <span class="info-example">Ex: buscar <code>CSLL</code> encontra apenas "CSLL", não "PIS/CSLL".</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="info-section">
+            <h3>Campos com autocomplete</h3>
+            <p>Campos marcados com <span class="ajuda-badge">AUTO</span> oferecem sugestões automáticas baseadas em valores existentes no sistema.</p>
+            
+            <div class="info-autocomplete-tips">
+                <div class="info-tip">
+                    <span class="info-tip-icon">💡</span>
+                    <span>Comece a digitar para ver sugestões filtradas</span>
+                </div>
+                <div class="info-tip">
+                    <span class="info-tip-icon">⌨️</span>
+                    <span>Use <kbd>↑</kbd> <kbd>↓</kbd> para navegar e <kbd>Enter</kbd> para selecionar</span>
+                </div>
+                <div class="info-tip">
+                    <span class="info-tip-icon">✏️</span>
+                    <span>Você também pode digitar valores personalizados</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="info-section">
+            <h3>Combinando filtros</h3>
+            <p>Todos os filtros preenchidos são combinados com <strong>E</strong> (AND), ou seja, os resultados devem atender a todos os critérios simultaneamente.</p>
+        </section>
+    </main>
+</dialog>
+
+<script>
+var infoDialog = document.getElementById('infoDialog');
+
+function openInfoDialog() {
+    infoDialog.showModal();
+}
+
+function closeInfoDialog() {
+    infoDialog.close();
+}
+
+infoDialog.addEventListener('click', function(e) {
+    if (e.target === infoDialog) {
+        closeInfoDialog();
+    }
+});
+</script>

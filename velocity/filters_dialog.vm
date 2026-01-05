@@ -1,0 +1,392 @@
+#**
+ *  Filters Dialog - Advanced search filters
+ *#
+
+<dialog id="filtersDialog">
+    <header>
+        <div class="dialog-header-content">
+            <img class="dialog-header-logo" src="/eprocesso/assets/img/favicon/logo-simbolo_e-Processo.svg" alt="">
+            <div class="dialog-header-search searchInputWraper">
+                <form class="searchForm" id="dialogSearchForm" action="#url_for_home" method="GET">
+                    <div class="searchInputWraper">
+                        <img class="searchIcon iconColor" src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                        <input class="searchInput" type="text" name="q" id="dialogSearchInput" placeholder="Digite para buscar..." value="#if($params.get('q') && $params.get('q') != '*:*')$!esc.html($params.get('q'))#end">
+                        <button class="searchCloseBtn" type="button" aria-label="Limpar busca" onclick="clearDialogSearch()">
+                            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar" onclick="closeFiltersDialog()">
+            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+        </button>
+    </header>
+    
+    <main>
+        <!-- Filtros de Data -->
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/calendar-solid-full.svg" alt="">
+                <span>Filtros de Data</span>
+            </div>
+            <div class="filter-flex">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Data do Protocolo do Processo</span></label>
+                    <div class="filter-date-range">
+                        <span>De</span>
+                        <input type="date" class="filter-input" id="dt_protocolo_from" name="dt_protocolo_from">
+                        <span>Até</span>
+                        <input type="date" class="filter-input" id="dt_protocolo_to" name="dt_protocolo_to">
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Data da Juntada</span></label>
+                    <div class="filter-date-range">
+                        <span>De</span>
+                        <input type="date" class="filter-input" id="dt_juntada_from" name="dt_juntada_from">
+                        <span>Até</span>
+                        <input type="date" class="filter-input" id="dt_juntada_to" name="dt_juntada_to">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Processo e Documento -->
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/file-solid-full.svg" alt="">
+                <span>Processo e Documento</span>
+            </div>
+            <div class="filter-grid filter-grid-6">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Grupo Processo</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="grupo_processo_s" id="grupo_processo_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Tipo Processo</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_processo_s" id="tipo_processo_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Subtipo Processo</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="subtipo_processo_s" id="subtipo_processo_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nr Processo</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="processo_s" id="processo_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Situação do Documento</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="situacao_s" id="situacao_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Assuntos/Objetos</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="assuntos_objetos_s" id="assuntos_objetos_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Tipo do Documento</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="tipo_documento_s" id="tipo_documento_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Título Documento</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="titulo_s" id="titulo_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nr Doc Principal</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="numero_doc_princiapal_exp_s" id="numero_doc_princiapal_exp_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Tributo ACT</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="tributo_act_s" id="tributo_act_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field filter-col-span-2">
+                    <label class="filter-label"><span class="filter-label-text">Valor do Processo</span></label>
+                    <div class="filter-value-range">
+                        <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric" id="valor_processo_from">
+                        <span>até</span>
+                        <input type="text" class="filter-input" placeholder="R$ 0,00" inputmode="numeric" id="valor_processo_to">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Unidade e Equipe -->
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/building-user-solid-full.svg" alt="">
+                <span>Unidade e Equipe</span>
+            </div>
+            <div class="filter-grid filter-grid-4">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Unidade de Origem do Documento</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="unidade_origem_s" id="unidade_origem_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Equipe de Origem do Documento</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="equipe_origem_s" id="equipe_origem_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Unidade Atual</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_unidade_atual_s" id="nome_unidade_atual_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Equipe Atual</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_equipe_atual_s" id="nome_equipe_atual_s" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Partes Envolvidas -->
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/user-group-solid-full.svg" alt="">
+                <span>Partes Envolvidas</span>
+            </div>
+            <div class="filter-grid filter-grid-5">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">NI Contribuinte</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="ni_contribuinte_s" id="ni_contribuinte_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome do Contribuinte</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_contribuinte_s" id="nome_contribuinte_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">CPF Responsável</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="cpf_responsavel_s" id="cpf_responsavel_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome Usuário Juntada</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_usuario_juntada_doc_s" id="nome_usuario_juntada_doc_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome Relator DRJ</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="nome_relator_drj_s" id="nome_relator_drj_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Julgamento -->
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/scale-balanced-solid-full.svg" alt="">
+                <span>Julgamento</span>
+            </div>
+            <div class="filter-grid filter-grid-3">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Alegações no Recurso</span><span class="filter-badge">AUTO</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="aleg_recurso_contrib_txt" id="aleg_recurso_contrib_txt" autocomplete="off">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 1</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="result_questdrj_nivel1_s" id="result_questdrj_nivel1_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 2</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" placeholder="Digite..." data-field="result_questdrj_nivel2_s" id="result_questdrj_nivel2_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <button id="infoBtn" class="btn-icon" aria-label="Informações" onclick="openInfoDialog()">
+            <img class="iconColor" src="/eprocesso/assets/img/icons/circle-info-solid-full.svg" alt="">
+        </button>
+        <div class="dialog-footer-right">
+            <button id="filtersDialogClearBtn" onclick="clearAllDialogFilters()">Limpar Filtros</button>
+            <button id="filtersDialogCancelBtn" onclick="closeFiltersDialog()">Cancelar</button>
+            <button id="filtersDialogApplyBtn" onclick="applyFilters()">Buscar</button>
+        </div>
+    </footer>
+</dialog>
+
+<script>
+var filtersDialog = document.getElementById('filtersDialog');
+
+function openFiltersDialog() {
+    filtersDialog.showModal();
+}
+
+function closeFiltersDialog() {
+    filtersDialog.close();
+}
+
+function clearDialogSearch() {
+    document.getElementById('dialogSearchInput').value = '';
+}
+
+function clearAllDialogFilters() {
+    // Clear all text inputs
+    filtersDialog.querySelectorAll('.filter-input').forEach(function(input) {
+        input.value = '';
+    });
+    // Clear date inputs
+    filtersDialog.querySelectorAll('input[type="date"]').forEach(function(input) {
+        input.value = '';
+    });
+    // Reset operators
+    filtersDialog.querySelectorAll('.filter-operator').forEach(function(btn) {
+        btn.dataset.operator = 'contains';
+        btn.textContent = 'Contém';
+        btn.className = 'filter-operator contains';
+    });
+    filtersDialog.querySelectorAll('.filter-input-group').forEach(function(group) {
+        group.classList.remove('has-operator', 'operator-contains', 'operator-not-contains', 'operator-equals');
+    });
+}
+
+function escapeSolrValue(value) {
+    // Escape special Solr characters
+    return value.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&').replace(/ /g, '\\ ');
+}
+
+function applyFilters() {
+    var searchTerm = document.getElementById('dialogSearchInput').value.trim();
+    var filterQueries = [];
+    
+    // Process text fields
+    var textFields = [
+        'grupo_processo_s', 'tipo_processo_s', 'subtipo_processo_s', 'processo_s',
+        'situacao_s', 'assuntos_objetos_s', 'tipo_documento_s', 'titulo_s',
+        'numero_doc_princiapal_exp_s', 'tributo_act_s', 'unidade_origem_s',
+        'equipe_origem_s', 'nome_unidade_atual_s', 'nome_equipe_atual_s',
+        'ni_contribuinte_s', 'nome_contribuinte_s', 'cpf_responsavel_s',
+        'nome_usuario_juntada_doc_s', 'nome_relator_drj_s', 'aleg_recurso_contrib_txt',
+        'result_questdrj_nivel1_s', 'result_questdrj_nivel2_s'
+    ];
+    
+    textFields.forEach(function(fieldId) {
+        var input = document.getElementById(fieldId);
+        if (input && input.value.trim()) {
+            var fieldValue = escapeSolrValue(input.value.trim());
+            var fieldGroup = input.closest('.filter-input-group');
+            var operatorBtn = fieldGroup ? fieldGroup.querySelector('.filter-operator') : null;
+            var operator = operatorBtn ? (operatorBtn.dataset.operator || 'contains') : 'contains';
+            
+            var fq = '';
+            if (operator === 'not-contains') {
+                fq = '-' + fieldId + ':*' + fieldValue + '*';
+            } else if (operator === 'equals') {
+                fq = fieldId + ':"' + input.value.trim() + '"';
+            } else {
+                fq = fieldId + ':*' + fieldValue + '*';
+            }
+            filterQueries.push(fq);
+        }
+    });
+    
+    // Process date ranges
+    var dtProtocoloFrom = document.getElementById('dt_protocolo_from').value;
+    var dtProtocoloTo = document.getElementById('dt_protocolo_to').value;
+    if (dtProtocoloFrom || dtProtocoloTo) {
+        var from = dtProtocoloFrom ? dtProtocoloFrom + 'T00:00:00Z' : '*';
+        var to = dtProtocoloTo ? dtProtocoloTo + 'T23:59:59Z' : '*';
+        filterQueries.push('dt_protocolo_tdt:[' + from + ' TO ' + to + ']');
+    }
+    
+    var dtJuntadaFrom = document.getElementById('dt_juntada_from').value;
+    var dtJuntadaTo = document.getElementById('dt_juntada_to').value;
+    if (dtJuntadaFrom || dtJuntadaTo) {
+        var from = dtJuntadaFrom ? dtJuntadaFrom + 'T00:00:00Z' : '*';
+        var to = dtJuntadaTo ? dtJuntadaTo + 'T23:59:59Z' : '*';
+        filterQueries.push('dt_juntada_tdt:[' + from + ' TO ' + to + ']');
+    }
+    
+    // Build URL
+    var url = '#url_for_home?q=' + encodeURIComponent(searchTerm || '*:*');
+    filterQueries.forEach(function(fq) {
+        url += '&fq=' + encodeURIComponent(fq);
+    });
+    
+    window.location.href = url;
+}
+
+// Close dialog on backdrop click
+filtersDialog.addEventListener('click', function(e) {
+    if (e.target === filtersDialog) {
+        closeFiltersDialog();
+    }
+});
+
+// Keyboard shortcut
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (filtersDialog.open) {
+            closeFiltersDialog();
+        } else {
+            openFiltersDialog();
+        }
+    }
+    if (e.key === 'Escape' && filtersDialog.open) {
+        closeFiltersDialog();
+    }
+});
+</script>

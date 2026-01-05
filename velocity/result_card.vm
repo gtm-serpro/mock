@@ -1,0 +1,314 @@
+#**
+ *  Result card - individual document display
+ *#
+
+#set($id = $doc.getFieldValue('id'))
+#set($titulo = $doc.getFieldValue('titulo_s'))
+#set($tipoDocumento = $doc.getFieldValue('tipo_documento_s'))
+#set($processo = $doc.getFieldValue('processo_s'))
+#set($dataAnexacao = $doc.getFieldValue('dt_anexacao_tdt'))
+#set($dataProtocolo = $doc.getFieldValue('dt_protocolo_tdt'))
+#set($dataJuntada = $doc.getFieldValue('dt_juntada_tdt'))
+#set($unidadeOrigem = $doc.getFieldValue('unidade_origem_s'))
+#set($equipeOrigem = $doc.getFieldValue('equipe_origem_s'))
+#set($grupoProcesso = $doc.getFieldValue('grupo_processo_s'))
+#set($tipoProcesso = $doc.getFieldValue('tipo_processo_s'))
+#set($subtipoProcesso = $doc.getFieldValue('subtipo_processo_s'))
+#set($niContribuinte = $doc.getFieldValue('ni_contribuinte_s'))
+#set($nomeContribuinte = $doc.getFieldValue('nome_contribuinte_s'))
+#set($equipeAtual = $doc.getFieldValue('nome_equipe_atual_s'))
+#set($unidadeAtual = $doc.getFieldValue('nome_unidade_atual_s'))
+#set($cpfResponsavel = $doc.getFieldValue('cpf_responsavel_s'))
+#set($usuarioJuntada = $doc.getFieldValue('nome_usuario_juntada_doc_s'))
+#set($tributoAct = $doc.getFieldValue('tributo_act_s'))
+#set($assuntosObjetos = $doc.getFieldValue('assuntos_objetos_s'))
+#set($alegacoes = $doc.getFieldValue('aleg_recurso_contrib_txt'))
+#set($numeroDocPrincipal = $doc.getFieldValue('numero_doc_princiapal_exp_s'))
+#set($arquivoIndexado = $doc.getFieldValue('arquivo_indexado_s'))
+#set($indicadorPesquisavel = $doc.getFieldValue('indicador_pesquisavel_s'))
+#set($indicadorOriginalPesquisavel = $doc.getFieldValue('indicador_original_pesquisavel_s'))
+
+## URLs de download
+#set($baseUrl = 'https://eprocesso.suiterfb.receita.fazenda/eprocesso/api/documentos/')
+#set($pdfUrl = "${baseUrl}${id}/obterbinario/download")
+#set($pdfOcrUrl = "${baseUrl}${id}/obterbinarioocr/download")
+
+<article class="result-card" id="doc-$!id" data-doc-id="$!id">
+    <header class="result-card-header">
+        <div class="result-card-actions">
+            #if($arquivoIndexado == 'S')
+                #if($indicadorPesquisavel == 'S' && $indicadorOriginalPesquisavel == 'N')
+                    ## Dual: Original + OCR
+                    <div class="btn-group">
+                        <a href="$pdfUrl" class="btn-download" title="Baixar PDF Original" target="_blank">
+                            <img class="icon-default iconColor" src="/eprocesso/assets/img/icons/file-image-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                        </a>
+                        <a href="$pdfOcrUrl" class="btn-download" title="Baixar PDF Pesquisável (OCR)" target="_blank">
+                            <img class="icon-default iconColorGreen" src="/eprocesso/assets/img/icons/file-lines-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                        </a>
+                    </div>
+                #elseif($indicadorPesquisavel == 'S' && $indicadorOriginalPesquisavel == 'S')
+                    ## Searchable original
+                    <div class="btn-group">
+                        <a href="$pdfUrl" class="btn-download btn-download-single" title="Baixar PDF Pesquisável" target="_blank">
+                            <img class="icon-default iconColorGreen" src="/eprocesso/assets/img/icons/file-lines-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                        </a>
+                    </div>
+                #else
+                    ## Original only
+                    <div class="btn-group">
+                        <a href="$pdfUrl" class="btn-download btn-download-single" title="Baixar PDF Original" target="_blank">
+                            <img class="icon-default iconColor" src="/eprocesso/assets/img/icons/file-image-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                        </a>
+                    </div>
+                #end
+            #else
+                ## No PDF
+                <div class="btn-group">
+                    <span class="btn-download btn-download-disabled" title="PDF não disponível">
+                        <img class="iconColor" src="/eprocesso/assets/img/icons/file-excel-regular-full.svg" alt="">
+                    </span>
+                </div>
+            #end
+        </div>
+        <h3 class="result-card-title">
+            #set($titleText = $tipoDocumento)
+            #if($titulo)
+                #set($titleText = "${tipoDocumento} - ${titulo}")
+            #end
+            #highlight_field('titulo_s', $titleText)
+        </h3>
+    </header>
+    
+    <div class="result-card-body">
+        #if($processo)
+        <div class="result-field" data-field="processo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($processo)')">
+            <dt class="result-field-label">Número do Processo</dt>
+            <dd class="result-field-value">
+                <span>#highlight_field('processo_s', $processo)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($dataAnexacao)
+        <div class="result-field" data-field="data-anexacao" title="Clique para copiar" onclick="copyToClipboard('#format_date($dataAnexacao)')">
+            <dt class="result-field-label">Data Anexação</dt>
+            <dd class="result-field-value">
+                <span>#format_date($dataAnexacao)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($dataProtocolo)
+        <div class="result-field" data-field="data-protocolo" title="Clique para copiar" onclick="copyToClipboard('#format_date($dataProtocolo)')">
+            <dt class="result-field-label">Data Protocolo</dt>
+            <dd class="result-field-value">
+                <span>#format_date($dataProtocolo)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($dataJuntada)
+        <div class="result-field" data-field="data-juntada" title="Clique para copiar" onclick="copyToClipboard('#format_date($dataJuntada)')">
+            <dt class="result-field-label">Data Juntada</dt>
+            <dd class="result-field-value">
+                <span>#format_date($dataJuntada)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($unidadeOrigem)
+        <div class="result-field" data-field="unidade-origem" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($unidadeOrigem)')">
+            <dt class="result-field-label">Unidade Origem</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($unidadeOrigem)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($equipeOrigem)
+        <div class="result-field" data-field="equipe-origem" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($equipeOrigem)')">
+            <dt class="result-field-label">Equipe Origem</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($equipeOrigem)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($tipoDocumento)
+        <div class="result-field" data-field="tipo-documento" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($tipoDocumento)')">
+            <dt class="result-field-label">Tipo Documento</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($tipoDocumento)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($titulo)
+        <div class="result-field" data-field="titulo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($titulo)')">
+            <dt class="result-field-label">Título</dt>
+            <dd class="result-field-value">
+                <span>#highlight_field('titulo_s', $titulo)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($grupoProcesso)
+        <div class="result-field" data-field="grupo-processo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($grupoProcesso)')">
+            <dt class="result-field-label">Grupo Processo</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($grupoProcesso)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($tipoProcesso)
+        <div class="result-field" data-field="tipo-processo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($tipoProcesso)')">
+            <dt class="result-field-label">Tipo Processo</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($tipoProcesso)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($subtipoProcesso)
+        <div class="result-field" data-field="subtipo-processo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($subtipoProcesso)')">
+            <dt class="result-field-label">Subtipo Processo</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($subtipoProcesso)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($niContribuinte)
+        <div class="result-field" data-field="ni-contribuinte" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($niContribuinte)')">
+            <dt class="result-field-label">NI Contribuinte</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($niContribuinte)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($nomeContribuinte)
+        <div class="result-field" data-field="nome-contribuinte" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($nomeContribuinte)')">
+            <dt class="result-field-label">Nome Contribuinte</dt>
+            <dd class="result-field-value">
+                <span>#highlight_field('nome_contribuinte_s', $nomeContribuinte)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($equipeAtual)
+        <div class="result-field" data-field="equipe-atual" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($equipeAtual)')">
+            <dt class="result-field-label">Equipe Atual</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($equipeAtual)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($unidadeAtual)
+        <div class="result-field" data-field="unidade-atual" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($unidadeAtual)')">
+            <dt class="result-field-label">Unidade Atual</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($unidadeAtual)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($cpfResponsavel)
+        <div class="result-field" data-field="cpf-responsavel" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($cpfResponsavel)')">
+            <dt class="result-field-label">CPF Responsável</dt>
+            <dd class="result-field-value">
+                <span>#format_cpf($cpfResponsavel)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($usuarioJuntada)
+        <div class="result-field" data-field="usuario-juntada" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($usuarioJuntada)')">
+            <dt class="result-field-label">Usuário Juntada</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($usuarioJuntada)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($tributoAct)
+        <div class="result-field" data-field="tributo-act" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($tributoAct)')">
+            <dt class="result-field-label">Tributo ACT</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($tributoAct)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($assuntosObjetos)
+        <div class="result-field" data-field="assuntos-objetos" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($assuntosObjetos)')">
+            <dt class="result-field-label">Assuntos/Objetos</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($assuntosObjetos)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($alegacoes)
+        <div class="result-field" data-field="alegacoes" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($alegacoes)')">
+            <dt class="result-field-label">Alegações</dt>
+            <dd class="result-field-value">
+                <span>#highlight_field('aleg_recurso_contrib_txt', $alegacoes)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+        
+        #if($numeroDocPrincipal)
+        <div class="result-field" data-field="numero-doc-principal" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($numeroDocPrincipal)')">
+            <dt class="result-field-label">Nr Doc Principal</dt>
+            <dd class="result-field-value">
+                <span>$!esc.html($numeroDocPrincipal)</span>
+                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+            </dd>
+        </div>
+        #end
+    </div>
+    
+    ## Snippet (conteúdo do documento) - só exibe se houver busca textual e highlighting
+    #if($params.get('q') && $params.get('q') != '*:*')
+    #set($conteudoHighlight = $response.response.highlighting.get($docId).get('conteudo_txt'))
+    #if($conteudoHighlight && $conteudoHighlight.size() > 0)
+    <div class="result-card-snippet">
+        <dt class="result-snippet-label">Trecho:</dt>
+        <dd class="result-snippet-value">
+            #foreach($snippet in $conteudoHighlight)
+                $snippet
+                #if($foreach.hasNext) ... #end
+            #end
+        </dd>
+    </div>
+    #end
+    #end
+</article>

@@ -1,0 +1,69 @@
+#**
+ *  Display active filters with remove buttons
+ *#
+
+#set($labelsMap = {
+    'grupo_processo_s': 'Grupo Processo',
+    'tipo_processo_s': 'Tipo Processo',
+    'subtipo_processo_s': 'Subtipo Processo',
+    'tipo_documento_s': 'Tipo Documento',
+    'situacao_s': 'Situação',
+    'unidade_origem_s': 'Unidade Origem',
+    'equipe_origem_s': 'Equipe Origem',
+    'nome_unidade_atual_s': 'Unidade Atual',
+    'nome_equipe_atual_s': 'Equipe Atual',
+    'tributo_act_s': 'Tributo ACT',
+    'processo_s': 'Nr Processo',
+    'ni_contribuinte_s': 'NI Contribuinte',
+    'nome_contribuinte_s': 'Nome Contribuinte',
+    'cpf_responsavel_s': 'CPF Responsável',
+    'titulo_s': 'Título',
+    'dt_protocolo_tdt': 'Data Protocolo',
+    'dt_juntada_tdt': 'Data Juntada',
+    'dt_anexacao_tdt': 'Data Anexação'
+})
+
+#foreach($fq in $request.params.getParams('fq'))
+#if($fq && $fq != '')
+#set($filterParts = $fq.split(':'))
+#set($fieldName = $filterParts[0].replace('-', '').replace('{!tag=', '').replace('}', '').trim())
+#set($fieldValue = $fq.substring($fq.indexOf(':') + 1).replace('"', '').replace('*', '').trim())
+
+<div class="usedFilters">
+    <button class="btn btn-sm btn-secondary" onclick="removeFilter('$esc.javascript($fq)')">
+        <span class="usedFilterLabel">
+            #if($labelsMap.get($fieldName))$labelsMap.get($fieldName)#else$fieldName#end:
+        </span>
+        <span class="usedFilterValue">$display.truncate($fieldValue, 20)</span>
+        <img class="usedFilterCloseBtn iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="Remover">
+    </button>
+</div>
+#end
+#end
+
+#if($request.params.getParams('fq') && $request.params.getParams('fq').size() > 0)
+<button class="btn btn-sm btn-ghost" onclick="clearAllFilters()" title="Limpar todos os filtros">
+    Limpar filtros
+</button>
+#end
+
+<script>
+function removeFilter(filterToRemove) {
+    var currentFilters = SOLR_CONFIG.currentFilters;
+    var newFilters = currentFilters.filter(function(f) {
+        return f !== filterToRemove;
+    });
+    
+    var url = '#url_for_home?' + 'q=' + encodeURIComponent(SOLR_CONFIG.currentQuery || '*:*');
+    newFilters.forEach(function(f) {
+        url += '&fq=' + encodeURIComponent(f);
+    });
+    
+    window.location.href = url;
+}
+
+function clearAllFilters() {
+    var url = '#url_for_home?q=' + encodeURIComponent(SOLR_CONFIG.currentQuery || '*:*');
+    window.location.href = url;
+}
+</script>

@@ -1,0 +1,160 @@
+#**
+ *  Main entry point - eProcesso Buscador
+ *  Modern interface with full Solr integration
+ *#
+
+#set($searcher = $request.searcher)
+#set($params = $request.params)
+#set($clusters = $response.response.clusters)
+#set($mltResults = $response.response.get("moreLikeThis"))
+#set($annotate = $params.get("annotateBrowse"))
+#set($hasResults = $response.results && $response.results.size() > 0)
+#set($hasQuery = $params.get('q') && $params.get('q') != '' && $params.get('q') != '*:*')
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    #parse("head.vm")
+</head>
+<body class="#if(!$hasResults)empty-state#end">
+    <!-- HEADER -->
+    <header id="mainHeader">
+        <div id="mainHeaderLeft">
+            <button id="sidebarBtn" class="btn-icon" aria-label="Abrir menu">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/bars-solid-full.svg" alt="">
+            </button>
+            <img id="logoMain" src="/eprocesso/assets/img/logos/logo-eprocesso-buscador.svg" alt="eProcesso Buscador">
+            <img id="logoShort" src="/eprocesso/assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
+        </div>
+        
+        #if($hasResults)
+        <search id="headerSearch">
+            <form class="searchForm" action="#url_for_home" method="GET">
+                <div class="searchInputWraper #if($params.get('q') && $params.get('q') != '*:*')hasValue#end">
+                    <img class="searchIcon iconColor" src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                    <input class="searchInput" type="text" name="q" id="headerSearchInput" placeholder="Digite para buscar..." value="#if($params.get('q') && $params.get('q') != '*:*')$!esc.html($params.get('q'))#end">
+                    <button class="searchCloseBtn" type="button" aria-label="Limpar busca" onclick="clearHeaderSearch()">
+                        <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+                    </button>
+                    <kbd class="searchKBD">Ctrl+K</kbd>
+                </div>
+                <button class="searchBtn" type="submit">Buscar</button>
+                <button type="button" class="filterBtn" onclick="openFiltersDialog()">
+                    <span class="filterBtnIcon">
+                        <img class="iconColor" src="/eprocesso/assets/img/icons/filter-solid-full.svg" alt="">
+                    </span>
+                    <span class="filterBtnText">Filtrar</span>
+                    <span class="filtersUsedNumbers" id="headerFilterCount"></span>
+                </button>
+                #foreach($fq in $request.params.getParams('fq'))
+                    <input type="hidden" name="fq" value="$esc.html($fq)"/>
+                #end
+            </form>
+        </search>
+        #end
+        
+        <div id="logosParceiros">
+            <img src="/eprocesso/assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
+            <img src="/eprocesso/assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
+            <img src="/eprocesso/assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
+        </div>
+        
+        <div id="accessibilityDropdown" class="dropdown">
+            <button id="accessibilityBtn" class="btn-icon" aria-label="Acessibilidade">
+                <img class="iconColor" src="/eprocesso/assets/img/icons/universal-access-solid-full.svg" alt="">
+            </button>
+            <ul id="accessibilityMenu" class="dropdown-menu dropdown-menu-bottom dropdown-menu-right">
+                <li><button class="dropdown-item" value="theme">🌙 Tema escuro</button></li>
+                <li><button class="dropdown-item" value="contrast">◐ Alto contraste</button></li>
+                <li><button class="dropdown-item" value="fontUp">A+ Aumentar fonte</button></li>
+                <li><button class="dropdown-item" value="fontDown">A- Diminuir fonte</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- EMPTY PAGE -->
+    <main id="pageEmpty">
+        <div class="empty-component">
+            <div class="empty-icon">
+                <img src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+            </div>
+            <div class="empty-text">
+                <h1 class="empty-title">Busque processos administrativos</h1>
+                <p class="empty-description">Digite um termo para pesquisar processos da Receita Federal, PGFN e CARF.</p>
+            </div>
+            <search class="empty-search">
+                <form class="searchForm" action="#url_for_home" method="GET">
+                    <div id="empty-search-container">
+                        <button type="button" id="ajudaBtnEmpty" class="btn-icon" aria-label="Ajuda" onclick="openAjudaDialog()">
+                            <img class="iconColor" src="/eprocesso/assets/img/icons/circle-question-regular-full.svg" alt="">
+                        </button>
+                        <div class="searchInputWraper">
+                            <img class="searchIcon iconColor" src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                            <input class="searchInput" type="text" name="q" id="emptySearchInput" placeholder="Digite para buscar...">
+                            <button class="searchCloseBtn" type="button" aria-label="Limpar busca" onclick="clearEmptySearch()">
+                                <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+                            </button>
+                            <kbd class="searchKBD">Ctrl+K</kbd>
+                        </div>
+                        <button class="searchBtn" type="submit">Buscar</button>
+                        <button type="button" class="filterBtn" onclick="openFiltersDialog()">
+                            <span class="filterBtnIcon">
+                                <img class="iconColor" src="/eprocesso/assets/img/icons/filter-solid-full.svg" alt="">
+                            </span>
+                            <span class="filterBtnText">Filtrar</span>
+                            <span class="filtersUsedNumbers" id="emptyFilterCount"></span>
+                        </button>
+                    </div>
+                </form>
+                <a href="#" class="empty-help-link" id="emptyHelpLink" onclick="openAjudaDialog(); return false;">
+                    <img class="iconColor" src="/eprocesso/assets/img/icons/circle-question-regular-full.svg" alt="">
+                    <span>Ajuda</span>
+                </a>
+            </search>
+        </div>
+    </main>
+
+    <div id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- PAGE RESULTS -->
+    <main id="pageResults">
+        <aside id="sidebar">
+            #parse("facets.vm")
+            <div id="sidebarResizer"></div>
+        </aside>
+
+        <section id="mainContent">
+            #if($request.params.getParams('fq') && $request.params.getParams('fq').size() > 0)
+            <header id="pageResultsHeader">
+                #parse("used_filters.vm")
+            </header>
+            #end
+            
+            <section id="results">
+                #parse("results_list.vm")
+            </section>
+            
+            <footer id="pageResultsFooter">
+                #parse("pagination.vm")
+            </footer>
+        </section>
+    </main>
+
+    <!-- DIALOGS -->
+    #parse("filters_dialog.vm")
+    #parse("info_dialog.vm")
+    #parse("ajuda_dialog.vm")
+
+    <!-- JS -->
+    <script src="/eprocesso/assets/js/core/config.js"></script>
+    <script src="/eprocesso/assets/js/core/utils.js"></script>
+    <script src="/eprocesso/assets/js/core/solr.js"></script>
+    <script src="/eprocesso/assets/js/components/DropdownComponent.js"></script>
+    <script src="/eprocesso/assets/js/components/DialogComponent.js"></script>
+    <script src="/eprocesso/assets/js/components/SidebarComponent.js"></script>
+    <script src="/eprocesso/assets/js/components/FilterOperatorComponent.js"></script>
+    <script src="/eprocesso/assets/js/components/AutocompleteComponent.js"></script>
+    <script src="/eprocesso/assets/js/components/FieldsSelectorComponent.js"></script>
+    <script src="/eprocesso/assets/js/core/dom.js"></script>
+</body>
+</html>
