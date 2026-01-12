@@ -49,13 +49,13 @@
     --font-family: 'rawline', sans-serif;
     
     /* Tamanhos */
-    --font-size-xs: 10px;
-    --font-size-sm: 11px;
-    --font-size-base: 14px;
-    --font-size-md: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 24px;
-    --font-size-2xl: 32px;
+    --font-size-xs: 0.625rem;
+    --font-size-sm: 0.688rem;
+    --font-size-base: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.5rem;
+    --font-size-2xl: 2rem;
     
     /* Pesos */
     --font-weight-normal: 400;
@@ -81,6 +81,7 @@
     --spacing-6: 24px;
     --spacing-7: 32px;
     --spacing-8: 48px;
+    --spacing-9: 60px;
     
     /* Aliases semânticos */
     --spacing-xs: var(--spacing-2);
@@ -132,7 +133,7 @@
     /* Layout */
     --header-height: 48px;
     --sidebar-width: 300px;
-    --sidebar-min-width: 10px;
+    --sidebar-min-width: 0.625rem;
     --sidebar-max-width: 1000px;
     
     /* Dialog */

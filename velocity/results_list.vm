@@ -18,7 +18,7 @@
 ## Empty state message if no results
 #if(!$response.results || $response.results.size() == 0)
 <div class="no-results-message" style="text-align: center; padding: 40px; color: var(--color-text-light);">
-    <img src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px;">
+    <img src="${assetsPath}/img/icons/magnifying-glass-solid-full.svg" alt="" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px;">
     <h3 style="margin-bottom: 8px; color: var(--color-text);">Nenhum resultado encontrado</h3>
     <p>Tente ajustar os termos da busca ou remover alguns filtros.</p>
 </div>

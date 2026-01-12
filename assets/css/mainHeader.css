@@ -10,7 +10,7 @@
     align-items: center;
     gap: var(--spacing-xl);
     padding: var(--spacing-sm) var(--spacing-md);
-    border-bottom: 1px solid var(--color-primary);
+    border-bottom: 0.063rem solid var(--color-primary);
     background-color: var(--color-primary-light);
 }
 

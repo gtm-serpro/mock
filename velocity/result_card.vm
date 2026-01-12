@@ -3,6 +3,7 @@
  *#
 
 #set($id = $doc.getFieldValue('id'))
+#set($docId = $id)
 #set($titulo = $doc.getFieldValue('titulo_s'))
 #set($tipoDocumento = $doc.getFieldValue('tipo_documento_s'))
 #set($processo = $doc.getFieldValue('processo_s'))
@@ -41,28 +42,28 @@
                     ## Dual: Original + OCR
                     <div class="btn-group">
                         <a href="$pdfUrl" class="btn-download" title="Baixar PDF Original" target="_blank">
-                            <img class="icon-default iconColor" src="/eprocesso/assets/img/icons/file-image-regular-full.svg" alt="">
-                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                            <img class="icon-default iconColor" src="${assetsPath}/img/icons/file-image-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
                         </a>
                         <a href="$pdfOcrUrl" class="btn-download" title="Baixar PDF Pesquisável (OCR)" target="_blank">
-                            <img class="icon-default iconColorGreen" src="/eprocesso/assets/img/icons/file-lines-regular-full.svg" alt="">
-                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                            <img class="icon-default iconColorGreen" src="${assetsPath}/img/icons/file-lines-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
                         </a>
                     </div>
                 #elseif($indicadorPesquisavel == 'S' && $indicadorOriginalPesquisavel == 'S')
                     ## Searchable original
                     <div class="btn-group">
                         <a href="$pdfUrl" class="btn-download btn-download-single" title="Baixar PDF Pesquisável" target="_blank">
-                            <img class="icon-default iconColorGreen" src="/eprocesso/assets/img/icons/file-lines-regular-full.svg" alt="">
-                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                            <img class="icon-default iconColorGreen" src="${assetsPath}/img/icons/file-lines-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
                         </a>
                     </div>
                 #else
                     ## Original only
                     <div class="btn-group">
                         <a href="$pdfUrl" class="btn-download btn-download-single" title="Baixar PDF Original" target="_blank">
-                            <img class="icon-default iconColor" src="/eprocesso/assets/img/icons/file-image-regular-full.svg" alt="">
-                            <img class="icon-hover iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+                            <img class="icon-default iconColor" src="${assetsPath}/img/icons/file-image-regular-full.svg" alt="">
+                            <img class="icon-hover iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
                         </a>
                     </div>
                 #end
@@ -70,17 +71,17 @@
                 ## No PDF
                 <div class="btn-group">
                     <span class="btn-download btn-download-disabled" title="PDF não disponível">
-                        <img class="iconColor" src="/eprocesso/assets/img/icons/file-excel-regular-full.svg" alt="">
+                        <img class="iconColor" src="${assetsPath}/img/icons/file-excel-regular-full.svg" alt="">
                     </span>
                 </div>
             #end
         </div>
-        <h3 class="result-card-title">
+        <h3 class="result-card-title" data-highlight-field="titulo_s">
             #set($titleText = $tipoDocumento)
             #if($titulo)
                 #set($titleText = "${tipoDocumento} - ${titulo}")
             #end
-            #highlight_field('titulo_s', $titleText)
+            $!esc.html($titleText)
         </h3>
     </header>
     
@@ -89,8 +90,8 @@
         <div class="result-field" data-field="processo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($processo)')">
             <dt class="result-field-label">Número do Processo</dt>
             <dd class="result-field-value">
-                <span>#highlight_field('processo_s', $processo)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <span data-highlight-field="processo_s">$!esc.html($processo)</span>
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -100,7 +101,7 @@
             <dt class="result-field-label">Data Anexação</dt>
             <dd class="result-field-value">
                 <span>#format_date($dataAnexacao)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -110,7 +111,7 @@
             <dt class="result-field-label">Data Protocolo</dt>
             <dd class="result-field-value">
                 <span>#format_date($dataProtocolo)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -120,7 +121,7 @@
             <dt class="result-field-label">Data Juntada</dt>
             <dd class="result-field-value">
                 <span>#format_date($dataJuntada)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -130,7 +131,7 @@
             <dt class="result-field-label">Unidade Origem</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($unidadeOrigem)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -140,7 +141,7 @@
             <dt class="result-field-label">Equipe Origem</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($equipeOrigem)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -150,7 +151,7 @@
             <dt class="result-field-label">Tipo Documento</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($tipoDocumento)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -159,8 +160,8 @@
         <div class="result-field" data-field="titulo" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($titulo)')">
             <dt class="result-field-label">Título</dt>
             <dd class="result-field-value">
-                <span>#highlight_field('titulo_s', $titulo)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <span data-highlight-field="titulo_s">$!esc.html($titulo)</span>
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -170,7 +171,7 @@
             <dt class="result-field-label">Grupo Processo</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($grupoProcesso)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -180,7 +181,7 @@
             <dt class="result-field-label">Tipo Processo</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($tipoProcesso)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -190,7 +191,7 @@
             <dt class="result-field-label">Subtipo Processo</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($subtipoProcesso)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -200,7 +201,7 @@
             <dt class="result-field-label">NI Contribuinte</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($niContribuinte)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -209,8 +210,8 @@
         <div class="result-field" data-field="nome-contribuinte" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($nomeContribuinte)')">
             <dt class="result-field-label">Nome Contribuinte</dt>
             <dd class="result-field-value">
-                <span>#highlight_field('nome_contribuinte_s', $nomeContribuinte)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <span data-highlight-field="nome_contribuinte_s">$!esc.html($nomeContribuinte)</span>
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -220,7 +221,7 @@
             <dt class="result-field-label">Equipe Atual</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($equipeAtual)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -230,7 +231,7 @@
             <dt class="result-field-label">Unidade Atual</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($unidadeAtual)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -240,7 +241,7 @@
             <dt class="result-field-label">CPF Responsável</dt>
             <dd class="result-field-value">
                 <span>#format_cpf($cpfResponsavel)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -250,7 +251,7 @@
             <dt class="result-field-label">Usuário Juntada</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($usuarioJuntada)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -260,7 +261,7 @@
             <dt class="result-field-label">Tributo ACT</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($tributoAct)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -270,7 +271,7 @@
             <dt class="result-field-label">Assuntos/Objetos</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($assuntosObjetos)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -279,8 +280,8 @@
         <div class="result-field" data-field="alegacoes" title="Clique para copiar" onclick="copyToClipboard('$!esc.javascript($alegacoes)')">
             <dt class="result-field-label">Alegações</dt>
             <dd class="result-field-value">
-                <span>#highlight_field('aleg_recurso_contrib_txt', $alegacoes)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <span data-highlight-field="aleg_recurso_contrib_txt">$!esc.html($alegacoes)</span>
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
@@ -290,25 +291,27 @@
             <dt class="result-field-label">Nr Doc Principal</dt>
             <dd class="result-field-value">
                 <span>$!esc.html($numeroDocPrincipal)</span>
-                <img class="result-field-copy iconColor" src="/eprocesso/assets/img/icons/copy-regular-full.svg" alt="Copiar">
+                <img class="result-field-copy iconColor" src="${assetsPath}/img/icons/copy-regular-full.svg" alt="Copiar">
             </dd>
         </div>
         #end
     </div>
     
-    ## Snippet (conteúdo do documento) - só exibe se houver busca textual e highlighting
+    ## Snippet (conteúdo do documento) - com highlight via JS
     #if($params.get('q') && $params.get('q') != '*:*')
+    #if($response.response.highlighting && $response.response.highlighting.get($docId))
     #set($conteudoHighlight = $response.response.highlighting.get($docId).get('conteudo_txt'))
     #if($conteudoHighlight && $conteudoHighlight.size() > 0)
     <div class="result-card-snippet">
         <dt class="result-snippet-label">Trecho:</dt>
-        <dd class="result-snippet-value">
+        <dd class="result-snippet-value" data-highlight-field="conteudo_txt">
             #foreach($snippet in $conteudoHighlight)
                 $snippet
                 #if($foreach.hasNext) ... #end
             #end
         </dd>
     </div>
+    #end
     #end
     #end
 </article>

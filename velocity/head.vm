@@ -4,23 +4,25 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="/eprocesso/assets/img/favicon/logo-simbolo_e-Processo.svg">
+<link rel="icon" type="image/svg+xml" href="${assetsPath}/img/favicon/logo-simbolo_e-Processo.svg">
 
 <title>eProcesso Buscador #if($params.get('q') && $params.get('q') != '*:*')- $!esc.html($params.get('q'))#end</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="/eprocesso/assets/css/reset.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/variables.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/typography.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/components.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/global.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/mainHeader.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/pageEmpty.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/pageResults.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/resultCard.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/dialogs.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/fieldsSelector.css">
-<link rel="stylesheet" href="/eprocesso/assets/css/ajudaDialog.css">
+<link rel="stylesheet" href="${assetsPath}/css/reset.css">
+<link rel="stylesheet" href="${assetsPath}/css/variables.css">
+<link rel="stylesheet" href="${assetsPath}/css/accessibility.css">
+<link rel="stylesheet" href="${assetsPath}/css/typography.css">
+<link rel="stylesheet" href="${assetsPath}/css/components.css">
+<link rel="stylesheet" href="${assetsPath}/css/global.css">
+<link rel="stylesheet" href="${assetsPath}/css/mainHeader.css">
+<link rel="stylesheet" href="${assetsPath}/css/pageEmpty.css">
+<link rel="stylesheet" href="${assetsPath}/css/pageResults.css">
+<link rel="stylesheet" href="${assetsPath}/css/resultCard.css">
+<link rel="stylesheet" href="${assetsPath}/css/dialogs.css">
+<link rel="stylesheet" href="${assetsPath}/css/fieldsSelector.css">
+<link rel="stylesheet" href="${assetsPath}/css/ajudaDialog.css">
+
 
 <script>
 // Variáveis do Solr disponíveis no JS
@@ -33,9 +35,9 @@ var SOLR_CONFIG = {
         '$esc.javascript($fq)'#if($foreach.hasNext),#end
         #end
     ],
-    resultsFound: #if($page)$page.results_found#{else}0#end,
-    currentPage: #if($page)$page.current_page_number#{else}1#end,
-    totalPages: #if($page)$page.page_count#{else}0#end,
-    resultsPerPage: #if($page)$page.results_per_page#{else}10#end
+    resultsFound: #if($page && $page.results_found)$page.results_found#{else}0#end,
+    currentPage: #if($page && $page.current_page_number)$page.current_page_number#{else}1#end,
+    totalPages: #if($page && $page.page_count)$page.page_count#{else}0#end,
+    resultsPerPage: #if($page && $page.results_per_page)$page.results_per_page#{else}10#end
 };
 </script>

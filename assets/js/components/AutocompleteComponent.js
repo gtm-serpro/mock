@@ -5,17 +5,17 @@
 class AutocompleteComponent {
     constructor() {
         this.mockData = {
-            'grupo_processo': ['Processo Administrativo Fiscal', 'Processo de Restituição', 'Processo de Compensação', 'Processo de Ressarcimento', 'Processo de Revisão', 'Processo de Consulta'],
-            'tipo_processo': ['Recurso Voluntário', 'Recurso de Ofício', 'Recurso Especial', 'Embargos de Declaração', 'Manifestação de Inconformidade', 'Impugnação'],
-            'subtipo_processo': ['IRPJ - Lucro Real', 'IRPJ - Lucro Presumido', 'CSLL', 'PIS/COFINS', 'IPI', 'Contribuições Previdenciárias'],
-            'situacao_documento': ['Em Análise', 'Julgado', 'Pendente de Diligência', 'Aguardando Distribuição', 'Em Pauta', 'Arquivado'],
-            'tipo_documento': ['Acórdão', 'Decisão', 'Despacho', 'Auto de Infração', 'Intimação', 'Petição', 'Recurso', 'Parecer'],
-            'tributo_act': ['IRPJ', 'CSLL', 'PIS', 'COFINS', 'IPI', 'IRRF', 'IOF', 'Contribuição Previdenciária'],
-            'unidade_origem': ['DRF São Paulo', 'DRF Rio de Janeiro', 'DRF Belo Horizonte', 'DRF Brasília', 'DRF Curitiba', 'DRF Porto Alegre', 'DRF Salvador', 'DRF Recife'],
-            'equipe_origem': ['EQMAF01', 'EQMAF02', 'EQCAC01', 'EQCAC02', 'EQFIS01', 'EQFIS02', 'EQREV01'],
-            'unidade_atual': ['CARF - 1ª Seção', 'CARF - 2ª Seção', 'CARF - 3ª Seção', 'DRJ São Paulo', 'DRJ Brasília', 'DRJ Rio de Janeiro', 'CSRF'],
-            'equipe_atual': ['1ª Turma Ordinária', '2ª Turma Ordinária', '3ª Turma Ordinária', '1ª Turma Especial', '2ª Turma Especial', 'Turma Superior'],
-            'alegacoes_recurso': ['Decadência', 'Prescrição', 'Nulidade do Auto de Infração', 'Cerceamento de Defesa', 'Erro na Apuração', 'Divergência Jurisprudencial', 'Inconstitucionalidade']
+            'grupo_processo_s': ['Processo Administrativo Fiscal', 'Processo de Restituição', 'Processo de Compensação', 'Processo de Ressarcimento', 'Processo de Revisão', 'Processo de Consulta'],
+            'tipo_processo_s': ['Recurso Voluntário', 'Recurso de Ofício', 'Recurso Especial', 'Embargos de Declaração', 'Manifestação de Inconformidade', 'Impugnação'],
+            'subtipo_processo_s': ['IRPJ - Lucro Real', 'IRPJ - Lucro Presumido', 'CSLL', 'PIS/COFINS', 'IPI', 'Contribuições Previdenciárias'],
+            'situacao_s': ['Em Análise', 'Julgado', 'Pendente de Diligência', 'Aguardando Distribuição', 'Em Pauta', 'Arquivado'],
+            'tipo_documento_s': ['Acórdão', 'Decisão', 'Despacho', 'Auto de Infração', 'Intimação', 'Petição', 'Recurso', 'Parecer'],
+            'tributo_act_s': ['IRPJ', 'CSLL', 'PIS', 'COFINS', 'IPI', 'IRRF', 'IOF', 'Contribuição Previdenciária'],
+            'unidade_origem_s': ['DRF São Paulo', 'DRF Rio de Janeiro', 'DRF Belo Horizonte', 'DRF Brasília', 'DRF Curitiba', 'DRF Porto Alegre', 'DRF Salvador', 'DRF Recife'],
+            'equipe_origem_s': ['EQMAF01', 'EQMAF02', 'EQCAC01', 'EQCAC02', 'EQFIS01', 'EQFIS02', 'EQREV01'],
+            'nome_unidade_atual_s': ['CARF - 1ª Seção', 'CARF - 2ª Seção', 'CARF - 3ª Seção', 'DRJ São Paulo', 'DRJ Brasília', 'DRJ Rio de Janeiro', 'CSRF'],
+            'nome_equipe_atual_s': ['1ª Turma Ordinária', '2ª Turma Ordinária', '3ª Turma Ordinária', '1ª Turma Especial', '2ª Turma Especial', 'Turma Superior'],
+            'aleg_recurso_contrib_txt': ['Decadência', 'Prescrição', 'Nulidade do Auto de Infração', 'Cerceamento de Defesa', 'Erro na Apuração', 'Divergência Jurisprudencial', 'Inconstitucionalidade']
         };
         this.activeAutocomplete = null;
         this.highlightedIndex = -1;

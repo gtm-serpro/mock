@@ -2,6 +2,7 @@
 // INICIALIZAÇÃO
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    
     // Controllers
     const pageController = new PageController();
     
@@ -9,11 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const search = new SearchComponent();
     const sidebar = new SidebarComponent();
     const facetAccordion = new AccordionComponent(CONFIG.selectors.facetTitle);
+
+    
     
     // Dropdowns
     const downloadDropdown = new DropdownComponent('downloadDropdown', 'downloadDropdownBtn');
     const accessibilityDropdown = new DropdownComponent('accessibilityDropdown', 'accessibilityBtn');
     
+    // Accessibility
+    const accessibility = new AccessibilityComponent();
+
     // Fechar dropdowns ao clicar fora
     document.addEventListener('click', () => DropdownComponent.closeAll());
     
@@ -46,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.closeInfoDialog = () => infoDialog.close();
     window.openAjudaDialog = () => ajudaDialog.open();
     window.closeAjudaDialog = () => ajudaDialog.close();
+    
     
     // Filter Components
     const filterOperators = new FilterOperatorComponent();
@@ -109,6 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pageController.isEmptyState && !hasBusca) {
         filtersDialog.open();
     }
+    
+    // Live Highlight nos resultados - SEMPRE inicializar
+    new LiveHighlightComponent();
+    
 });
 
 // Funções globais usadas nos templates Velocity

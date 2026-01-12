@@ -5,21 +5,21 @@
 <dialog id="filtersDialog">
     <header>
         <div class="dialog-header-content">
-            <img class="dialog-header-logo" src="/eprocesso/assets/img/favicon/logo-simbolo_e-Processo.svg" alt="">
+            <img class="dialog-header-logo" src="${assetsPath}/img/favicon/logo-simbolo_e-Processo.svg" alt="">
             <div class="dialog-header-search searchInputWraper">
                 <form class="searchForm" id="dialogSearchForm" action="#url_for_home" method="GET">
                     <div class="searchInputWraper">
-                        <img class="searchIcon iconColor" src="/eprocesso/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                        <img class="searchIcon iconColor" src="${assetsPath}/img/icons/magnifying-glass-solid-full.svg" alt="">
                         <input class="searchInput" type="text" name="q" id="dialogSearchInput" placeholder="Digite para buscar..." value="#if($params.get('q') && $params.get('q') != '*:*')$!esc.html($params.get('q'))#end">
                         <button class="searchCloseBtn" type="button" aria-label="Limpar busca" onclick="clearDialogSearch()">
-                            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+                            <img class="iconColor" src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="">
                         </button>
                     </div>
                 </form>
             </div>
         </div>
         <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar" onclick="closeFiltersDialog()">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="">
         </button>
     </header>
     
@@ -27,7 +27,7 @@
         <!-- Filtros de Data -->
         <section class="filter-section">
             <div class="filter-section-header">
-                <img class="iconColor" src="/eprocesso/assets/img/icons/calendar-solid-full.svg" alt="">
+                <img class="iconColor" src="${assetsPath}/img/icons/calendar-solid-full.svg" alt="">
                 <span>Filtros de Data</span>
             </div>
             <div class="filter-flex">
@@ -55,7 +55,7 @@
         <!-- Processo e Documento -->
         <section class="filter-section">
             <div class="filter-section-header">
-                <img class="iconColor" src="/eprocesso/assets/img/icons/file-solid-full.svg" alt="">
+                <img class="iconColor" src="${assetsPath}/img/icons/file-solid-full.svg" alt="">
                 <span>Processo e Documento</span>
             </div>
             <div class="filter-grid filter-grid-6">
@@ -143,7 +143,7 @@
         <!-- Unidade e Equipe -->
         <section class="filter-section">
             <div class="filter-section-header">
-                <img class="iconColor" src="/eprocesso/assets/img/icons/building-user-solid-full.svg" alt="">
+                <img class="iconColor" src="${assetsPath}/img/icons/building-user-solid-full.svg" alt="">
                 <span>Unidade e Equipe</span>
             </div>
             <div class="filter-grid filter-grid-4">
@@ -181,7 +181,7 @@
         <!-- Partes Envolvidas -->
         <section class="filter-section">
             <div class="filter-section-header">
-                <img class="iconColor" src="/eprocesso/assets/img/icons/user-group-solid-full.svg" alt="">
+                <img class="iconColor" src="${assetsPath}/img/icons/user-group-solid-full.svg" alt="">
                 <span>Partes Envolvidas</span>
             </div>
             <div class="filter-grid filter-grid-5">
@@ -226,7 +226,7 @@
         <!-- Julgamento -->
         <section class="filter-section">
             <div class="filter-section-header">
-                <img class="iconColor" src="/eprocesso/assets/img/icons/scale-balanced-solid-full.svg" alt="">
+                <img class="iconColor" src="${assetsPath}/img/icons/scale-balanced-solid-full.svg" alt="">
                 <span>Julgamento</span>
             </div>
             <div class="filter-grid filter-grid-3">
@@ -257,7 +257,7 @@
     
     <footer>
         <button id="infoBtn" class="btn-icon" aria-label="Informações" onclick="openInfoDialog()">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/circle-info-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/circle-info-solid-full.svg" alt="">
         </button>
         <div class="dialog-footer-right">
             <button id="filtersDialogClearBtn" onclick="clearAllDialogFilters()">Limpar Filtros</button>
@@ -283,15 +283,12 @@ function clearDialogSearch() {
 }
 
 function clearAllDialogFilters() {
-    // Clear all text inputs
     filtersDialog.querySelectorAll('.filter-input').forEach(function(input) {
         input.value = '';
     });
-    // Clear date inputs
     filtersDialog.querySelectorAll('input[type="date"]').forEach(function(input) {
         input.value = '';
     });
-    // Reset operators
     filtersDialog.querySelectorAll('.filter-operator').forEach(function(btn) {
         btn.dataset.operator = 'contains';
         btn.textContent = 'Contém';
@@ -300,11 +297,6 @@ function clearAllDialogFilters() {
     filtersDialog.querySelectorAll('.filter-input-group').forEach(function(group) {
         group.classList.remove('has-operator', 'operator-contains', 'operator-not-contains', 'operator-equals');
     });
-}
-
-function escapeSolrValue(value) {
-    // Escape special Solr characters
-    return value.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&').replace(/ /g, '\\ ');
 }
 
 function applyFilters() {
@@ -325,19 +317,25 @@ function applyFilters() {
     textFields.forEach(function(fieldId) {
         var input = document.getElementById(fieldId);
         if (input && input.value.trim()) {
-            var fieldValue = escapeSolrValue(input.value.trim());
+            var rawValue = input.value.trim();
             var fieldGroup = input.closest('.filter-input-group');
             var operatorBtn = fieldGroup ? fieldGroup.querySelector('.filter-operator') : null;
             var operator = operatorBtn ? (operatorBtn.dataset.operator || 'contains') : 'contains';
             
             var fq = '';
             if (operator === 'not-contains') {
-                fq = '-' + fieldId + ':*' + fieldValue + '*';
+                // Escape spaces for Solr
+                var escapedValue = rawValue.replace(/ /g, '\\ ');
+                fq = '-' + fieldId + ':*' + escapedValue + '*';
             } else if (operator === 'equals') {
-                fq = fieldId + ':"' + input.value.trim() + '"';
+                // Exact match with quotes
+                fq = fieldId + ':"' + rawValue + '"';
             } else {
-                fq = fieldId + ':*' + fieldValue + '*';
+                // Contains (default)
+                var escapedValue = rawValue.replace(/ /g, '\\ ');
+                fq = fieldId + ':*' + escapedValue + '*';
             }
+            
             filterQueries.push(fq);
         }
     });

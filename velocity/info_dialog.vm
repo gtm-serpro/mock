@@ -6,7 +6,7 @@
     <header>
         <h2>Como usar os filtros</h2>
         <button id="infoDialogCloseBtn" class="btn-icon" aria-label="Fechar" onclick="closeInfoDialog()">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="">
         </button>
     </header>
     <main class="info-content">

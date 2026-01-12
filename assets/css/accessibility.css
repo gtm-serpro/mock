@@ -1,0 +1,203 @@
+/* ============================================
+   ACESSIBILIDADE - Sistema De/Para
+   ============================================ */
+
+/* ===== TEMA ESCURO - De/Para ===== */
+body.dark-theme {
+    /* Fundos: claro → escuro */
+    --color-bg: #1a1a1a;
+    --color-bg-white: #2d2d2d;
+    --color-bg-card-header: #3a3a3a;
+    --color-bg-hover: #404040;
+    --color-bg-dark: #0a0a0a;
+    
+    /* Textos: escuro → claro */
+    --color-text: #e0e0e0;
+    --color-text-light: #b0b0b0;
+    --color-text-muted: #888888;
+    
+    /* Bordas: claro → escuro */
+    --color-border: #404040;
+    --color-border-dark: #505050;
+    
+    /* Primária: azul claro */
+    --color-primary: #4a8fd8;
+    --color-primary-dark: #2c6ba8;
+    --color-primary-light: #1a2d44;
+    --color-primary-hover: #2d4a66;
+    
+    /* Secundária */
+    --color-secondary: #ffd633;
+    --color-secondary-dark: #ccaa00;
+    
+    /* Feedback */
+    --color-success: #28a745;
+    --color-warning: #ffc107;
+    --color-error: #ff4444;
+    --color-info: #4a8fd8;
+    
+    /* Overlay */
+    --color-overlay: rgba(0, 0, 0, 0.8);
+    
+    /* Sombras: mais intensas */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.7);
+    --shadow-badge: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* SVGS - Inverter cores */
+body.dark-theme img,
+body.dark-theme svg,
+body.dark-theme .iconColor {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Exceção: logos não invertem */
+body.dark-theme #logoMain,
+body.dark-theme #logoShort,
+body.dark-theme #logosParceiros img,
+body.dark-theme .dialog-header-logo {
+    filter: none;
+}
+
+/* Ícones verdes mantêm verde */
+body.dark-theme .iconColorGreen {
+    filter: invert(1) hue-rotate(180deg) brightness(1.2) saturate(1.5);
+}
+
+
+/* ===== ALTO CONTRASTE - De/Para ===== */
+body.high-contrast {
+    /* Fundos: tudo branco puro */
+    --color-bg: #ffffff;
+    --color-bg-white: #ffffff;
+    --color-bg-card-header: #ffffff;
+    --color-bg-hover: #f0f0f0;
+    --color-bg-dark: #000000;
+    
+    /* Textos: tudo preto puro */
+    --color-text: #000000;
+    --color-text-light: #000000;
+    --color-text-muted: #000000;
+    
+    /* Bordas: tudo preto grosso */
+    --color-border: #000000;
+    --color-border-dark: #000000;
+    
+    /* Primária: azul puro */
+    --color-primary: #0000ff;
+    --color-primary-dark: #0000cc;
+    --color-primary-light: #e6e6ff;
+    --color-primary-hover: #ccccff;
+    
+    /* Secundária: amarelo puro */
+    --color-secondary: #ffff00;
+    --color-secondary-dark: #cccc00;
+    
+    /* Feedback: cores vibrantes */
+    --color-success: #00ff00;
+    --color-warning: #ffff00;
+    --color-error: #ff0000;
+    --color-info: #0000ff;
+    
+    /* Overlay */
+    --color-overlay: rgba(0, 0, 0, 0.9);
+    
+    /* Sombras: removidas */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-badge: none;
+}
+
+/* Bordas mais grossas */
+body.high-contrast * {
+    border-width: 2px !important;
+}
+
+/* SVGS - Preto puro */
+body.high-contrast img,
+body.high-contrast svg,
+body.high-contrast .iconColor {
+    filter: brightness(0);
+}
+
+body.high-contrast #logoMain,
+body.high-contrast #logoShort,
+body.high-contrast #logosParceiros img {
+    filter: contrast(2);
+}
+
+/* Links e botões com underline */
+body.high-contrast a,
+body.high-contrast button {
+    text-decoration: underline;
+    font-weight: var(--font-weight-bold);
+}
+
+/* Highlight forte */
+body.high-contrast mark {
+    background: #ffff00;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 2px 4px;
+}
+
+
+/* ===== ALTO CONTRASTE + TEMA ESCURO ===== */
+body.dark-theme.high-contrast {
+    /* Fundos: tudo preto puro */
+    --color-bg: #000000;
+    --color-bg-white: #000000;
+    --color-bg-card-header: #000000;
+    --color-bg-hover: #1a1a1a;
+    --color-bg-dark: #000000;
+    
+    /* Textos: tudo branco puro */
+    --color-text: #ffffff;
+    --color-text-light: #ffffff;
+    --color-text-muted: #ffffff;
+    
+    /* Bordas: tudo branco grosso */
+    --color-border: #ffffff;
+    --color-border-dark: #ffffff;
+    
+    /* Primária: ciano puro */
+    --color-primary: #00ffff;
+    --color-primary-dark: #00cccc;
+    --color-primary-light: #003333;
+    --color-primary-hover: #006666;
+    
+    /* Secundária: amarelo puro */
+    --color-secondary: #ffff00;
+    --color-secondary-dark: #cccc00;
+    
+    /* Feedback: cores vibrantes */
+    --color-success: #00ff00;
+    --color-warning: #ffff00;
+    --color-error: #ff0000;
+    --color-info: #00ffff;
+    
+    /* Overlay */
+    --color-overlay: rgba(255, 255, 255, 0.9);
+}
+
+/* SVGS - Branco puro */
+body.dark-theme.high-contrast img,
+body.dark-theme.high-contrast svg,
+body.dark-theme.high-contrast .iconColor {
+    filter: brightness(0) invert(1);
+}
+
+body.dark-theme.high-contrast #logoMain,
+body.dark-theme.high-contrast #logoShort,
+body.dark-theme.high-contrast #logosParceiros img {
+    filter: invert(1) contrast(2);
+}
+
+body.dark-theme.high-contrast mark {
+    background: #ffff00;
+    color: #000000;
+    border: 2px solid #ffffff;
+}

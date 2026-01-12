@@ -4,12 +4,12 @@
 
 <div id="pageResultsFooterLeft">
     <button id="ajudaBtn" class="btn-icon" aria-label="Ajuda" onclick="openAjudaDialog()">
-        <img class="iconColor" src="/eprocesso/assets/img/icons/circle-question-regular-full.svg" alt="">
+        <img class="iconColor" src="${assetsPath}/img/icons/circle-question-regular-full.svg" alt="">
     </button>
     
     ## Mobile navigation arrows
     <button class="pageNavMobile btn-icon" aria-label="Página anterior" onclick="goToPrevPage()">
-        <img class="iconColor" src="/eprocesso/assets/img/icons/chevron-left-solid-full.svg" alt="">
+        <img class="iconColor" src="${assetsPath}/img/icons/chevron-left-solid-full.svg" alt="">
     </button>
     
     <div id="resultsCount">
@@ -25,7 +25,7 @@
     </div>
     
     <button class="pageNavMobile btn-icon" aria-label="Próxima página" onclick="goToNextPage()">
-        <img class="iconColor" src="/eprocesso/assets/img/icons/chevron-right-solid-full.svg" alt="">
+        <img class="iconColor" src="${assetsPath}/img/icons/chevron-right-solid-full.svg" alt="">
     </button>
     
     ## Desktop pagination
@@ -82,7 +82,7 @@
     ## Download dropdown (mobile)
     <div id="downloadDropdown" class="dropdown">
         <button id="downloadDropdownBtn" class="btn-icon" aria-label="Download">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
         </button>
         <ul id="downloadMenu" class="dropdown-menu dropdown-menu-top dropdown-menu-right">
             <li><button class="dropdown-item" onclick="downloadResults('xml')">XML</button></li>
@@ -93,7 +93,7 @@
     
     ## Download buttons (desktop)
     <div id="downloadGroup">
-        <img class="iconColor" src="/eprocesso/assets/img/icons/download-solid-full.svg" alt="">
+        <img class="iconColor" src="${assetsPath}/img/icons/download-solid-full.svg" alt="">
         <a class="downloadBtn" href="#url_for_lens&wt=xml&start=$!page.start" target="_blank">XML</a>
         <a class="downloadBtn" href="#url_for_lens&wt=json&start=$!page.start" target="_blank">JSON</a>
         <a class="downloadBtn" href="#url_for_lens&wt=csv&start=$!page.start" target="_blank">CSV</a>
@@ -102,7 +102,7 @@
     ## Fields selector
     <div id="fieldsDropdown" class="dropdown">
         <button id="fieldsDropdownBtn" class="btn-icon" aria-label="Configurar campos visíveis" title="Campos visíveis">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/list-check-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/list-check-solid-full.svg" alt="">
         </button>
         <div class="fields-menu dropdown-menu dropdown-menu-top dropdown-menu-right">
             <div class="fields-menu-header">

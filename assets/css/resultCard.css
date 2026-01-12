@@ -8,7 +8,7 @@
 
 .result-card {
     background-color: var(--color-bg-white);
-    border: 1px solid var(--color-border);
+    border: 0.063rem solid var(--color-border);
     border-radius: var(--radius-md);
     transition: box-shadow var(--transition-fast);
     overflow: hidden;
@@ -31,7 +31,7 @@
     align-items: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-xs) var(--spacing-xs);
-    border-bottom: 1px solid var(--color-bg-hover);
+    border-bottom: 0.063rem solid var(--color-bg-hover);
     background-color: var(--color-bg-card-header);
 }
 
@@ -43,7 +43,7 @@
 
 .result-card-actions .btn-group {
     display: flex;
-    border: 1px solid var(--color-border);
+    border: 0.063rem solid var(--color-border);
     border-radius: var(--radius-sm);
     overflow: hidden;
 }
@@ -53,8 +53,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 1.5rem;
+    height: 1.5rem;
     padding: 0;
     background-color: var(--color-bg-white);
     border: none;
@@ -64,7 +64,7 @@
 }
 
 .result-card-actions .btn-download:first-child {
-    border-right: 1px solid var(--color-border);
+    border-right: 0.063rem solid var(--color-border);
 }
 
 .result-card-actions .btn-download:hover {
@@ -120,7 +120,7 @@
 
 .result-field {
     position: relative;
-    padding: 6px var(--spacing-xs);
+    padding: 0.375rem var(--spacing-xs);
     border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background-color var(--transition-fast);
@@ -135,10 +135,10 @@
 /* Label do campo */
 .result-field-label {
     display: block;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: var(--font-weight-medium);
     color: var(--color-text-muted);
-    margin-bottom: 1px;
+    margin-bottom: 0.063rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -169,8 +169,8 @@
 /* Ícone de copiar */
 .result-field-copy {
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
     opacity: 0;
     transition: opacity var(--transition-fast);
 }
@@ -183,15 +183,15 @@
    HIGHLIGHT - Termo buscado
    ========================================== */
 
-.result-field-value mark,
+/* .result-field-value mark,
 .result-card-title mark,
 .result-snippet-value mark {
     background-color: var(--color-secondary);
     color: var(--color-text);
-    padding: 0 2px;
-    border-radius: 2px;
+    padding: 0 0.125rem;
+    border-radius: 0.125rem;
     font-weight: var(--font-weight-semibold);
-}
+} */
 
 /* ==========================================
    SNIPPET - Trecho do conteúdo
@@ -199,19 +199,19 @@
 
 .result-card-snippet {
     padding: var(--spacing-sm) var(--spacing-md);
-    border-top: 1px dashed var(--color-border);
+    border-top: 0.063rem dashed var(--color-border);
     background-color: var(--color-bg-white);
     overflow: hidden;
 }
 
 .result-snippet-label {
     display: block;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: var(--font-weight-semibold);
     color: var(--color-primary);
-    margin-bottom: 2px;
+    margin-bottom: 0.125rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.0.313rem;
 }
 
 .result-snippet-value {
@@ -257,9 +257,9 @@
 
 .copy-toast {
     position: fixed;
-    bottom: var(--spacing-xl);
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
+    bottom: var(--spacing-9);
+    right: -25px;
+    /* transform: 0 translateY(100px); */
     padding: var(--spacing-sm) var(--spacing-lg);
     background-color: var(--color-bg-dark);
     color: white;
@@ -279,6 +279,23 @@
     transform: translateX(-50%) translateY(0);
     opacity: 1;
     visibility: visible;
+}
+
+/* Highlight padrão para facetas E resultados */
+mark {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    padding: 0;
+    border-radius: 0.125rem;
+    font-size:inherit;
+    /* font-weight: var(--font-weight-semibold); */
+}
+
+/* Remover estilo de <em> do Solr (não vamos mais usar) */
+.result-card em {
+    background: transparent;
+    font-style: italic;
+    font-weight: normal;
 }
 
 /* ==========================================
@@ -318,8 +335,8 @@
     }
     
     .result-card-actions .btn-download {
-        width: 32px;
-        height: 32px;
+        width: 30.125rem;
+        height: 30.125rem;
     }
     
     .result-card-body {
@@ -328,11 +345,11 @@
     }
     
     .result-field {
-        padding: 4px var(--spacing-xs);
+        padding: 0.25rem var(--spacing-xs);
     }
     
     .result-field-label {
-        font-size: 9px;
+        font-size: 0.563rem;
     }
     
     .result-field-value {

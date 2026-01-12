@@ -8,6 +8,7 @@
     <!-- CSS Base -->
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/accessibility.css">
     <link rel="stylesheet" href="assets/css/typography.css">
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/global.css">
@@ -20,6 +21,7 @@
     <link rel="stylesheet" href="assets/css/dialogs.css">
     <link rel="stylesheet" href="assets/css/fieldsSelector.css">
     <link rel="stylesheet" href="assets/css/ajudaDialog.css">
+    <link rel="stylesheet" href="assets/css/accessibility.css">
     
     <title>eProcesso Buscador</title>
 </head>
@@ -38,7 +40,7 @@
             <form class="searchForm" action="">
                 <div class="searchInputWraper">
                     <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
-                    <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                    <input class="searchInput" type="text" name="q" placeholder="Digite para buscar...">
                     <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
                         <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
                     </button>
@@ -70,6 +72,8 @@
                 <li><button class="dropdown-item" value="contrast">◐ Alto contraste</button></li>
                 <li><button class="dropdown-item" value="fontUp">A+ Aumentar fonte</button></li>
                 <li><button class="dropdown-item" value="fontDown">A- Diminuir fonte</button></li>
+                <li class="dropdown-divider"></li>
+                <li><button class="dropdown-item" value="reset">🔄 Restaurar padrão</button></li>
             </ul>
         </div>
     </header>
@@ -88,7 +92,7 @@
                 <form class="searchForm" action="">
                     <div class="searchInputWraper">
                         <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
-                        <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                        <input class="searchInput" type="text" name="q" placeholder="Digite para buscar...">
                         <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
                             <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
                         </button>
@@ -230,7 +234,7 @@
                     <form class="searchForm" action="">
                         <div class="searchInputWraper">
                             <img class="searchIcon iconColor" src="assets/img/icons/magnifying-glass-solid-full.svg" alt="">
-                            <input class="searchInput" type="text" placeholder="Digite para buscar...">
+                            <input class="searchInput" type="text" name="q" placeholder="Digite para buscar...">
                             <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
                                 <img class="iconColor" src="assets/img/icons/xmark-solid-full.svg" alt="">
                             </button>
@@ -539,17 +543,20 @@
     
     <!-- JS Components -->
     <script src="assets/js/components/AccordionComponent.js"></script>
+    <script src="assets/js/components/AccessibilityComponent.js"></script> 
     <script src="assets/js/components/AutocompleteComponent.js"></script>
     <script src="assets/js/components/CurrencyInputComponent.js"></script>
     <script src="assets/js/components/DialogComponent.js"></script>
     <script src="assets/js/components/DropdownComponent.js"></script>
     <script src="assets/js/components/FilterCounterComponent.js"></script>
     <script src="assets/js/components/FilterOperatorComponent.js"></script>
+    <script src="assets/js/components/LiveHighlightComponent.js"></script>
     <script src="assets/js/components/KeyboardShortcuts.js"></script>
     <script src="assets/js/components/ResultCardComponent.js"></script>
     <script src="assets/js/components/SearchComponent.js"></script>
     <script src="assets/js/components/SidebarComponent.js"></script>
     <script src="assets/js/fieldsSelector.js"></script>
+    <script src="assets/js/facets.js"></script>
     
     <!-- JS Inicialização (sempre por último) -->
     <script src="assets/js/core/dom.js"></script>

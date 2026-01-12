@@ -35,7 +35,7 @@
             #if($labelsMap.get($fieldName))$labelsMap.get($fieldName)#else$fieldName#end:
         </span>
         <span class="usedFilterValue">$display.truncate($fieldValue, 20)</span>
-        <img class="usedFilterCloseBtn iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="Remover">
+        <img class="usedFilterCloseBtn iconColor" src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="Remover">
     </button>
 </div>
 #end

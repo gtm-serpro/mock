@@ -15,13 +15,31 @@
     'tributo_act_s': 'Tributo ACT'
 })
 
+<div class="sidebar-header">
+    <div class="header-top">
+        <div class="btn-group">
+            <button class="circle-btn btn-expand-all" title="Expandir todos">
+                <img src="${assetsPath}/img/icons/maximize-solid-full.svg" alt="Expandir" class="circle-btn-icon">
+            </button>
+            <button class="circle-btn circle-btn-right btn-collapse-all" title="Recolher todos">
+                <img src="${assetsPath}/img/icons/minimize-solid-full.svg" alt="Recolher" class="circle-btn-icon">
+            </button>
+        </div>
+        <div class="search-input-wrapper">
+            <input type="text" class="search-input facet-filter" placeholder="Filtrar facetas...">
+            <button type="button" class="clear-btn">
+                <img src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="Limpar" class="clear-icon">
+            </button>
+        </div>
+    </div>
+</div>
 #if($response.facetFields)
 #foreach($field in $response.facetFields)
 #if($field.values.size() > 0)
 <div class="facetGroup open">
     <button class="facetTitle" title="#if($labelsMap.get($field.name))$labelsMap.get($field.name)#else$field.name#end">
         <span>#if($labelsMap.get($field.name))$labelsMap.get($field.name)#else$field.name#end</span>
-        <img class="iconColor facetChevron" src="/eprocesso/assets/img/icons/chevron-down-solid-full.svg" alt="">
+        <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
     </button>
     <ul class="facetList">
         #foreach($facet in $field.values)
@@ -47,7 +65,7 @@
 <div class="facetGroup">
     <button class="facetTitle">
         <span>Filtros Rápidos</span>
-        <img class="iconColor facetChevron" src="/eprocesso/assets/img/icons/chevron-down-solid-full.svg" alt="">
+        <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
     </button>
     <ul class="facetList">
         #foreach($fq in $facetQueries)

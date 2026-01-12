@@ -6,7 +6,7 @@
     <header>
         <h2>Ajuda</h2>
         <button id="ajudaDialogCloseBtn" class="btn-icon" aria-label="Fechar" onclick="closeAjudaDialog()">
-            <img class="iconColor" src="/eprocesso/assets/img/icons/xmark-solid-full.svg" alt="">
+            <img class="iconColor" src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="">
         </button>
     </header>
     <main class="ajuda-content">
@@ -20,7 +20,7 @@
             <p>Clique em <strong>Filtrar</strong> ou pressione <kbd>Ctrl+K</kbd> para abrir o painel de filtros. Você pode preencher quantos filtros quiser — todos são combinados para refinar sua busca, retornando apenas documentos que atendam a <u>todos</u> os critérios.</p>
             <div class="ajuda-tip">
                 <span class="ajuda-tip-icon">💡</span>
-                <span>Clique no botão <img class="ajuda-inline-icon iconColor" src="/eprocesso/assets/img/icons/circle-info-solid-full.svg" alt=""> no rodapé do painel de filtros para saber como os operadores funcionam.</span>
+                <span>Clique no botão <img class="ajuda-inline-icon iconColor" src="${assetsPath}/img/icons/circle-info-solid-full.svg" alt=""> no rodapé do painel de filtros para saber como os operadores funcionam.</span>
             </div>
         </section>
         
@@ -35,14 +35,14 @@
             <p>Os documentos encontrados são exibidos em cards com os principais campos. Clique em qualquer campo para <strong>copiar</strong> seu valor.</p>
             <div class="ajuda-subsection">
                 <h4>Configurar campos visíveis</h4>
-                <p>Use o botão <img class="ajuda-inline-icon iconColor" src="/eprocesso/assets/img/icons/list-check-solid-full.svg" alt=""> no rodapé para escolher quais campos exibir nos cards de resultado. Suas preferências são salvas automaticamente.</p>
+                <p>Use o botão <img class="ajuda-inline-icon iconColor" src="${assetsPath}/img/icons/list-check-solid-full.svg" alt=""> no rodapé para escolher quais campos exibir nos cards de resultado. Suas preferências são salvas automaticamente.</p>
             </div>
             <div class="ajuda-subsection">
                 <h4>Download de documentos</h4>
                 <p>Cada card possui botões para baixar o PDF:</p>
                 <ul class="ajuda-list">
-                    <li><img class="ajuda-inline-icon iconColor" src="/eprocesso/assets/img/icons/file-image-regular-full.svg" alt=""> <strong>PDF Original</strong> — Documento digitalizado</li>
-                    <li><img class="ajuda-inline-icon iconColorGreen" src="/eprocesso/assets/img/icons/file-lines-regular-full.svg" alt=""> <strong>PDF Pesquisável</strong> — Versão com OCR (quando disponível)</li>
+                    <li><img class="ajuda-inline-icon iconColor" src="${assetsPath}/img/icons/file-image-regular-full.svg" alt=""> <strong>PDF Original</strong> — Documento digitalizado</li>
+                    <li><img class="ajuda-inline-icon iconColorGreen" src="${assetsPath}/img/icons/file-lines-regular-full.svg" alt=""> <strong>PDF Pesquisável</strong> — Versão com OCR (quando disponível)</li>
                 </ul>
             </div>
         </section>
