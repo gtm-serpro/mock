@@ -1,0 +1,319 @@
+##**
+## filtersDialog.vm - Dialog de filtros avançados
+##*#
+<dialog id="filtersDialog">
+    <header>
+        <div class="dialog-header-content">
+            <img class="dialog-header-logo" src="${request.contextPath}/assets/img/favicon/logo-simbolo_e-Processo.svg" alt="">
+            <div class="dialog-header-search searchInputWraper">
+                <form class="searchForm" action="#{url_for_home}" method="GET">
+                    <div class="searchInputWraper">
+                        <img class="searchIcon iconColor" src="${request.contextPath}/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                        <input class="searchInput" type="text" name="q" id="qDialog" value="$!esc.html($params.get('q'))" placeholder="Digite para buscar...">
+                        <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                            <img class="iconColor" src="${request.contextPath}/assets/img/icons/xmark-solid-full.svg" alt="">
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button id="filtersDialogCloseBtn" class="btn-icon" aria-label="Fechar">
+            <img class="iconColor" src="${request.contextPath}/assets/img/icons/xmark-solid-full.svg" alt="">
+        </button>
+    </header>
+    
+    <main>
+        ## Filtros de Data
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="${request.contextPath}/assets/img/icons/calendar-solid-full.svg" alt="">
+                <span>Filtros de Data</span>
+            </div>
+            <div class="filter-flex">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Data do Protocolo do Processo</span></label>
+                    <div class="filter-date-range">
+                        <span>De</span>
+                        <input type="date" class="filter-input" id="dt_protocolo_tdt_from" name="dt_protocolo_tdt_from" value="$!esc.html($params.get('dt_protocolo_tdt_from'))">
+                        <span>Até</span>
+                        <input type="date" class="filter-input" id="dt_protocolo_tdt_to" name="dt_protocolo_tdt_to" value="$!esc.html($params.get('dt_protocolo_tdt_to'))">
+                    </div>
+                </div>
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Data da Juntada</span></label>
+                    <div class="filter-date-range">
+                        <span>De</span>
+                        <input type="date" class="filter-input" id="dt_juntada_tdt_from" name="dt_juntada_tdt_from" value="$!esc.html($params.get('dt_juntada_tdt_from'))">
+                        <span>Até</span>
+                        <input type="date" class="filter-input" id="dt_juntada_tdt_to" name="dt_juntada_tdt_to" value="$!esc.html($params.get('dt_juntada_tdt_to'))">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        ## Processo e Documento
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="${request.contextPath}/assets/img/icons/file-solid-full.svg" alt="">
+                <span>Processo e Documento</span>
+            </div>
+            <div class="filter-grid filter-grid-6">
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Grupo Processo</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="grupo_processo_s" name="grupo_processo_s" placeholder="Digite..." value="$!esc.html($params.get('grupo_processo_s'))" data-field="grupo_processo_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Tipo Processo</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="tipo_processo_s" name="tipo_processo_s" placeholder="Digite..." value="$!esc.html($params.get('tipo_processo_s'))" data-field="tipo_processo_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Subtipo Processo</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="subtipo_processo_s" name="subtipo_processo_s" placeholder="Digite..." value="$!esc.html($params.get('subtipo_processo_s'))" data-field="subtipo_processo_s">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nr Processo</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="processo_s" name="processo_s" placeholder="Digite..." value="$!esc.html($params.get('processo_s'))" data-field="nr_processo">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Situação do Documento</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="situacao_s" name="situacao_s" placeholder="Digite..." value="$!esc.html($params.get('situacao_s'))" data-field="situacao_documento">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Assuntos/Objetos</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="assuntos_objetos_s" name="assuntos_objetos_s" placeholder="Digite..." value="$!esc.html($params.get('assuntos_objetos_s'))" data-field="assuntos_objetos">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Tipo do Documento</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="tipo_documento_s" name="tipo_documento_s" placeholder="Digite..." value="$!esc.html($params.get('tipo_documento_s'))" data-field="tipo_documento">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Título Documento</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="titulo_s" name="titulo_s" placeholder="Digite..." value="$!esc.html($params.get('titulo_s'))" data-field="titulo_documento">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nr Doc Principal</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="numero_doc_principal_exp_s" name="numero_doc_principal_exp_s" placeholder="Digite..." value="$!esc.html($params.get('numero_doc_principal_exp_s'))" data-field="nr_doc_principal">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Tributo ACT</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="tributo_act_s" name="tributo_act_s" placeholder="Digite..." value="$!esc.html($params.get('tributo_act_s'))" data-field="tributo_act">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field filter-col-span-2">
+                    <label class="filter-label"><span class="filter-label-text">Valor do Processo</span></label>
+                    <div class="filter-value-range">
+                        <input type="text" class="filter-input" id="valor_processo_d_from" name="valor_processo_d_from" placeholder="R$ 0,00" value="$!esc.html($params.get('valor_processo_d_from'))" inputmode="numeric">
+                        <span>até</span>
+                        <input type="text" class="filter-input" id="valor_processo_d_to" name="valor_processo_d_to" placeholder="R$ 0,00" value="$!esc.html($params.get('valor_processo_d_to'))" inputmode="numeric">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        ## Unidade e Equipe
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="${request.contextPath}/assets/img/icons/building-user-solid-full.svg" alt="">
+                <span>Unidade e Equipe</span>
+            </div>
+            <div class="filter-grid filter-grid-4">
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Unidade de Origem do Documento</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="unidade_origem_s" name="unidade_origem_s" placeholder="Digite..." value="$!esc.html($params.get('unidade_origem_s'))" data-field="unidade_origem">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Equipe de Origem do Documento</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="equipe_origem_s" name="equipe_origem_s" placeholder="Digite..." value="$!esc.html($params.get('equipe_origem_s'))" data-field="equipe_origem">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Unidade Atual</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="nome_unidade_atual_s" name="nome_unidade_atual_s" placeholder="Digite..." value="$!esc.html($params.get('nome_unidade_atual_s'))" data-field="unidade_atual">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Equipe Atual</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="nome_equipe_atual_s" name="nome_equipe_atual_s" placeholder="Digite..." value="$!esc.html($params.get('nome_equipe_atual_s'))" data-field="equipe_atual">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        ## Partes Envolvidas
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="${request.contextPath}/assets/img/icons/user-group-solid-full.svg" alt="">
+                <span>Partes Envolvidas</span>
+            </div>
+            <div class="filter-grid filter-grid-5">
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">NI Contribuinte</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="ni_contribuinte_s" name="ni_contribuinte_s" placeholder="Digite..." value="$!esc.html($params.get('ni_contribuinte_s'))" data-field="ni_contribuinte">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome do Contribuinte</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="nome_contribuinte_s" name="nome_contribuinte_s" placeholder="Digite..." value="$!esc.html($params.get('nome_contribuinte_s'))" data-field="nome_contribuinte">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">CPF Responsável</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="cpf_responsavel_s" name="cpf_responsavel_s" placeholder="Digite..." value="$!esc.html($params.get('cpf_responsavel_s'))" data-field="cpf_responsavel">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome Usuário Juntada</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="nome_usuario_juntada_doc_s" name="nome_usuario_juntada_doc_s" placeholder="Digite..." value="$!esc.html($params.get('nome_usuario_juntada_doc_s'))" data-field="nome_usuario_juntada">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Nome Relator DRJ</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="nome_relator_drj_s" name="nome_relator_drj_s" placeholder="Digite..." value="$!esc.html($params.get('nome_relator_drj_s'))" data-field="nome_relator_drj">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        ## Julgamento
+        <section class="filter-section">
+            <div class="filter-section-header">
+                <img class="iconColor" src="${request.contextPath}/assets/img/icons/scale-balanced-solid-full.svg" alt="">
+                <span>Julgamento</span>
+            </div>
+            <div class="filter-grid filter-grid-3">
+                <div class="filter-field">
+                    <label class="filter-label">
+                        <span class="filter-label-text">Alegações no Recurso</span>
+                        <span class="filter-badge">AUTO</span>
+                    </label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input autocomplete-field" id="aleg_recurso_contrib_txt" name="aleg_recurso_contrib_txt" placeholder="Digite..." value="$!esc.html($params.get('aleg_recurso_contrib_txt'))" data-field="alegacoes_recurso">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 1</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="result_questdrj_nivel1_s" name="result_questdrj_nivel1_s" placeholder="Digite..." value="$!esc.html($params.get('result_questdrj_nivel1_s'))" data-field="result_drj_nivel1">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+                
+                <div class="filter-field">
+                    <label class="filter-label"><span class="filter-label-text">Result Julgamento DRJ nível 2</span></label>
+                    <div class="filter-input-group">
+                        <input type="text" class="filter-input" id="result_questdrj_nivel2_s" name="result_questdrj_nivel2_s" placeholder="Digite..." value="$!esc.html($params.get('result_questdrj_nivel2_s'))" data-field="result_drj_nivel2">
+                        <button type="button" class="filter-operator contains" data-operator="contains">Contém</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <button id="infoBtn" class="btn-icon" aria-label="Informações">
+            <img class="iconColor" src="${request.contextPath}/assets/img/icons/circle-info-solid-full.svg" alt="">
+        </button>
+        <div class="dialog-footer-right">
+            <button id="filtersDialogClearBtn">Limpar Filtros</button>
+            <button id="filtersDialogCancelBtn">Cancelar</button>
+            <button id="filtersDialogApplyBtn">Buscar</button>
+        </div>
+    </footer>
+</dialog>

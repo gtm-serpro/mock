@@ -26,6 +26,112 @@
 }
 
 /* ============================================
+   SIDEBAR HEADER
+   ============================================ */
+
+.header-top {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-xs) 0;
+}
+
+/* Grupo de botões */
+.btn-group {
+    display: flex;
+}
+
+.circle-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--btn-height);
+    height: var(--btn-height);
+    padding: var(--spacing-xs);
+    border: 1px solid var(--color-border);
+    border-radius: 20px 0 0 20px;
+    background-color: var(--color-bg-white);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    padding:0 0 0 4px ;
+}
+.circle-btn-right {
+    border-radius: 0 20px 20px 0;
+    padding:0 4px 0 0 ;
+    border-left:none;
+}
+.circle-btn-right:hover{
+    border-left: 1px solid var(--color-border);
+} 
+.circle-btn:hover {
+    background-color: var(--color-bg);
+    border-color: var(--color-primary);
+}
+
+.circle-btn-icon {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+}
+
+/* Input de busca */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex:1;
+}
+
+.search-input {
+    width: 100%;
+    flex:1;
+    height: var(--btn-height);
+    padding: var(--spacing-xs) calc(var(--btn-height) + var(--spacing-xs)) var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-white);
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-normal);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.search-input::placeholder {
+    color: var(--color-text-light);
+}
+
+.clear-btn {
+    position: absolute;
+    right: var(--spacing-xs);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: calc(var(--btn-height) - var(--spacing-xs));
+    height: calc(var(--btn-height) - var(--spacing-xs));
+    padding: var(--spacing-xs);
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color var(--transition-normal);
+}
+
+.clear-btn:hover {
+    background-color: var(--color-bg);
+}
+
+.clear-icon {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+}
+
+/* Mostrar botão limpar quando input tem valor */
+.search-input:not(:placeholder-shown) ~ .clear-btn {
+    display: flex;
+}
+
+/* ============================================
    SIDEBAR RESIZER
    ============================================ */
 
@@ -469,6 +575,7 @@ body.resizing * {
 #accessibilityDropdown.open #accessibilityMenu {
     display: block;
 }
+
 
 /* ============================================
    CONTAINER QUERIES

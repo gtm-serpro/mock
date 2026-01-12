@@ -1,0 +1,64 @@
+##**
+## header.vm - Cabeçalho do eProcesso Buscador
+##*#
+<header id="mainHeader">
+    <div id="mainHeaderLeft">
+        <button id="sidebarBtn" class="btn-icon" aria-label="Abrir menu">
+            <img class="iconColor" src="${request.contextPath}/assets/img/icons/bars-solid-full.svg" alt="">
+        </button>
+        <img id="logoMain" src="${request.contextPath}/assets/img/logos/logo-eprocesso-buscador.svg" alt="eProcesso Buscador">
+        <img id="logoShort" src="${request.contextPath}/assets/img/logos/logo-eprocesso-buscador-short.svg" alt="eProcesso Buscador">
+    </div>
+    
+    <search id="headerSearch">
+        <form class="searchForm" action="#{url_for_home}" method="GET">
+            <div class="searchInputWraper">
+                <img class="searchIcon iconColor" src="${request.contextPath}/assets/img/icons/magnifying-glass-solid-full.svg" alt="">
+                <input class="searchInput" type="text" name="q" value="$!esc.html($params.get('q'))" placeholder="Digite para buscar...">
+                <button class="searchCloseBtn" type="button" aria-label="Limpar busca">
+                    <img class="iconColor" src="${request.contextPath}/assets/img/icons/xmark-solid-full.svg" alt="">
+                </button>
+                <kbd class="searchKBD">Ctrl+K</kbd>
+            </div>
+            <button class="searchBtn" type="submit">Buscar</button>
+            <button type="button" class="filterBtn" id="openFiltersBtn">
+                <span class="filterBtnIcon">
+                    <img class="iconColor" src="${request.contextPath}/assets/img/icons/filter-solid-full.svg" alt="">
+                </span>
+                <span class="filterBtnText">Filtrar</span>
+                <span class="filtersUsedNumbers"></span>
+            </button>
+            
+            ## Hidden fields necessários
+            #if($request.params.get('debugQuery'))
+                <input type="hidden" name="debugQuery" value="true"/>
+            #end
+            #if($annotate == true)
+                <input type="hidden" name="annotateBrowse" value="true"/>
+            #end
+            #foreach($fq in $request.params.getParams('fq'))
+                #if ($fq != "{!bbox}")
+                    <input type="hidden" name="fq" value="$esc.html($fq)"/>
+                #end
+            #end
+        </form>
+    </search>
+    
+    <div id="logosParceiros">
+        <img src="${request.contextPath}/assets/img/logos/logo-parceiro-receita.svg" alt="Receita Federal">
+        <img src="${request.contextPath}/assets/img/logos/logo-parceiro-pgfn.svg" alt="PGFN">
+        <img src="${request.contextPath}/assets/img/logos/logo-parceiro-carf.svg" alt="CARF">
+    </div>
+    
+    <div id="accessibilityDropdown" class="dropdown">
+        <button id="accessibilityBtn" class="btn-icon" aria-label="Acessibilidade">
+            <img class="iconColor" src="${request.contextPath}/assets/img/icons/universal-access-solid-full.svg" alt="">
+        </button>
+        <ul id="accessibilityMenu" class="dropdown-menu dropdown-menu-bottom dropdown-menu-right">
+            <li><button class="dropdown-item" value="theme">🌙 Tema escuro</button></li>
+            <li><button class="dropdown-item" value="contrast">◐ Alto contraste</button></li>
+            <li><button class="dropdown-item" value="fontUp">A+ Aumentar fonte</button></li>
+            <li><button class="dropdown-item" value="fontDown">A- Diminuir fonte</button></li>
+        </ul>
+    </div>
+</header>

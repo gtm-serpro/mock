@@ -76,3 +76,139 @@ class SidebarComponent {
     
     resetWidth() { this.sidebar.style.width = `${CONFIG.sidebar.defaultWidth}px`; }
 }
+
+// ============================================
+// SIDEBAR HEADER - Funcionalidades
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Elementos
+    const btnExpandAll = document.querySelector('.btn-expand-all');
+    const btnCollapseAll = document.querySelector('.btn-collapse-all');
+    const facetFilter = document.querySelector('.facet-filter');
+    const clearBtn = document.querySelector('.clear-btn');
+    const facetGroups = document.querySelectorAll('.facetGroup');
+    
+    // Expandir todos os grupos
+    btnExpandAll?.addEventListener('click', () => {
+        facetGroups.forEach(group => {
+            group.classList.add('open');
+        });
+    });
+    
+    // Recolher todos os grupos
+    btnCollapseAll?.addEventListener('click', () => {
+        facetGroups.forEach(group => {
+            group.classList.remove('open');
+        });
+    });
+    
+    // Limpar campo de busca
+    clearBtn?.addEventListener('click', () => {
+        facetFilter.value = '';
+        facetFilter.focus();
+        filterFacets('');
+    });
+    
+    // Filtrar facetas em tempo real
+    facetFilter?.addEventListener('input', (e) => {
+        filterFacets(e.target.value);
+    });
+    
+    // Função para remover acentos
+    function removeAccents(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    
+    // Função para destacar texto (ignorando acentos)
+    function highlightText(text, term) {
+        if (!term) return text;
+        
+        // Cria um array de caracteres do termo
+        const termChars = term.split('');
+        
+        // Constrói regex que aceita versões com e sem acento de cada letra
+        const pattern = termChars.map(char => {
+            // Mapeia caracteres com suas variações acentuadas
+            const accents = {
+                'a': '[aáàâãäåāăą]',
+                'e': '[eéèêëēėę]',
+                'i': '[iíìîïīįı]',
+                'o': '[oóòôõöøōő]',
+                'u': '[uúùûüūůű]',
+                'c': '[cçćč]',
+                'n': '[nñń]',
+            };
+            
+            const lowerChar = char.toLowerCase();
+            return accents[lowerChar] || char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }).join('');
+        
+        const regex = new RegExp(`(${pattern})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+    
+    // Função de filtro
+    function filterFacets(searchTerm) {
+        const term = removeAccents(searchTerm.toLowerCase().trim());
+        
+        facetGroups.forEach(group => {
+            const titleSpan = group.querySelector('.facetTitle span');
+            const titleText = titleSpan?.getAttribute('data-original-text') || titleSpan?.textContent || '';
+            
+            // Guarda texto original na primeira vez
+            if (!titleSpan?.hasAttribute('data-original-text')) {
+                titleSpan?.setAttribute('data-original-text', titleText);
+            }
+            
+            const items = group.querySelectorAll('.facetText button');
+            let hasVisibleItems = false;
+            
+            // Verifica se o título do grupo corresponde
+            const titleMatches = term && removeAccents(titleText.toLowerCase()).includes(term);
+            
+            // Atualiza título com highlight
+            if (titleSpan) {
+                titleSpan.innerHTML = term ? highlightText(titleText, searchTerm.trim()) : titleText;
+            }
+            
+            items.forEach(item => {
+                const textSpan = item.querySelector('span:first-child');
+                const originalText = textSpan?.getAttribute('data-original-text') || textSpan?.textContent || '';
+                
+                // Guarda texto original na primeira vez
+                if (!textSpan?.hasAttribute('data-original-text')) {
+                    textSpan?.setAttribute('data-original-text', originalText);
+                }
+                
+                const matches = !term || removeAccents(originalText.toLowerCase()).includes(term) || titleMatches;
+                
+                // Atualiza texto com highlight
+                if (textSpan) {
+                    textSpan.innerHTML = term && matches ? highlightText(originalText, searchTerm.trim()) : originalText;
+                }
+                
+                item.parentElement.style.display = matches ? '' : 'none';
+                if (matches) hasVisibleItems = true;
+            });
+            
+            // Mostra/oculta o grupo completo
+            group.style.display = (hasVisibleItems || titleMatches) ? '' : 'none';
+            
+            // Expande grupos com resultados ao filtrar
+            if (term && hasVisibleItems) {
+                group.classList.add('open');
+            }
+        });
+    }
+    
+    // Toggle de grupos (já existente, mantém compatibilidade)
+    facetGroups.forEach(group => {
+        const btn = group.querySelector('.facetTitle');
+        btn?.addEventListener('click', () => {
+            group.classList.toggle('open');
+        });
+    });
+    
+});

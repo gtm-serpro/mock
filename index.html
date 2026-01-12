@@ -115,7 +115,26 @@
 
     <!-- PAGE RESULTS -->
     <main id="pageResults">
+        <!-- sidebar -->
         <aside id="sidebar">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <div class="btn-group">
+                        <button class="circle-btn btn-expand-all" title="Expandir todos">
+                            <img src="/assets/img/icons/maximize-solid-full.svg" alt="Expandir" class="circle-btn-icon">
+                        </button>
+                        <button class="circle-btn circle-btn-right btn-collapse-all" title="Recolher todos">
+                            <img src="/assets/img/icons/minimize-solid-full.svg" alt="Recolher" class="circle-btn-icon">
+                        </button>
+                    </div>
+                    <div class="search-input-wrapper">
+                        <input type="text" class="search-input facet-filter" placeholder="Filtrar facetas...">
+                        <button type="button" class="clear-btn">
+                            <img src="/assets/img/icons/xmark-solid-full.svg" alt="Limpar" class="clear-icon">
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="facetGroup open">
                 <button class="facetTitle" title="Tipo de Processo">
                     <span>Tipo de Processo</span>
@@ -130,7 +149,7 @@
             <!-- Resizer DENTRO do sidebar -->
             <div id="sidebarResizer"></div>
         </aside>
-
+        <!-- main content -->
         <section id="mainContent">
             <section id="results"></section>
             <footer id="pageResultsFooter">

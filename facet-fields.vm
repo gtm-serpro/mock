@@ -1,0 +1,76 @@
+##**
+## facet_fields.vm - Renderiza facetas baseadas em campos
+##*#
+
+#if($response.facetFields)
+
+#set($labelsMap = {})
+#set($labelsMap['grupo_processo_s'] = 'Grupo Processo')
+#set($labelsMap['dt_juntada_tdt'] = 'Data Juntada')
+#set($labelsMap['tipo_processo_s'] = 'Tipo Processo')
+#set($labelsMap['subtipo_processo_s'] = 'Subtipo Processo')
+#set($labelsMap['processo_s'] = 'Processo')
+#set($labelsMap['ni_contribuinte_l'] = 'NI Contribuinte')
+#set($labelsMap['situacao_s'] = 'Situação')
+#set($labelsMap['unidade_origem_s'] = 'Unidade Origem')
+#set($labelsMap['equipe_origem_s'] = 'Equipe Origem')
+#set($labelsMap['cpf_signatarios_s'] = 'CPF Signatário')
+#set($labelsMap['cpf_responsavel_s'] = 'CPF Responsável')
+#set($labelsMap['tipo_documento_s'] = 'Tipo Documento')
+#set($labelsMap['nome_contribuinte_s'] = 'Nome Contribuinte')
+#set($labelsMap['nome_equipe_atual_s'] = 'Nome Equipe Atual')
+#set($labelsMap['nome_unidade_atual_s'] = 'Nome Unidade Atual')
+#set($labelsMap['tributo_act_s'] = 'Tributo ACT do Processo')
+#set($labelsMap['tributo_processo_s'] = 'Tributo Processo')
+
+#foreach($field in $response.facetFields)
+    ## Exibir apenas facetas com valores
+    #if($field.values.size() > 0)
+        <div class="facetGroup open" data-facet-field="$field.name">
+            <button class="facetTitle" title="#if($labelsMap.get($field.name))$labelsMap.get($field.name)#{else}$field.name#end">
+                <span>#if($labelsMap.get($field.name))$labelsMap.get($field.name)#{else}$field.name#end</span>
+                <img class="iconColor facetChevron" src="${request.contextPath}/assets/img/icons/chevron-down-solid-full.svg" alt="">
+            </button>
+            <ul class="facetList">
+                #foreach($facet in $field.values)
+                    <li class="facetText">
+                        #if($field.name=="dt_juntada_tdt")
+                            #if($facet.name)
+                                #set($dt_juntada_tdt = $facet.name.substring(8,10)+"/"+$facet.name.substring(5,7)+"/"+$facet.name.substring(0,4)+ " " + $facet.name.substring(11,16))
+                                <button title="$esc.html($dt_juntada_tdt)" data-facet-value="$esc.html($facet.name)">
+                                    <span>$esc.html($dt_juntada_tdt)</span>
+                                    <span class="facetNumber">$number.format('#,##0',$facet.count)</span>
+                                </button>
+                            #else
+                                <button title="missing" data-facet-value="">
+                                    <span><em>missing</em></span>
+                                    <span class="facetNumber">$number.format('#,##0',$facet.count)</span>
+                                </button>
+                            #end
+                        #elseif($field.name=="cpf_signatarios_s" || $field.name=="cpf_responsavel_s")
+                            #if($facet.name && $facet.name.length()==11)
+                                #set($cpf_formatado = $facet.name.substring(0,3)+"."+$facet.name.substring(3,6)+"."+$facet.name.substring(6,9)+"-"+$facet.name.substring(9,11))
+                                <button title="$esc.html($cpf_formatado)" data-facet-value="$esc.html($facet.name)">
+                                    <span>$esc.html($cpf_formatado)</span>
+                                    <span class="facetNumber">$number.format('#,##0',$facet.count)</span>
+                                </button>
+                            #else
+                                <button title="$esc.html($facet.name)" data-facet-value="$esc.html($facet.name)">
+                                    <span>#if($facet.name)$esc.html($facet.name)#{else}<em>missing</em>#end</span>
+                                    <span class="facetNumber">$number.format('#,##0',$facet.count)</span>
+                                </button>
+                            #end
+                        #else
+                            <button title="#if($facet.name)$esc.html($facet.name)#{else}missing#end" data-facet-value="$esc.html($facet.name)">
+                                <span>#if($facet.name)$esc.html($display.truncate($facet.name,25))#{else}<em>missing</em>#end</span>
+                                <span class="facetNumber">$number.format('#,##0',$facet.count)</span>
+                            </button>
+                        #end
+                    </li>
+                #end
+            </ul>
+        </div>
+    #end
+#end
+
+#end

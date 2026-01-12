@@ -1,0 +1,73 @@
+##**
+## layout.vm - Layout principal do eProcesso Buscador
+##*#
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="${request.contextPath}/assets/img/favicon/logo-simbolo_e-Processo.svg">
+    
+    ## CSS Base
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/reset.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/variables.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/typography.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/components.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/global.css">
+    
+    ## CSS Páginas
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/mainHeader.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/pageEmpty.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/pageResults.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/resultCard.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/dialogs.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/fieldsSelector.css">
+    <link rel="stylesheet" href="${request.contextPath}/assets/css/ajudaDialog.css">
+    
+    ## jQuery UI para autocomplete (mantido do sistema antigo)
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <script src="/js/jquery-3.6.0.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    
+    <title>eProcesso Buscador</title>
+</head>
+<body class="#if($response.results.size() > 0)#else empty-state#end">
+    
+    #parse("header.vm")
+
+    #if($response.results.size() == 0)
+        #parse("pageEmpty.vm")
+    #else
+        #parse("pageResults.vm")
+    #end
+
+    ## Dialogs
+    #parse("dialogs/filtersDialog.vm")
+    #parse("dialogs/infoDialog.vm")
+    #parse("dialogs/ajudaDialog.vm")
+
+    ## JS Core
+    <script src="${request.contextPath}/assets/js/core/config.js"></script>
+    <script src="${request.contextPath}/assets/js/core/utils.js"></script>
+    
+    ## JS Controllers
+    <script src="${request.contextPath}/assets/js/controllers/PageController.js"></script>
+    
+    ## JS Components
+    <script src="${request.contextPath}/assets/js/components/AccordionComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/AutocompleteComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/CurrencyInputComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/DialogComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/DropdownComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/FilterCounterComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/FilterOperatorComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/KeyboardShortcuts.js"></script>
+    <script src="${request.contextPath}/assets/js/components/ResultCardComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/SearchComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/components/SidebarComponent.js"></script>
+    <script src="${request.contextPath}/assets/js/fieldsSelector.js"></script>
+    
+    ## JS Inicialização
+    <script src="${request.contextPath}/assets/js/core/dom.js"></script>
+</body>
+</html>

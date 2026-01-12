@@ -1,0 +1,192 @@
+##**
+## nfe_doc.vm - Renderiza card de resultado individual
+##*#
+
+#if($doc.getFieldValue('id'))
+    #set($id = "#field('id')")
+    #set($link = 'https://eprocesso.suiterfb.receita.fazenda/eprocesso/api/documentos/'+$id.trim()+'/obterbinario/download')
+    #set($linkOCR = 'https://eprocesso.suiterfb.receita.fazenda/eprocesso/api/documentos/'+$id.trim()+'/obterbinarioocr/download')
+#end
+
+<div class="result-card" data-doc-id="$doc.getFieldValue('id')">
+    ## Header do card
+    <div class="result-card-header">
+        <div class="result-card-title">
+            #if($doc.getFieldValue('tipo_documento_s'))
+                <span class="result-type">$doc.getFieldValue('tipo_documento_s')</span>
+            #end
+            #if($doc.getFieldValue('titulo_s'))
+                <span class="result-title-text">$doc.getFieldValue('titulo_s')</span>
+            #end
+        </div>
+        
+        <div class="result-card-actions">
+            ## Botões de download baseados na disponibilidade
+            #if($doc.getFieldValue('arquivo_indexado_s')=='S')
+                #if($doc.getFieldValue('indicador_pesquisavel_s')=='S' && $doc.getFieldValue('indicador_original_pesquisavel_s')=='N')
+                    <a href='$link' target='_blank' class="result-action-btn" title="PDF Original">
+                        <img src="${request.contextPath}/assets/img/icons/file-image-regular-full.svg" alt="" class="iconColor">
+                    </a>
+                    <a href='$linkOCR' target='_blank' class="result-action-btn result-action-btn-ocr" title="PDF Pesquisável (OCR)">
+                        <img src="${request.contextPath}/assets/img/icons/file-lines-regular-full.svg" alt="" class="iconColorGreen">
+                    </a>
+                #elseif($doc.getFieldValue('indicador_pesquisavel_s')=='N' && $doc.getFieldValue('indicador_original_pesquisavel_s')=='N')
+                    <a href='$link' target='_blank' class="result-action-btn" title="PDF Original">
+                        <img src="${request.contextPath}/assets/img/icons/file-image-regular-full.svg" alt="" class="iconColor">
+                    </a>
+                #elseif($doc.getFieldValue('indicador_pesquisavel_s')=='S' && $doc.getFieldValue('indicador_original_pesquisavel_s')=='S')
+                    <a href='$link' target='_blank' class="result-action-btn result-action-btn-ocr" title="PDF Pesquisável">
+                        <img src="${request.contextPath}/assets/img/icons/file-lines-regular-full.svg" alt="" class="iconColorGreen">
+                    </a>
+                #end
+            #else
+                <button class="result-action-btn" title="PDF não disponível" disabled>
+                    <img src="${request.contextPath}/assets/img/icons/file-image-regular-full.svg" alt="" class="iconColor" style="opacity: 0.3;">
+                </button>
+            #end
+        </div>
+    </div>
+    
+    ## Body do card com campos
+    <div class="result-card-body">
+        #if($doc.getFieldValue('processo_s'))
+            <div class="result-field" data-field="processo_s">
+                <span class="result-field-label">Número do processo:</span>
+                <span class="result-field-value" data-copy>#field('processo_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('dt_anexacao_tdt'))
+            <div class="result-field" data-field="dt_anexacao_tdt">
+                <span class="result-field-label">Data anexação:</span>
+                <span class="result-field-value" data-copy>$date.format('dd/MM/Y HH:mm',$doc.getFieldValue('dt_anexacao_tdt'),$date.getLocale(),$date.getTimeZone().getTimeZone('UTC'))</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('dt_protocolo_tdt'))
+            <div class="result-field" data-field="dt_protocolo_tdt">
+                <span class="result-field-label">Data protocolo:</span>
+                <span class="result-field-value" data-copy>$date.format('dd/MM/Y HH:mm',$doc.getFieldValue('dt_protocolo_tdt'),$date.getLocale(),$date.getTimeZone().getTimeZone('UTC'))</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('dt_juntada_tdt'))
+            <div class="result-field" data-field="dt_juntada_tdt">
+                <span class="result-field-label">Data juntada:</span>
+                <span class="result-field-value" data-copy>$date.format('dd/MM/Y HH:mm',$doc.getFieldValue('dt_juntada_tdt'),$date.getLocale(),$date.getTimeZone().getTimeZone('UTC'))</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('unidade_origem_s'))
+            <div class="result-field" data-field="unidade_origem_s">
+                <span class="result-field-label">Unidade origem:</span>
+                <span class="result-field-value" data-copy>#field('unidade_origem_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('equipe_origem_s'))
+            <div class="result-field" data-field="equipe_origem_s">
+                <span class="result-field-label">Equipe origem:</span>
+                <span class="result-field-value" data-copy>#field('equipe_origem_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('grupo_processo_s'))
+            <div class="result-field" data-field="grupo_processo_s">
+                <span class="result-field-label">Grupo processo:</span>
+                <span class="result-field-value" data-copy>#field('grupo_processo_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('tipo_processo_s'))
+            <div class="result-field" data-field="tipo_processo_s">
+                <span class="result-field-label">Tipo processo:</span>
+                <span class="result-field-value" data-copy>#field('tipo_processo_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('subtipo_processo_s'))
+            <div class="result-field" data-field="subtipo_processo_s">
+                <span class="result-field-label">Subtipo processo:</span>
+                <span class="result-field-value" data-copy>#field('subtipo_processo_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('ni_contribuinte_s'))
+            <div class="result-field" data-field="ni_contribuinte_s">
+                <span class="result-field-label">NI do Contribuinte:</span>
+                <span class="result-field-value" data-copy>#field('ni_contribuinte_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('nome_contribuinte_s'))
+            <div class="result-field" data-field="nome_contribuinte_s">
+                <span class="result-field-label">Nome do Contribuinte:</span>
+                <span class="result-field-value" data-copy>#field('nome_contribuinte_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('nome_equipe_atual_s'))
+            <div class="result-field" data-field="nome_equipe_atual_s">
+                <span class="result-field-label">Nome Equipe Atual:</span>
+                <span class="result-field-value" data-copy>#field('nome_equipe_atual_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('nome_unidade_atual_s'))
+            <div class="result-field" data-field="nome_unidade_atual_s">
+                <span class="result-field-label">Nome Unidade Atual:</span>
+                <span class="result-field-value" data-copy>#field('nome_unidade_atual_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('cpf_responsavel_s'))
+            <div class="result-field" data-field="cpf_responsavel_s">
+                <span class="result-field-label">CPF Responsável:</span>
+                <span class="result-field-value" data-copy>#field('cpf_responsavel_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('nome_usuario_juntada_doc_s'))
+            <div class="result-field" data-field="nome_usuario_juntada_doc_s">
+                <span class="result-field-label">Nome usuário juntada:</span>
+                <span class="result-field-value" data-copy>#field('nome_usuario_juntada_doc_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('tributo_act_s'))
+            <div class="result-field" data-field="tributo_act_s">
+                <span class="result-field-label">Tributo ACT:</span>
+                <span class="result-field-value" data-copy>#field('tributo_act_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('assuntos_objetos_s'))
+            <div class="result-field" data-field="assuntos_objetos_s">
+                <span class="result-field-label">Assuntos/Objetos:</span>
+                <span class="result-field-value" data-copy>#field('assuntos_objetos_s')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('aleg_recurso_contrib_txt'))
+            <div class="result-field" data-field="aleg_recurso_contrib_txt">
+                <span class="result-field-label">Alegações:</span>
+                <span class="result-field-value" data-copy>#field('aleg_recurso_contrib_txt')</span>
+            </div>
+        #end
+        
+        #if($doc.getFieldValue('numero_doc_princiapal_exp_s'))
+            <div class="result-field" data-field="numero_doc_princiapal_exp_s">
+                <span class="result-field-label">Nr documento principal:</span>
+                <span class="result-field-value" data-copy>#field('numero_doc_princiapal_exp_s')</span>
+            </div>
+        #end
+        
+        #if($request.params.get("q") && $doc.getFieldValue('conteudo_txt'))
+            <div class="result-field result-field-snippet" data-field="conteudo_txt">
+                <span class="result-field-label">Trecho:</span>
+                <span class="result-field-value">#field('conteudo_txt')</span>
+            </div>
+        #end
+    </div>
+</div>
