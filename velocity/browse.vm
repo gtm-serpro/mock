@@ -11,7 +11,11 @@
 #set($requestURI = $request.requestURI)
 
 ## Path dos assets baseado no contexto do Solr
-#set($assetsPath = "#url_for_home/velocity/assets")
+#set($homeUrl = "#url_for_home")
+#if($homeUrl.endsWith("/"))
+  #set($homeUrl = $homeUrl.substring(0, $homeUrl.length() - 1))
+#end
+#set($assetsPath = "$homeUrl/velocity/assets")
 
 ## Parse query parameters
 #parse("query.vm")

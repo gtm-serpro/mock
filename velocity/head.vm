@@ -17,7 +17,7 @@
 #set($requestURI = $request.requestURI)
 
 ## Detectar ambiente pela URL
-#if($serverName.contains("10.139.73.23"))
+#if($serverName.matches("10\\.139\\.73\\..*"))
     #set($ambiente = "dev")
     #set($ambienteLabel = "Desenvolvimento")
     #set($ambienteColor = "#ffc107")
@@ -97,11 +97,11 @@ var SOLR_CONFIG = {
     baseUrl: '#url_for_solr',
     browseUrl: '#url_for_home',
     
-    // Query atual
-    currentQuery: '$!esc.javascript($params.get("q"))',
+    // Query
+    currentQuery: #if($params.get("q"))'$!esc.javascript($params.get("q"))'#else null#end,
     currentFilters: [
         #foreach($fq in $request.params.getParams('fq'))
-        '$esc.javascript($fq)'#if($foreach.hasNext),#end
+            '$esc.javascript($fq)'#if($foreach.hasNext),#end
         #end
     ],
     

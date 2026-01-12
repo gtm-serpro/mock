@@ -3,7 +3,10 @@
  *  This file must be named VM_global_library.vm
  *#
 
-#macro(param $key)$request.params.get($key)#end
+#macro(assets_root)#url_for_home/velocity/assets#end
+#macro(asset $path)#assets_root/$path#end
+
+#macro(param $key)$!esc.html($request.params.get($key))#end
 
 #macro(url_root)/solr#end
 
@@ -11,9 +14,15 @@
 #macro(url_for_solr)#{url_root}#if($request.core.name != "")/$request.core.name#end#end
 #macro(url_for_home)#url_for_solr/browse#end
 
-#macro(q)&q=$!{esc.url($params.get('q'))}#end
+#macro(q)
+#if($params.get('q'))&q=$esc.url($params.get('q'))#end
+#end
 
-#macro(fqs $p)#foreach($fq in $p)#if($velocityCount && $velocityCount>1)#{end}&fq=$esc.url($fq)#end#end
+#macro(fqs $p)
+#foreach($fq in $p)
+&fq=$esc.url($fq)
+#end
+#end
 
 #macro(debug)#if($request.params.get('debugQuery'))&debugQuery=true#end#end
 
@@ -83,7 +92,8 @@ $v##
 
 #macro(format_date $dateValue)
 #if($dateValue)
-$date.format('dd/MM/yyyy HH:mm', $dateValue, $date.getLocale(), $date.getTimeZone().getTimeZone('America/Sao_Paulo'))##
+#set($tz = $date.getTimeZone().getTimeZone('America/Sao_Paulo'))
+$date.format('dd/MM/yyyy HH:mm', $dateValue, $date.getLocale(), $tz)
 #end
 #end
 

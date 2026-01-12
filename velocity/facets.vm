@@ -3,29 +3,24 @@
  *#
 
 #set($labelsMap = {
-    ## Grupo 1: Processo e Documento (5)
     'grupo_processo_s': 'Grupo Processo',
     'tipo_processo_s': 'Tipo Processo',
     'subtipo_processo_s': 'Subtipo Processo',
     'tipo_documento_s': 'Tipo Documento',
     'situacao_s': 'Situação',
     
-    ## Grupo 2: Unidade e Equipe (4)
     'unidade_origem_s': 'Unidade Origem',
     'equipe_origem_s': 'Equipe Origem',
     'nome_unidade_atual_s': 'Unidade Atual',
     'nome_equipe_atual_s': 'Equipe Atual',
     
-    ## Grupo 3: Tributo e Assuntos (2)
     'tributo_act_s': 'Tributo ACT',
     'assuntos_objetos_s': 'Assuntos/Objetos',
     
-    ## Grupo 4: Julgamento (3)
     'result_questdrj_nivel1_s': 'Resultado DRJ Nível 1',
     'result_questdrj_nivel2_s': 'Resultado DRJ Nível 2',
     'nome_relator_drj_s': 'Nome Relator DRJ',
     
-    ## Grupo 5: Tipo de Arquivo (2)
     'arquivo_indexado_s': 'Arquivo Indexado',
     'indicador_pesquisavel_s': 'Pesquisável (OCR)'
 })
