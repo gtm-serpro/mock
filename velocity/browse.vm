@@ -6,16 +6,8 @@
 ## ========================================
 ## ASSETS PATH DINÂMICO
 ## ========================================
-## Detectar ambiente e configurar path correto
-#set($serverName = $request.serverName)
-#set($requestURI = $request.requestURI)
-
-## Path dos assets baseado no contexto do Solr
-#set($homeUrl = "#url_for_home")
-#if($homeUrl.endsWith("/"))
-  #set($homeUrl = $homeUrl.substring(0, $homeUrl.length() - 1))
-#end
-#set($assetsPath = "$homeUrl/velocity/assets")
+## Path dos assets
+#set($assetsPath = "#assets_root")
 
 ## Parse query parameters
 #parse("query.vm")
@@ -120,7 +112,7 @@
                         </button>
                     </div>
                 </form>
-                <a href="#" class="empty-help-link" id="emptyHelpLink">
+                <a href="\#" class="empty-help-link" id="emptyHelpLink">
                     <img class="iconColor" src="${assetsPath}/img/icons/circle-question-regular-full.svg" alt="">
                     <span>Ajuda</span>
                 </a>
