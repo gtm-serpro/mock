@@ -1,42 +1,39 @@
 // ============================================
-// AUTOCOMPLETE COMPONENT
+// AUTOCOMPLETE COMPONENT - SEM MOCK
 // ============================================
 
 class AutocompleteComponent {
     constructor() {
-        this.mockData = {
-            'grupo_processo_s': ['Processo Administrativo Fiscal', 'Processo de Restituição', 'Processo de Compensação', 'Processo de Ressarcimento', 'Processo de Revisão', 'Processo de Consulta'],
-            'tipo_processo_s': ['Recurso Voluntário', 'Recurso de Ofício', 'Recurso Especial', 'Embargos de Declaração', 'Manifestação de Inconformidade', 'Impugnação'],
-            'subtipo_processo_s': ['IRPJ - Lucro Real', 'IRPJ - Lucro Presumido', 'CSLL', 'PIS/COFINS', 'IPI', 'Contribuições Previdenciárias'],
-            'situacao_s': ['Em Análise', 'Julgado', 'Pendente de Diligência', 'Aguardando Distribuição', 'Em Pauta', 'Arquivado'],
-            'tipo_documento_s': ['Acórdão', 'Decisão', 'Despacho', 'Auto de Infração', 'Intimação', 'Petição', 'Recurso', 'Parecer'],
-            'tributo_act_s': ['IRPJ', 'CSLL', 'PIS', 'COFINS', 'IPI', 'IRRF', 'IOF', 'Contribuição Previdenciária'],
-            'unidade_origem_s': ['DRF São Paulo', 'DRF Rio de Janeiro', 'DRF Belo Horizonte', 'DRF Brasília', 'DRF Curitiba', 'DRF Porto Alegre', 'DRF Salvador', 'DRF Recife'],
-            'equipe_origem_s': ['EQMAF01', 'EQMAF02', 'EQCAC01', 'EQCAC02', 'EQFIS01', 'EQFIS02', 'EQREV01'],
-            'nome_unidade_atual_s': ['CARF - 1ª Seção', 'CARF - 2ª Seção', 'CARF - 3ª Seção', 'DRJ São Paulo', 'DRJ Brasília', 'DRJ Rio de Janeiro', 'CSRF'],
-            'nome_equipe_atual_s': ['1ª Turma Ordinária', '2ª Turma Ordinária', '3ª Turma Ordinária', '1ª Turma Especial', '2ª Turma Especial', 'Turma Superior'],
-            'aleg_recurso_contrib_txt': ['Decadência', 'Prescrição', 'Nulidade do Auto de Infração', 'Cerceamento de Defesa', 'Erro na Apuração', 'Divergência Jurisprudencial', 'Inconstitucionalidade']
+        // Configuração da API do Solr
+        this.solrConfig = {
+            baseUrl: window.SOLR_CONFIG?.baseUrl || '/solr/seu-core',
+            suggestHandler: '/suggest'
         };
+        
         this.activeAutocomplete = null;
         this.highlightedIndex = -1;
+        this.cache = {}; // Cache de sugestões
         this.init();
     }
     
     init() {
         const autoFields = $$('.filter-field');
-        this.debouncedFilter = debounce((input, list, fieldName) => this.filterSuggestions(input, list, fieldName), 100);
+        this.debouncedFilter = debounce((input, list, fieldName) => this.filterSuggestions(input, list, fieldName), 300);
         
         autoFields.forEach(field => {
             const badge = field.querySelector('.filter-badge');
             if (!badge || badge.textContent.trim() !== 'AUTO') return;
+            
             const inputGroup = field.querySelector('.filter-input-group');
             const input = inputGroup?.querySelector('.filter-input');
             if (!input || !inputGroup) return;
+            
             const fieldName = input.dataset.field;
-            if (!fieldName || !this.mockData[fieldName]) return;
+            if (!fieldName) return;
             
             const listId = `autocomplete-${fieldName}-${Date.now()}`;
             inputGroup.classList.add('filter-autocomplete');
+            
             const list = document.createElement('ul');
             list.className = 'filter-autocomplete-list';
             list.id = listId;
@@ -54,22 +51,71 @@ class AutocompleteComponent {
             input.addEventListener('keydown', (e) => this.handleKeydown(e, input, list));
         });
         
-        document.addEventListener('click', (e) => { if (!e.target.closest('.filter-autocomplete')) this.closeAll(); });
+        document.addEventListener('click', (e) => { 
+            if (!e.target.closest('.filter-autocomplete')) this.closeAll(); 
+        });
     }
     
-    showSuggestions(input, list, fieldName) {
+    /**
+     * Buscar sugestões do Solr via API
+     */
+    async fetchSuggestions(fieldName, query) {
+        // Verificar cache
+        const cacheKey = `${fieldName}:${query}`;
+        if (this.cache[cacheKey]) {
+            return this.cache[cacheKey];
+        }
+        
+        try {
+            // Usar Terms Component do Solr para autocompletar
+            const url = `${this.solrConfig.baseUrl}/terms?terms.fl=${fieldName}&terms.prefix=${encodeURIComponent(query)}&terms.limit=20&wt=json`;
+            
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Solr request failed');
+            
+            const data = await response.json();
+            
+            // Parse resposta do Solr Terms
+            // Formato: {terms: {campo: [termo1, count1, termo2, count2, ...]}}
+            const terms = data.terms?.[fieldName] || [];
+            const suggestions = [];
+            
+            // Extrair apenas os termos (ignora counts)
+            for (let i = 0; i < terms.length; i += 2) {
+                suggestions.push(terms[i]);
+            }
+            
+            // Cachear resultado
+            this.cache[cacheKey] = suggestions;
+            
+            return suggestions;
+        } catch (error) {
+            console.error('Erro ao buscar sugestões do Solr:', error);
+            return [];
+        }
+    }
+    
+    async showSuggestions(input, list, fieldName) {
         this.activeAutocomplete = { input, list, fieldName };
         this.highlightedIndex = -1;
+        
         const container = input.closest('.filter-autocomplete');
         this.updateDropdownPosition(input, container);
-        this.renderSuggestions(input, list, fieldName, input.value);
+        
+        const query = input.value.trim();
+        await this.renderSuggestions(input, list, fieldName, query);
+        
         container.classList.add('open');
         input.setAttribute('aria-expanded', 'true');
     }
     
     updateDropdownPosition(input, container) {
         const dialogMain = input.closest('#filtersDialog main');
-        if (!dialogMain) { container.classList.remove('open-up'); return; }
+        if (!dialogMain) { 
+            container.classList.remove('open-up'); 
+            return; 
+        }
+        
         const inputRect = input.getBoundingClientRect();
         const mainRect = dialogMain.getBoundingClientRect();
         container.classList.toggle('open-up', (mainRect.bottom - inputRect.bottom) < 208);
@@ -85,16 +131,25 @@ class AutocompleteComponent {
         }, 200);
     }
     
-    filterSuggestions(input, list, fieldName) {
+    async filterSuggestions(input, list, fieldName) {
         this.highlightedIndex = -1;
         input.removeAttribute('aria-activedescendant');
-        this.renderSuggestions(input, list, fieldName, input.value);
+        await this.renderSuggestions(input, list, fieldName, input.value);
     }
     
-    renderSuggestions(input, list, fieldName, query) {
-        const data = this.mockData[fieldName] || [];
+    async renderSuggestions(input, list, fieldName, query) {
+        list.innerHTML = '<li class="filter-autocomplete-loading">Carregando...</li>';
+        
         const normalizedQuery = this.normalizeText(query);
-        const filtered = data.filter(item => this.normalizeText(item).includes(normalizedQuery));
+        
+        // Buscar do Solr
+        const data = await this.fetchSuggestions(fieldName, query);
+        
+        // Filtrar localmente (case-insensitive + sem acentos)
+        const filtered = data.filter(item => 
+            this.normalizeText(item).includes(normalizedQuery)
+        );
+        
         list.innerHTML = '';
         
         if (filtered.length === 0) {
@@ -112,8 +167,13 @@ class AutocompleteComponent {
             li.setAttribute('role', 'option');
             li.dataset.value = item;
             li.innerHTML = query ? this.highlightMatch(item, query) : item;
-            li.addEventListener('mousedown', (e) => { e.preventDefault(); this.selectItem(input, list, item); });
+            
+            li.addEventListener('mousedown', (e) => { 
+                e.preventDefault(); 
+                this.selectItem(input, list, item); 
+            });
             li.addEventListener('mouseenter', () => this.highlightItem(input, list, index));
+            
             list.appendChild(li);
         });
     }
@@ -122,18 +182,23 @@ class AutocompleteComponent {
         const normalizedText = this.normalizeText(text);
         const normalizedQuery = this.normalizeText(query);
         const matchIndex = normalizedText.indexOf(normalizedQuery);
+        
         if (matchIndex === -1) return text;
         
         const charMap = [];
         for (let i = 0; i < text.length; i++) {
             if (this.normalizeText(text[i]).length > 0) charMap.push(i);
         }
+        
         const startOriginal = charMap[matchIndex] ?? 0;
         const endOriginal = charMap[matchIndex + normalizedQuery.length] ?? text.length;
+        
         return `${text.substring(0, startOriginal)}<mark>${text.substring(startOriginal, endOriginal)}</mark>${text.substring(endOriginal)}`;
     }
     
-    normalizeText(text) { return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+    normalizeText(text) { 
+        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); 
+    }
     
     selectItem(input, list, value) {
         input.value = value;
@@ -147,7 +212,9 @@ class AutocompleteComponent {
             const isHighlighted = i === index;
             item.classList.toggle('highlighted', isHighlighted);
             item.setAttribute('aria-selected', isHighlighted);
-            if (isHighlighted && item.id) input.setAttribute('aria-activedescendant', item.id);
+            if (isHighlighted && item.id) {
+                input.setAttribute('aria-activedescendant', item.id);
+            }
         });
         this.highlightedIndex = index;
     }

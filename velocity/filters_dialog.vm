@@ -1,5 +1,5 @@
 #**
- *  Filters Dialog - Advanced search filters
+ *  Filters Dialog - Advanced search filters - CORRIGIDO
  *#
 
 <dialog id="filtersDialog">
@@ -303,6 +303,11 @@ function applyFilters() {
     var searchTerm = document.getElementById('dialogSearchInput').value.trim();
     var filterQueries = [];
     
+    // Helper: Escape caracteres especiais Solr
+    function escapeSolr(val) {
+        return val.replace(/([+\-&|!(){}[\]^"~*?:\\/])/g, '\\$1');
+    }
+    
     // Process text fields
     var textFields = [
         'grupo_processo_s', 'tipo_processo_s', 'subtipo_processo_s', 'processo_s',
@@ -323,17 +328,26 @@ function applyFilters() {
             var operator = operatorBtn ? (operatorBtn.dataset.operator || 'contains') : 'contains';
             
             var fq = '';
+            
             if (operator === 'not-contains') {
-                // Escape spaces for Solr
-                var escapedValue = rawValue.replace(/ /g, '\\ ');
-                fq = '-' + fieldId + ':*' + escapedValue + '*';
+                // Negative query - usa quotes se tem espaço
+                if (rawValue.indexOf(' ') > -1) {
+                    fq = '-' + fieldId + ':"' + rawValue + '"';
+                } else {
+                    fq = '-' + fieldId + ':*' + escapeSolr(rawValue) + '*';
+                }
             } else if (operator === 'equals') {
-                // Exact match with quotes
+                // Exact match - sempre com quotes
                 fq = fieldId + ':"' + rawValue + '"';
             } else {
-                // Contains (default)
-                var escapedValue = rawValue.replace(/ /g, '\\ ');
-                fq = fieldId + ':*' + escapedValue + '*';
+                // Contains (default) - usa quotes se tem espaço
+                if (rawValue.indexOf(' ') > -1) {
+                    // Phrase query
+                    fq = fieldId + ':"' + rawValue + '"';
+                } else {
+                    // Wildcard query
+                    fq = fieldId + ':*' + escapeSolr(rawValue) + '*';
+                }
             }
             
             filterQueries.push(fq);

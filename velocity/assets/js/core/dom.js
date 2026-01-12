@@ -1,5 +1,5 @@
 // ============================================
-// INICIALIZAÇÃO
+// INICIALIZAÇÃO - CORRIGIDO FINAL
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const search = new SearchComponent();
     const sidebar = new SidebarComponent();
     const facetAccordion = new AccordionComponent(CONFIG.selectors.facetTitle);
-
-    
     
     // Dropdowns
     const downloadDropdown = new DropdownComponent('downloadDropdown', 'downloadDropdownBtn');
@@ -53,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openAjudaDialog = () => ajudaDialog.open();
     window.closeAjudaDialog = () => ajudaDialog.close();
     
-    
     // Filter Components
     const filterOperators = new FilterOperatorComponent();
     const autocomplete = new AutocompleteComponent();
@@ -71,24 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     resultCards.setFieldsSelector(fieldsSelector);
     
-    // Search Event Handler
-    document.addEventListener('search', (e) => {
-        const searchTerm = e.detail.term;
-        resultCards.setSearchTerm(searchTerm);
-        resultCards.renderResults(ResultCardComponent.getMockResults());
-        pageController.showResults();
-        filterCounter.updateCount();
-        filtersDialog.close();
-    });
-    
-    // Apply Button Handler
+    // ========================================
+    // Apply Button Handler - CORRIGIDO
+    // ========================================
     const applyBtn = $('#filtersDialogApplyBtn');
     if (applyBtn) {
         applyBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            
+            // Buscar o valor do input de busca no dialog
             const dialogSearchInput = $('#filtersDialog .searchInput');
             const searchTerm = dialogSearchInput?.value?.trim() || search.getSearchTerm();
-            document.dispatchEvent(new CustomEvent('search', { detail: { term: searchTerm } }));
+            
+            // Se há termo de busca no dialog, sincronizar com outros inputs
+            if (searchTerm) {
+                search.syncSearchInputs(searchTerm);
+            }
+            
+            // CRÍTICO: Chamar a função applyFilters() definida no filters_dialog.vm
+            // Essa função constrói a URL com todos os filtros e navega
+            if (typeof window.applyFilters === 'function') {
+                window.applyFilters();
+                // A função applyFilters() já faz window.location.href = url
+                // Então não precisamos fazer mais nada aqui
+            } else {
+                console.error('❌ Função applyFilters() não encontrada. Verifique filters_dialog.vm');
+                // Fallback: tentar submeter o form (não vai funcionar bem, mas é melhor que nada)
+                const form = $('#filtersDialog form');
+                if (form) {
+                    form.submit();
+                }
+            }
+            
+            // Fechar dialog (a navegação vai acontecer de qualquer forma)
+            filtersDialog.close();
         });
     }
     
@@ -110,19 +123,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Abrir dialog de filtros automaticamente se estiver no empty state (sem busca na URL)
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasBusca = urlParams.has('q') || urlParams.has('busca') || urlParams.has('search');
-    if (pageController.isEmptyState && !hasBusca) {
-        filtersDialog.open();
+    // Botão de ajuda no empty state
+    const ajudaBtnEmpty = $('#ajudaBtnEmpty');
+    if (ajudaBtnEmpty) {
+        ajudaBtnEmpty.addEventListener('click', (e) => {
+            e.preventDefault();
+            ajudaDialog.open();
+        });
+    }
+    
+    // Verificar se estamos na página vazia (sem resultados)
+    const hasResults = document.querySelectorAll('.result-card').length > 0;
+    
+    // Se não há resultados E não há query na URL, abrir filtros automaticamente
+    if (!hasResults) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasQuery = urlParams.has('q') || urlParams.has('busca') || urlParams.has('search');
+        
+        if (!hasQuery) {
+            // Pequeno delay para garantir que a página carregou
+            setTimeout(() => {
+                filtersDialog.open();
+            }, 300);
+        }
     }
     
     // Live Highlight nos resultados - SEMPRE inicializar
     new LiveHighlightComponent();
     
+    // Aplicar visibilidade de campos ao carregar
+    fieldsSelector.refresh();
 });
 
-// Funções globais usadas nos templates Velocity
+// ============================================
+// FUNÇÕES GLOBAIS
+// ============================================
+
 function clearHeaderSearch() {
     const input = document.getElementById('headerSearchInput');
     if (input) {

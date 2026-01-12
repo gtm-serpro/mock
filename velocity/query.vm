@@ -1,0 +1,12 @@
+#**
+ *  Query processing - variables are auto-populated by Solr VelocityResponseWriter
+ *  This file exists only to prevent parse errors
+ *#
+
+## Solr popula automaticamente:
+## $response - resultados da busca
+## $page - informações de paginação
+## $params - parâmetros da request
+## $request - objeto HttpServletRequest
+
+## Nada a fazer aqui - o Solr já fez tudo

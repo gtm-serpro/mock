@@ -1,9 +1,17 @@
 #**
  *  Main entry point - eProcesso Buscador
- *  Modern interface with full Solr integration
+ *  Modern interface with full Solr integration - CORRIGIDO
  *#
 
-#set($assetsPath = "/eprocesso/assets")
+## ========================================
+## ASSETS PATH DINÂMICO
+## ========================================
+## Detectar ambiente e configurar path correto
+#set($serverName = $request.serverName)
+#set($requestURI = $request.requestURI)
+
+## Path dos assets baseado no contexto do Solr
+#set($assetsPath = "#url_for_home/velocity/assets")
 
 ## Parse query parameters
 #parse("query.vm")

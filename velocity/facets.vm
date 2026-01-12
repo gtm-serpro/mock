@@ -1,18 +1,33 @@
 #**
- *  Faceted navigation sidebar
+ *  Faceted navigation sidebar - CORRIGIDO
  *#
 
 #set($labelsMap = {
+    ## Grupo 1: Processo e Documento (5)
     'grupo_processo_s': 'Grupo Processo',
     'tipo_processo_s': 'Tipo Processo',
     'subtipo_processo_s': 'Subtipo Processo',
     'tipo_documento_s': 'Tipo Documento',
     'situacao_s': 'Situação',
+    
+    ## Grupo 2: Unidade e Equipe (4)
     'unidade_origem_s': 'Unidade Origem',
     'equipe_origem_s': 'Equipe Origem',
     'nome_unidade_atual_s': 'Unidade Atual',
     'nome_equipe_atual_s': 'Equipe Atual',
-    'tributo_act_s': 'Tributo ACT'
+    
+    ## Grupo 3: Tributo e Assuntos (2)
+    'tributo_act_s': 'Tributo ACT',
+    'assuntos_objetos_s': 'Assuntos/Objetos',
+    
+    ## Grupo 4: Julgamento (3)
+    'result_questdrj_nivel1_s': 'Resultado DRJ Nível 1',
+    'result_questdrj_nivel2_s': 'Resultado DRJ Nível 2',
+    'nome_relator_drj_s': 'Nome Relator DRJ',
+    
+    ## Grupo 5: Tipo de Arquivo (2)
+    'arquivo_indexado_s': 'Arquivo Indexado',
+    'indicador_pesquisavel_s': 'Pesquisável (OCR)'
 })
 
 <div class="sidebar-header">
@@ -33,52 +48,68 @@
         </div>
     </div>
 </div>
-#if($response.facetFields)
-#foreach($field in $response.facetFields)
-#if($field.values.size() > 0)
-<div class="facetGroup open">
-    <button class="facetTitle" title="#if($labelsMap.get($field.name))$labelsMap.get($field.name)#else$field.name#end">
-        <span>#if($labelsMap.get($field.name))$labelsMap.get($field.name)#else$field.name#end</span>
-        <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
-    </button>
-    <ul class="facetList">
-        #foreach($facet in $field.values)
-        #if($facet.count > 0)
-        <li class="facetText">
-            <button onclick="window.location.href='#url_for_facet_filter($field.name, $facet.name)'" title="$!esc.html($facet.name)">
-                <span>#if($facet.name)$esc.html($display.truncate($facet.name, 30))#else<em>Não informado</em>#end</span>
-                <span class="facetNumber">$number.format('#,##0', $facet.count)</span>
-            </button>
-        </li>
+
+## ESTRUTURA CORRETA: response.facet_counts.facet_fields
+#if($response.response.facet_counts && $response.response.facet_counts.facet_fields)
+    #foreach($field in $response.response.facet_counts.facet_fields)
+        #set($fieldName = $field.key)
+        #set($facetValues = $field.value)
+        
+        ## Verificar se tem valores
+        #if($facetValues && $facetValues.size() > 0)
+            <div class="facetGroup open">
+                <button class="facetTitle" title="#if($labelsMap.get($fieldName))$labelsMap.get($fieldName)#else$fieldName#end">
+                    <span>#if($labelsMap.get($fieldName))$labelsMap.get($fieldName)#else$fieldName#end</span>
+                    <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
+                </button>
+                <ul class="facetList">
+                    ## Iterar valores (formato: [nome1, count1, nome2, count2, ...])
+                    #set($i = 0)
+                    #foreach($item in $facetValues)
+                        #if($math.mod($i, 2) == 0)
+                            ## É o nome da faceta
+                            #set($facetName = $item)
+                        #else
+                            ## É o count
+                            #set($facetCount = $item)
+                            #if($facetCount > 0)
+                                <li class="facetText">
+                                    <button onclick="window.location.href='#url_for_facet_filter($fieldName, $facetName)'" title="$!esc.html($facetName)">
+                                        <span>#if($facetName)$esc.html($display.truncate($facetName, 30))#else<em>Não informado</em>#end</span>
+                                        <span class="facetNumber">$number.format('#,##0', $facetCount)</span>
+                                    </button>
+                                </li>
+                            #end
+                        #end
+                        #set($i = $i + 1)
+                    #end
+                </ul>
+            </div>
         #end
-        #end
-    </ul>
-</div>
-#end
-#end
+    #end
 #end
 
 ## Facet queries (se houver)
 #if($response.response.facet_counts.facet_queries)
-#set($facetQueries = $response.response.facet_counts.facet_queries)
-#if($facetQueries.size() > 0)
-<div class="facetGroup">
-    <button class="facetTitle">
-        <span>Filtros Rápidos</span>
-        <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
-    </button>
-    <ul class="facetList">
-        #foreach($fq in $facetQueries)
-        #if($fq.value > 0)
-        <li class="facetText">
-            <button onclick="window.location.href='#url_for_home#lens&fq=$esc.url($fq.key)'">
-                <span>$fq.key</span>
-                <span class="facetNumber">$number.format('#,##0', $fq.value)</span>
+    #set($facetQueries = $response.response.facet_counts.facet_queries)
+    #if($facetQueries.size() > 0)
+        <div class="facetGroup">
+            <button class="facetTitle">
+                <span>Filtros Rápidos</span>
+                <img class="iconColor facetChevron" src="${assetsPath}/img/icons/chevron-down-solid-full.svg" alt="">
             </button>
-        </li>
-        #end
-        #end
-    </ul>
-</div>
-#end
+            <ul class="facetList">
+                #foreach($fq in $facetQueries.entrySet())
+                    #if($fq.value > 0)
+                        <li class="facetText">
+                            <button onclick="window.location.href='#url_for_home#lens&fq=$esc.url($fq.key)'">
+                                <span>$fq.key</span>
+                                <span class="facetNumber">$number.format('#,##0', $fq.value)</span>
+                            </button>
+                        </li>
+                    #end
+                #end
+            </ul>
+        </div>
+    #end
 #end

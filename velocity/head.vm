@@ -8,6 +8,65 @@
 
 <title>eProcesso Buscador #if($params.get('q') && $params.get('q') != '*:*')- $!esc.html($params.get('q'))#end</title>
 
+#**
+ * ========================================
+ * DETECÇÃO AUTOMÁTICA DE AMBIENTE
+ * ========================================
+ *#
+#set($serverName = $request.serverName)
+#set($requestURI = $request.requestURI)
+
+## Detectar ambiente pela URL
+#if($serverName.contains("10.139.73.23"))
+    #set($ambiente = "dev")
+    #set($ambienteLabel = "Desenvolvimento")
+    #set($ambienteColor = "#ffc107")
+    #set($ambienteTextColor = "#000")
+#elseif($serverName.contains("receita.fazenda") && $requestURI.contains("_hml"))
+    #set($ambiente = "homologacao")
+    #set($ambienteLabel = "Homologação")
+    #set($ambienteColor = "#2196f3")
+    #set($ambienteTextColor = "#fff")
+#elseif($serverName.contains("receita.fazenda"))
+    #set($ambiente = "producao")
+    #set($ambienteLabel = "Produção")
+    #set($ambienteColor = "")
+    #set($ambienteTextColor = "")
+#else
+    #set($ambiente = "local")
+    #set($ambienteLabel = "Local")
+    #set($ambienteColor = "#9c27b0")
+    #set($ambienteTextColor = "#fff")
+#end
+
+## Banner visual (exceto produção)
+#if($ambiente != "producao")
+<style>
+.ambiente-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: $ambienteColor;
+    color: $ambienteTextColor;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+body {
+    padding-top: 28px !important;
+}
+</style>
+<div class="ambiente-banner">
+    🚧 Ambiente: $ambienteLabel #if($ambiente == "dev")($serverName)#end
+</div>
+#end
+
 <!-- CSS -->
 <link rel="stylesheet" href="${assetsPath}/css/reset.css">
 <link rel="stylesheet" href="${assetsPath}/css/variables.css">
@@ -23,21 +82,51 @@
 <link rel="stylesheet" href="${assetsPath}/css/fieldsSelector.css">
 <link rel="stylesheet" href="${assetsPath}/css/ajudaDialog.css">
 
-
 <script>
-// Variáveis do Solr disponíveis no JS
+// Configuração global do Solr + Ambiente
 var SOLR_CONFIG = {
+    // Ambiente
+    ambiente: '$ambiente',
+    ambienteLabel: '$ambienteLabel',
+    isDev: '$ambiente' === 'dev',
+    isHomologacao: '$ambiente' === 'homologacao',
+    isProducao: '$ambiente' === 'producao',
+    isLocal: '$ambiente' === 'local',
+    
+    // URLs
     baseUrl: '#url_for_solr',
     browseUrl: '#url_for_home',
+    
+    // Query atual
     currentQuery: '$!esc.javascript($params.get("q"))',
     currentFilters: [
         #foreach($fq in $request.params.getParams('fq'))
         '$esc.javascript($fq)'#if($foreach.hasNext),#end
         #end
     ],
+    
+    // Paginação
     resultsFound: #if($page && $page.results_found)$page.results_found#{else}0#end,
     currentPage: #if($page && $page.current_page_number)$page.current_page_number#{else}1#end,
     totalPages: #if($page && $page.page_count)$page.page_count#{else}0#end,
     resultsPerPage: #if($page && $page.results_per_page)$page.results_per_page#{else}10#end
 };
+
+// Log de debug (apenas em DEV e LOCAL)
+if (SOLR_CONFIG.isDev || SOLR_CONFIG.isLocal) {
+    console.log('🌍 Ambiente:', SOLR_CONFIG.ambiente);
+    console.log('📊 Config:', SOLR_CONFIG);
+}
+
+if (SOLR_CONFIG.isDev || SOLR_CONFIG.isHomologacao) {
+    // Esconder banner após 5 segundos
+    setTimeout(function() {
+        const banner = document.querySelector('.ambiente-banner');
+        if (banner) {
+            banner.style.transition = 'opacity 0.5s';
+            banner.style.opacity = '0';
+            setTimeout(() => banner.remove(), 500);
+        }
+    }, 5000);
+}
 </script>
