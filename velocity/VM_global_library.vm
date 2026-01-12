@@ -2,7 +2,7 @@
  *  Global macros used by other templates.
  *  This file must be named VM_global_library.vm
  *#
-#macro(assets_root)/solr/eprocesso/assets#end
+#macro(assets_root)/solr/assets#end
 #macro(asset $path)#assets_root/$path#end
 
 #macro(param $key)$!esc.html($request.params.get($key))#end
