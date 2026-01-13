@@ -1,72 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // adicionar tooltips
-    document.querySelectorAll('.facets-title').forEach(title => {
-        title.setAttribute('title', title.textContent);
+    // Adicionar tooltips
+    document.querySelectorAll('.facetTitle').forEach(title => {
+        const span = title.querySelector('span');
+        if (span) title.setAttribute('title', span.textContent);
     });
-    document.querySelectorAll('.facet-label').forEach(label => {
+    
+    document.querySelectorAll('.facetLabel').forEach(label => {
         label.setAttribute('title', label.textContent);
     });
 
-    // toggle individual
-    document.querySelectorAll('.facets-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const group = header.closest('.facets-group');
+    // Toggle individual (click no título)
+    document.querySelectorAll('.facetTitle').forEach(title => {
+        title.addEventListener('click', () => {
+            const group = title.closest('.facetGroup');
             if (group) {
-                group.classList.toggle('collapsed');
+                group.classList.toggle('open');
             }
         });
     });
 
-    // expandir todos
+    // Expandir todos
     document.querySelector('.btn-expand-all')?.addEventListener('click', () => {
-        document.querySelectorAll('.facets-group').forEach(group => {
-            group.classList.remove('collapsed');
+        document.querySelectorAll('.facetGroup').forEach(group => {
+            group.classList.add('open');
         });
     });
 
-    // recolher todos
+    // Recolher todos
     document.querySelector('.btn-collapse-all')?.addEventListener('click', () => {
-        document.querySelectorAll('.facets-group').forEach(group => {
-            group.classList.add('collapsed');
+        document.querySelectorAll('.facetGroup').forEach(group => {
+            group.classList.remove('open');
         });
     });
 
-    // filtro de facetas
+    // Filtro de facetas
     const filterInput = document.querySelector('.facet-filter');
     
     filterInput?.addEventListener('input', () => {
         const query = removeAccents(filterInput.value.toLowerCase().trim());
         
-        document.querySelectorAll('.facets-group').forEach(group => {
-            const title = group.querySelector('.facets-title');
-            const originalTitle = title.dataset.original || title.textContent;
+        document.querySelectorAll('.facetGroup').forEach(group => {
+            const titleSpan = group.querySelector('.facetTitle span');
+            const originalTitle = titleSpan.dataset.original || titleSpan.textContent;
             const normalizedTitle = removeAccents(originalTitle.toLowerCase());
             
-            // guardar título original
-            if (!title.dataset.original) {
-                title.dataset.original = originalTitle;
+            // Guardar título original
+            if (!titleSpan.dataset.original) {
+                titleSpan.dataset.original = originalTitle;
             }
             
             const titleMatches = query && normalizedTitle.includes(query);
             
-            // highlight no título
+            // Highlight no título
             if (!query) {
-                title.innerHTML = originalTitle;
+                titleSpan.innerHTML = originalTitle;
             } else if (titleMatches) {
-                title.innerHTML = highlightMatch(originalTitle, query);
+                titleSpan.innerHTML = highlightMatch(originalTitle, query);
             } else {
-                title.innerHTML = originalTitle;
+                titleSpan.innerHTML = originalTitle;
             }
             
-            const facetItems = group.querySelectorAll('.facet-item');
+            const facetItems = group.querySelectorAll('.facetItem');
             let hasItemMatch = false;
             
             facetItems.forEach(item => {
-                const label = item.querySelector('.facet-label');
+                const label = item.querySelector('.facetLabel');
                 const originalText = label.dataset.original || label.textContent;
                 const normalizedText = removeAccents(originalText.toLowerCase());
                 
-                // guardar texto original
+                // Guardar texto original
                 if (!label.dataset.original) {
                     label.dataset.original = originalText;
                 }
@@ -91,13 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const groupHasMatch = titleMatches || hasItemMatch;
             group.style.display = groupHasMatch ? '' : 'none';
             
+            // Expandir grupos com match
             if (query && groupHasMatch) {
-                group.classList.remove('collapsed');
+                group.classList.add('open');
             }
         });
     });
 
-    // clear button do filtro
+    // Clear button do filtro
     const filterWrapper = filterInput?.closest('.search-input-wrapper');
     const clearBtn = filterWrapper?.querySelector('.clear-btn');
     

@@ -105,17 +105,22 @@ var SOLR_CONFIG = {
         #end
     ],
     
-    // Paginação
-    resultsFound: #if($page && $page.results_found)$page.results_found#{else}0#end,
-    currentPage: #if($page && $page.current_page_number)$page.current_page_number#{else}1#end,
-    totalPages: #if($page && $page.page_count)$page.page_count#{else}0#end,
-    resultsPerPage: #if($page && $page.results_per_page)$page.results_per_page#{else}10#end
+    // Paginação - CORRIGIDO
+    resultsFound: #if($response && $response.response && $response.response.numFound)$response.response.numFound#{else}0#end,
+    currentPage: #if($request.params.get('start'))$math.div($request.params.get('start'), 10) + 1#{else}1#end,
+    totalPages: #if($response && $response.response && $response.response.numFound)$math.ceil($math.div($response.response.numFound, 10))#{else}0#end,
+    resultsPerPage: #if($request.params.get('rows'))$request.params.get('rows')#{else}10#end
 };
 
 // Log de debug (apenas em DEV e LOCAL)
 if (SOLR_CONFIG.isDev || SOLR_CONFIG.isLocal) {
     console.log('🌍 Ambiente:', SOLR_CONFIG.ambiente);
     console.log('📊 Config:', SOLR_CONFIG);
+    console.log('📄 Response:', #if($response)true#{else}false#end);
+    #if($response && $response.response)
+    console.log('📊 NumFound:', $response.response.numFound);
+    console.log('📄 Docs:', #if($response.response.docs)$response.response.docs.size()#{else}0#end);
+    #end
 }
 
 if (SOLR_CONFIG.isDev || SOLR_CONFIG.isHomologacao) {

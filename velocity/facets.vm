@@ -25,28 +25,20 @@
     'indicador_pesquisavel_s': 'Pesquisável (OCR)'
 })
 
-<div class="sidebar-header">
-    <div class="header-top">
-        <div class="btn-group">
-            <button class="circle-btn btn-expand-all" title="Expandir todos">
-                <img src="${assetsPath}/img/icons/maximize-solid-full.svg" alt="Expandir" class="circle-btn-icon">
-            </button>
-            <button class="circle-btn circle-btn-right btn-collapse-all" title="Recolher todos">
-                <img src="${assetsPath}/img/icons/minimize-solid-full.svg" alt="Recolher" class="circle-btn-icon">
-            </button>
-        </div>
-        <div class="search-input-wrapper">
-            <input type="text" class="search-input facet-filter" placeholder="Filtrar facetas...">
-            <button type="button" class="clear-btn">
-                <img src="${assetsPath}/img/icons/xmark-solid-full.svg" alt="Limpar" class="clear-icon">
-            </button>
-        </div>
-    </div>
-</div>
+## Verificar se existem facetas com valores
+#set($hasFacets = false)
+#if($response.facet_counts && $response.facet_counts.facet_fields)
+    #foreach($field in $response.facet_counts.facet_fields)
+        #if($field.value && $field.value.size() > 0)
+            #set($hasFacets = true)
+            #break
+        #end
+    #end
+#end
 
-## ESTRUTURA CORRETA: response.facet_counts.facet_fields
-#if($response.response.facet_counts && $response.response.facet_counts.facet_fields)
-    #foreach($field in $response.response.facet_counts.facet_fields)
+## Só renderizar se houver facetas
+#if($hasFacets)
+    #foreach($field in $response.facet_counts.facet_fields)
         #set($fieldName = $field.key)
         #set($facetValues = $field.value)
         
@@ -68,9 +60,9 @@
                             ## É o count
                             #set($facetCount = $item)
                             #if($facetCount > 0)
-                                <li class="facetText">
-                                    <button onclick="window.location.href='#url_for_facet_filter($fieldName, $facetName)'" title="$!esc.html($facetName)">
-                                        <span>#if($facetName)$esc.html($display.truncate($facetName, 30))#else<em>Não informado</em>#end</span>
+                                <li class="facetItem">
+                                    <button class="facetButton" onclick="window.location.href='#url_for_facet_filter($fieldName $facetName)'" title="$!esc.html($facetName)">
+                                        <span class="facetLabel">#if($facetName)$esc.html($display.truncate($facetName, 30))#else<em>Não informado</em>#end</span>
                                         <span class="facetNumber">$number.format('#,##0', $facetCount)</span>
                                     </button>
                                 </li>
@@ -85,8 +77,8 @@
 #end
 
 ## Facet queries (se houver)
-#if($response.response.facet_counts.facet_queries)
-    #set($facetQueries = $response.response.facet_counts.facet_queries)
+#if($response.facet_counts.facet_queries)
+    #set($facetQueries = $response.facet_counts.facet_queries)
     #if($facetQueries.size() > 0)
         <div class="facetGroup">
             <button class="facetTitle">
@@ -96,9 +88,9 @@
             <ul class="facetList">
                 #foreach($fq in $facetQueries.entrySet())
                     #if($fq.value > 0)
-                        <li class="facetText">
-                            <button onclick="window.location.href='#url_for_home#lens&fq=$esc.url($fq.key)'">
-                                <span>$fq.key</span>
+                        <li class="facetItem">
+                            <button class="facetButton" onclick="window.location.href='#url_for_home#lens&fq=$esc.url($fq.key)'">
+                                <span class="facetLabel">$fq.key</span>
                                 <span class="facetNumber">$number.format('#,##0', $fq.value)</span>
                             </button>
                         </li>

@@ -576,6 +576,24 @@ body.resizing * {
     display: block;
 }
 
+/* Quando não houver sidebar */
+#mainContent.no-sidebar {
+    margin-left: 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Ocultar overlay quando não há sidebar */
+body:has(#mainContent.no-sidebar) #sidebarOverlay {
+    display: none;
+}
+
+/* Ajustar botão do sidebar quando não existe */
+body:has(#mainContent.no-sidebar) #sidebarBtn {
+    display: none;
+}
 
 /* ============================================
    CONTAINER QUERIES
